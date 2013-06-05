@@ -5,8 +5,8 @@
 using namespace cocos2d;
 
 #include "CastEntity.h"
-#include "CastCommandModel.h"
 #include "CastCommandState.h"
+#include "CastTarget.h"
 
 class GameEntity :
 	public CCObject, public ICastEntity
@@ -30,6 +30,8 @@ class GameEntity :
 	std::vector<CastCommandState*> m_abilities;
 	CastCommandState* m_activeAbility;
 
+	CastTarget* m_abilityTargets;
+
 public:
 	GameEntity( std::string name );
 	~GameEntity(void);
@@ -41,6 +43,8 @@ public:
 	float* getPropertyF( std::string propName );
 	void setPropertyI( std::string propName, int value );
 	int* getPropertyI( std::string propName );
+
+	CastTarget* getTarget();
 
 	std::string getName() { return m_name; }
 

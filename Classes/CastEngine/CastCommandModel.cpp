@@ -15,6 +15,7 @@ CastCommandModel::CastCommandModel(Json::Value castData)
 	effectSize = descriptor.get("effectSize", 0.0f).asDouble();
 	cooldownTime = descriptor.get("cooldownTime", 0.0f).asDouble();
 	
+	effectsOnCast = castData.get("effectsOnCast", Json::Value());
 }
 
 

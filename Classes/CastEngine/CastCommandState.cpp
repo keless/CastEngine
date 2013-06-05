@@ -107,12 +107,17 @@ void CastCommandState::onCastComplete()
 	double currTime = CastCommandTime::get();
 	m_timeStart = currTime;
 	
+	//TODO: spawn effects
+	for( int i=0; i< m_pModel->effectsOnCast.size(); i++ )
+	{
+
+	}
+
 	if( m_pModel->channelTime > 0.0f ) {
 		//begin channeling
 		//TODO: spawn channeling samples
 
 	}else {
-		//TODO: spawn effect
 		CCLog("Cast %s complete!", m_pModel->getName().c_str());
 
 		m_state = CCS_COOLDOWN; //TODO: handle cooldown redux?

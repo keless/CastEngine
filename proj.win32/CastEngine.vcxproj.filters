@@ -1,3 +1,158 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\Classes\CastEngine\CastCommandModel.cpp">
+      <Filter>CastEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\CastEngine\CastCommandScheduler.cpp">
+      <Filter>CastEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\CastEngine\CastCommandState.cpp">
+      <Filter>CastEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\CastEngine\CastCommandTime.cpp">
+      <Filter>CastEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\CastEngine\CastEffect.cpp">
+      <Filter>CastEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\CastEngine\CastEntity.cpp">
+      <Filter>CastEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\AppDelegate.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameAbilityView.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameEntity.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameEntityView.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ext\json\json_reader.cpp">
+      <Filter>ext\jsoncpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ext\json\json_value.cpp">
+      <Filter>ext\jsoncpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ext\json\json_writer.cpp">
+      <Filter>ext\jsoncpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\HelloWorldScene.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ZZ\ZZEventBus.cpp">
+      <Filter>ZZ</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ZZ\ZZProgressBar.cpp">
+      <Filter>ZZ</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Classes\CastEngine\CastCommandModel.h">
+      <Filter>CastEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\CastEngine\CastCommandScheduler.h">
+      <Filter>CastEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\CastEngine\CastCommandState.h">
+      <Filter>CastEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\CastEngine\CastCommandTime.h">
+      <Filter>CastEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\CastEngine\CastEffect.h">
+      <Filter>CastEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\CastEngine\CastEntity.h">
+      <Filter>CastEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\AppDelegate.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameAbilityView.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameEntity.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameEntityView.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ext\json\json.h">
+      <Filter>ext\jsoncpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ext\json\json_batchallocator.h">
+      <Filter>ext\jsoncpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ext\json\forwards.h">
+      <Filter>ext\jsoncpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ext\json\autolink.h">
+      <Filter>ext\jsoncpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ext\json\config.h">
+      <Filter>ext\jsoncpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ext\json\features.h">
+      <Filter>ext\jsoncpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ext\json\writer.h">
+      <Filter>ext\jsoncpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ext\json\reader.h">
+      <Filter>ext\jsoncpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ext\json\value.h">
+      <Filter>ext\jsoncpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\HelloWorldScene.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ZZ\ZZEventBus.h">
+      <Filter>ZZ</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ZZ\ZZProgressBar.h">
+      <Filter>ZZ</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Classes\ext\json\json_internalarray.inl">
+      <Filter>ext\jsoncpp</Filter>
+    </None>
+    <None Include="..\Classes\ext\json\json_internalmap.inl">
+      <Filter>ext\jsoncpp</Filter>
+    </None>
+    <None Include="..\Classes\ext\json\json_valueiterator.inl">
+      <Filter>ext\jsoncpp</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CastEngine">
+      <UniqueIdentifier>{782fc222-578b-4c43-b97f-93462b41e1ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application">
+      <UniqueIdentifier>{d5d544a1-a795-49ad-b8cc-6a5b4c889e72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{0477fa18-85ee-4080-8b16-76f3bd6d21cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ext">
+      <UniqueIdentifier>{8c8cfb44-6bd7-4948-ab89-41aa3635471b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ext\jsoncpp">
+      <UniqueIdentifier>{0f3e6f11-10e6-4192-afc3-1c213567cfd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZZ">
+      <UniqueIdentifier>{21989f7c-a6bd-4baa-9fa8-b4c14cf3d3cf}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
 </Project>

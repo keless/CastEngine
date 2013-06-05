@@ -12,7 +12,7 @@ public:
 	virtual void setPropertyI( std::string propName, int value ) {}
 	virtual int* getPropertyI( std::string propName )  { return NULL; }
 
-
+	CastTarget* getTarget() { return NULL; }
 };
 
 #endif

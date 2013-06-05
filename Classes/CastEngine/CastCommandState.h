@@ -53,6 +53,7 @@ class CastCommandState :
 
 
 	void onCastComplete();
+	void spawnCastEffects();
 	void onCooldownComplete();
 	void onSchedulerTick(float dt);
 

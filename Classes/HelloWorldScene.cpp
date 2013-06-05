@@ -69,42 +69,16 @@ bool HelloWorld::init()
 	m_playerView->setPositionY( 250 );
 	addChild(m_playerView);
 
+	
+
 	m_enemyModel = new GameEntity("Giant Rat");
 	m_enemyModel->retain();
 	m_enemyView = new GameEntityView( m_enemyModel );
 	m_enemyView->setPosition( 230, 200 );
 	addChild(m_enemyView );
 
-
-	/*
-	CCSpriteFrameCache* frameCache = CCSpriteFrameCache::sharedSpriteFrameCache();
-	frameCache->addSpriteFramesWithFile("cs_superlaser.plist");
-
-	//anim is a 'resource' and only one instance is neccesary for multiple animation 'instances' to run
-	CCAnimation* anim = CCAnimation::create();
-	for( int i=0; i<100; i++) {
-		char buff[128];
-		snprintf(buff, sizeof(buff), "cs_superlaser_01_%03d.png", i);
-		CCSpriteFrame* frame = frameCache->spriteFrameByName(buff);
-		if( frame != NULL ) {
-			anim->addSpriteFrame(frame);
-		}
-	}
-	anim->setDelayPerUnit(1.0f / 15.0f);
-	anim->setLoops(99);
-
-	CCAnimationFrame* firstFrame = (CCAnimationFrame*)anim->getFrames()->objectAtIndex(0);
-	CCTexture2D* tex = firstFrame->getSpriteFrame()->getTexture();
-	tex->setAliasTexParameters();
-
-
-	CCSprite* display = CCSprite::create();
-	display->runAction( CCAnimate::create(anim));
-	display->setPosition(ccp(300,300));
-	//display->getTexture()->setAliasTexParameters();
-	display->setScale(2);
-	this->addChild(display);
-	//*/
+	m_playerModel->getTarget()->addTargetEntity(m_enemyModel);
+	m_enemyModel->getTarget()->addTargetEntity(m_playerModel);
 	
 	scheduleUpdate();
 	setTouchEnabled(true);
@@ -146,6 +120,27 @@ void HelloWorld::initAbilities()
 	spell["cooldownTime"] = 0.15f;
 	spell["effectWhileTravel"] = true;
 	spell["stopOnHit"] = true;
+	
+
+	Json::Value spellEffect1; //direct damage
+	spellEffect1["effectType"] = "damage";
+	spellEffect1["damageType"] = "fire";
+	spellEffect1["valueBase"] = 2.0f;
+	spellEffect1["valueStat"] = "int"; //note: intellect
+	spellEffect1["valueMultiplier"] = 1.0f;
+	spell["effectsOnCast"].append( spellEffect1 );
+
+	Json::Value spellEffect2; //dot
+	spellEffect2["effectType"] = "damage";
+	spellEffect1["damageType"] = "fire";
+	spellEffect2["valueBase"] = 1.0f;
+	spellEffect2["valueStat"] = "int";
+	spellEffect2["valueMultiplier"] = 0.1f;
+	spellEffect2["effectLifetime"] = 1.0f;
+	spellEffect2["stackFlag"] = "burn";
+	spell["effectsOnCast"].append( spellEffect2 );
+
+
 
 	mod = new CastCommandModel( spell );
 	mod->retain();

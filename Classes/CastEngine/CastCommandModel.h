@@ -35,6 +35,9 @@ class CastCommandModel :
 	float effectSize; //zero if no physics involved
 	int effectShape; //singleTarget, line, cone, circle, etc
 
+	Json::Value effectsOnCast;
+
+	//debug:
 	Json::Value descriptor;
 
 public:

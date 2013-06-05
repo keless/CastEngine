@@ -20,10 +20,14 @@ GameEntity::GameEntity(std::string name)
 	m_statsMap["str_curr"] = &str_curr;
 	m_statsMap["agi_base"] = &agi_base;
 	m_statsMap["agi_curr"] = &agi_curr;
+
+	m_abilityTargets = new CastTarget();
 }
 
 GameEntity::~GameEntity(void)
 {
+	CC_SAFE_RELEASE_NULL( m_abilityTargets );
+
 	for( int i=0; i< m_abilities.size(); i++)
 	{
 		m_abilities[i]->release();
@@ -60,4 +64,9 @@ int* GameEntity::getPropertyI( std::string propName )
 {
 	if( m_statsMap.count(propName) == 0 ) return NULL;
 	return m_statsMap[propName];
+}
+
+CastTarget* GameEntity::getTarget()
+{
+	return m_abilityTargets;
 }
