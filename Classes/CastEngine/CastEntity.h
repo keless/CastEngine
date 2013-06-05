@@ -3,6 +3,8 @@
 
 #include <string>
 
+class CastTarget;
+
 class ICastEntity 
 {
 public:

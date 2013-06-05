@@ -159,7 +159,7 @@ void HelloWorld::ccTouchesBegan(CCSet* touches, CCEvent* event)
 	for(auto it = touches->begin(); it != touches->end(); it++) 
 	{
 		auto touch = dynamic_cast<CCTouch*>(*it);
-		if(touch == nullptr)
+		if(touch == NULL)
 			break;
 
 		m_playerView->ccTouchBegan(touch, event);
@@ -171,7 +171,7 @@ void HelloWorld::ccTouchesMoved(CCSet* touches, CCEvent* event)
 	for(auto it = touches->begin(); it != touches->end(); it++) 
 	{
 		auto touch = dynamic_cast<CCTouch*>(*it);
-		if(touch == nullptr)
+		if(touch == NULL)
 			break;
 
 		m_playerView->ccTouchMoved(touch, event);
@@ -183,7 +183,7 @@ void HelloWorld::ccTouchesEnded(CCSet* touches, CCEvent* event)
 	for(auto it = touches->begin(); it != touches->end(); it++) 
 	{
 		auto touch = dynamic_cast<CCTouch*>(*it);
-		if(touch == nullptr)
+		if(touch == NULL)
 			break;
 
 		m_playerView->ccTouchEnded(touch, event);
@@ -194,7 +194,7 @@ void HelloWorld::ccTouchesCancelled(CCSet* touches, CCEvent* event)
 	for(auto it = touches->begin(); it != touches->end(); it++) 
 	{
 		auto touch = dynamic_cast<CCTouch*>(*it);
-		if(touch == nullptr)
+		if(touch == NULL)
 			break;
 
 		m_playerView->ccTouchCancelled(touch, event);
