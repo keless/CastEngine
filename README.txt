@@ -1,0 +1,23 @@
+CastEngine
+
+Paul Zirkle
+
+
+Goal of this project is to create a re-usable engine for spells and abilities found in most MMO/RPG/Action/Etc games.
+
+Examples include casting a fireball, attacking with a sword, firing a travelling rocket projectile, chanelling an AOE healing spell, or buffing a group of players.
+
+By making a robust engine, a game can be made which exposes the components of abilities to users and allows them to customize their own.
+
+
+In order to develop this project, I'll be making a game similar to "Grind Quest" in order to cut down on art/physics/etc requirements and focus on the CastEngine features.
+
+
+DEVELOPING and INSTALLATION:
+
+This project is built on top of Cocos2D-x.
+
+It expects to live under the "Projects" folder of the current Cocos2D-x environment. Ex: C:\Code\Cocos2Dx\cocos2d-2.1rc0-x-2.1.3\projects\CastEngine\
+
+I am developing in Windows 7 64 bit but targeting 32 bit. I am using MS Visual Studio Express 2012. 
+Other project types have been made by macro but are untested (and the project generated was originally named "Test" instead of "CastEngine")
