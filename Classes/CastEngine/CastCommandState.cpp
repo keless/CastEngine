@@ -4,6 +4,8 @@
 
 #include "CastCommandScheduler.h"
 
+#include "CastEffect.h"
+
 CastCommandState::CastCommandState(CastCommandModel* model, ICastEntity* owner)
 {
 	m_iOwner = owner;
@@ -108,14 +110,20 @@ void CastCommandState::onCastComplete()
 	m_timeStart = currTime;
 	
 	//TODO: spawn effects
+	CastTarget* target = m_iOwner->getTarget();
 	for( int i=0; i< m_pModel->effectsOnCast.size(); i++ )
 	{
-
+		CastEffect* effect = new CastEffect();
+		
+		//TODO: send all effects as one array so only one "packet" has to travel?
+		m_iOwner->sendEffectToTarget( effect, m_pModel->travelSpeed );
+		
 	}
 
 	if( m_pModel->channelTime > 0.0f ) {
 		//begin channeling
 		//TODO: spawn channeling samples
+		m_state = CCS_CHANNELING;
 
 	}else {
 		CCLog("Cast %s complete!", m_pModel->getName().c_str());

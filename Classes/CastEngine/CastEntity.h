@@ -4,6 +4,7 @@
 #include <string>
 
 class CastTarget;
+class CastEffect;
 
 class ICastEntity 
 {
@@ -15,6 +16,9 @@ public:
 	virtual int* getPropertyI( std::string propName )  { return NULL; }
 
 	CastTarget* getTarget() { return NULL; }
+	
+	//speed == 0.0f means no travel time, instant effect
+	void sendEffectToTarget( CastEffect* effect, float speed ) {}
 };
 
 #endif

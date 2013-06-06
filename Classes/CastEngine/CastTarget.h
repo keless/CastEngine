@@ -5,7 +5,8 @@
 #include <cocos2d.h>
 using namespace cocos2d;
 
-#include "CastEntity.h"
+class ICastEntity;
+
 
 /*
  CastTarget 
@@ -21,6 +22,8 @@ enum CastTargetType
 	CTT_ENTITIES,			//one or more entities
 	CTT_WORLD_POSITION,
 	CTT_RELATIVE_POSITION,
+	
+	CTT_COUNT
 };
 
 class CastTarget : public CCObject
@@ -34,8 +37,12 @@ public:
 	CastTarget(CastTargetType type = CTT_ENTITIES);
 	~CastTarget(void);
 
+	const std::vector<ICastEntity*>& getEntityList() { return m_entityList; }
+	CastTargetType getType() { return m_type; }
+	
 	void addTargetEntity( ICastEntity* target );
 	void setTargetPosition( CCPoint target );
+	
 };
 
 #endif

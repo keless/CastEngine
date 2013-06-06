@@ -1,5 +1,6 @@
 #include "CastTarget.h"
 
+#include "CastWorldModel.h"
 
 CastTarget::CastTarget(CastTargetType type)
 {

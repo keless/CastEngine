@@ -39,12 +39,11 @@ public:
 	void addAbility( CastCommandModel* ability );
 	std::vector<CastCommandState*>& getAbilityList();
 
-	void setPropertyF( std::string propName, float value );
-	float* getPropertyF( std::string propName );
 	void setPropertyI( std::string propName, int value );
 	int* getPropertyI( std::string propName );
 
 	CastTarget* getTarget();
+	void sendEffectToTarget( CastEffect* effect, float speed );
 
 	std::string getName() { return m_name; }
 

@@ -1,5 +1,7 @@
 #include "GameEntity.h"
 
+#include "CastWorldModel.h"
+#include "CastCommandTime.h"
 
 GameEntity::GameEntity(std::string name)
 {
@@ -46,14 +48,6 @@ std::vector<CastCommandState*>& GameEntity::getAbilityList()
 	return m_abilities;
 }
 
-void GameEntity::setPropertyF( std::string propName, float value )
-{
-
-}
-float* GameEntity::getPropertyF( std::string propName )
-{
-	return NULL;
-}
 
 void GameEntity::setPropertyI( std::string propName, int value )
 {
@@ -70,3 +64,15 @@ CastTarget* GameEntity::getTarget()
 {
 	return m_abilityTargets;
 }
+
+void GameEntity::sendEffectToTarget( CastEffect* effect, float speed )
+{
+	CastWorldModel* world = CastWorldModel::get();
+	
+	//TODO: handle ammo/mana cost?
+	
+	world->addEffectInTransit(this, effect, m_abilityTargets, CastCommandTime::get(), speed);
+	
+	
+}
+

@@ -8,6 +8,8 @@ CastEffect::CastEffect()
 	m_lifeTime = 0;
 	m_numTicksCompleted = 0;
 	m_value = 0;
+	
+	this->autorelease();
 }
 
 CastEffect::~CastEffect()
