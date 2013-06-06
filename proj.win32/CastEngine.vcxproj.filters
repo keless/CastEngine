@@ -52,6 +52,12 @@
     <ClCompile Include="..\Classes\ZZ\ZZProgressBar.cpp">
       <Filter>ZZ</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\CastEngine\CastTarget.cpp">
+      <Filter>CastEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\CastEngine\CastWorldModel.cpp">
+      <Filter>CastEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\CastEngine\CastCommandModel.h">
@@ -122,6 +128,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\ZZ\ZZProgressBar.h">
       <Filter>ZZ</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\CastEngine\CastTarget.h">
+      <Filter>CastEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\CastEngine\CastWorldModel.h">
+      <Filter>CastEngine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -107,6 +107,15 @@ void HelloWorld::initAbilities()
 	attack["cooldownTime"] = 1.85f; //seconds
 	attack["range"] = 1.0f; //melee range
 
+	Json::Value swordEffect; //direct damage
+	swordEffect["effectType"] = "damage";
+	swordEffect["damageType"] = "piercing";
+	swordEffect["targetStat"] = "hp_curr";
+	swordEffect["valueBase"] = 2.0f;
+	swordEffect["valueStat"] = "str"; //note: intellect
+	swordEffect["valueMultiplier"] = 2.0f;
+	attack["effectsOnCast"].append( swordEffect );
+
 	mod = new CastCommandModel( attack );
 	mod->retain();
 	m_abilities[mod->getName()] = mod;
@@ -125,6 +134,7 @@ void HelloWorld::initAbilities()
 	Json::Value spellEffect1; //direct damage
 	spellEffect1["effectType"] = "damage";
 	spellEffect1["damageType"] = "fire";
+	spellEffect1["targetStat"] = "hp_curr";
 	spellEffect1["valueBase"] = 2.0f;
 	spellEffect1["valueStat"] = "int"; //note: intellect
 	spellEffect1["valueMultiplier"] = 1.0f;
@@ -133,6 +143,7 @@ void HelloWorld::initAbilities()
 	Json::Value spellEffect2; //dot
 	spellEffect2["effectType"] = "damage";
 	spellEffect1["damageType"] = "fire";
+	spellEffect1["targetStat"] = "hp_curr";
 	spellEffect2["valueBase"] = 1.0f;
 	spellEffect2["valueStat"] = "int";
 	spellEffect2["valueMultiplier"] = 0.1f;

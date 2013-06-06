@@ -128,6 +128,8 @@
     <ClCompile Include="..\Classes\CastEngine\CastCommandTime.cpp" />
     <ClCompile Include="..\Classes\CastEngine\CastEffect.cpp" />
     <ClCompile Include="..\Classes\CastEngine\CastEntity.cpp" />
+    <ClCompile Include="..\Classes\CastEngine\CastTarget.cpp" />
+    <ClCompile Include="..\Classes\CastEngine\CastWorldModel.cpp" />
     <ClCompile Include="..\Classes\ext\json\json_reader.cpp" />
     <ClCompile Include="..\Classes\ext\json\json_value.cpp" />
     <ClCompile Include="..\Classes\ext\json\json_writer.cpp" />
@@ -147,6 +149,8 @@
     <ClInclude Include="..\Classes\CastEngine\CastCommandTime.h" />
     <ClInclude Include="..\Classes\CastEngine\CastEffect.h" />
     <ClInclude Include="..\Classes\CastEngine\CastEntity.h" />
+    <ClInclude Include="..\Classes\CastEngine\CastTarget.h" />
+    <ClInclude Include="..\Classes\CastEngine\CastWorldModel.h" />
     <ClInclude Include="..\Classes\ext\json\autolink.h" />
     <ClInclude Include="..\Classes\ext\json\config.h" />
     <ClInclude Include="..\Classes\ext\json\features.h" />

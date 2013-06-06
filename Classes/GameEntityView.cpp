@@ -20,7 +20,7 @@ GameEntityView::GameEntityView( GameEntity* entity )
 
 	m_healthBar = ZZProgressBar::create( CCRectMake(0,0, 100, 30) );
 	m_healthBar->setMargin(2);
-	m_healthBar->setProgress(  (*m_pEntity->getPropertyI("hp_curr")) / (float) (*m_pEntity->getPropertyI("hp_base")) );
+	m_healthBar->setProgress(  (m_pEntity->getProperty("hp_curr")) / (float) (m_pEntity->getProperty("hp_base")) );
 	m_healthBar->setAnchorPoint(ccp(0.0f, 1.0f) );
 	m_healthBar->setPositionY( 200 - m_lblName->getContentSize().height );
 	addChild(m_healthBar, 49);

@@ -62,6 +62,8 @@ public:
 	
 	void addEffectInTransit( ICastEntity* from, CastEffect* effect, CastTarget* targetList, double startTime, double speed );
 	void addEffectInstant( ICastEntity* from, CastEffect* effect, CastTarget* targetList, double startTime );
+
+	void updateStep( float dt );
 };
 
 #endif /* defined(__CastEngine__CastWorldModel__) */

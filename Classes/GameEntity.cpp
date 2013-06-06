@@ -49,15 +49,19 @@ std::vector<CastCommandState*>& GameEntity::getAbilityList()
 }
 
 
-void GameEntity::setPropertyI( std::string propName, int value )
+void GameEntity::incProperty( std::string propName, float value )
 {
 	if( m_statsMap.count(propName) == 0 ) return;
-	(*m_statsMap[propName]) = value;
+	(*m_statsMap[propName]) += value;
+
+	CCLog("stat %s delta %0.2f", propName.c_str(), value);
+
+	//TODO -- if HP <= 0 do logic (set dirty flag and check in update loop)
 }
-int* GameEntity::getPropertyI( std::string propName )
+float GameEntity::getProperty( std::string propName )
 {
-	if( m_statsMap.count(propName) == 0 ) return NULL;
-	return m_statsMap[propName];
+	if( m_statsMap.count(propName) == 0 ) return 0;
+	return (*m_statsMap[propName]);
 }
 
 CastTarget* GameEntity::getTarget()
@@ -76,3 +80,19 @@ void GameEntity::sendEffectToTarget( CastEffect* effect, float speed )
 	
 }
 
+void GameEntity::applyEffect( CastEffect* effect )
+{
+	if( effect->getLifeTime() == 0 ) 
+	{
+		CCLog("todo: apply instant effect");
+
+		effect->onTick();
+
+	}
+	else {
+		CCLog("todo: apply effect over time");
+
+		bool isNegative = true;
+
+	}
+ }

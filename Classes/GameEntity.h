@@ -32,20 +32,27 @@ class GameEntity :
 
 	CastTarget* m_abilityTargets;
 
+	std::vector<CastEffect*> m_negativeEffects;
+	std::vector<CastEffect*> m_positiveEffects;
+
 public:
 	GameEntity( std::string name );
 	~GameEntity(void);
+	
+	std::string getName() { return m_name; }
 
-	void addAbility( CastCommandModel* ability );
+	virtual void addAbility( CastCommandModel* ability );
 	std::vector<CastCommandState*>& getAbilityList();
 
-	void setPropertyI( std::string propName, int value );
-	int* getPropertyI( std::string propName );
+	//ICastEntity methods
+	virtual void incProperty( std::string propName, float value );
+	virtual float getProperty( std::string propName );
 
-	CastTarget* getTarget();
-	void sendEffectToTarget( CastEffect* effect, float speed );
+	virtual CastTarget* getTarget();
+	virtual void sendEffectToTarget( CastEffect* effect, float speed ); //effect LEAVING from this entity
+	virtual void applyEffect( CastEffect* effect );						//effect ARRIVING at this entity
 
-	std::string getName() { return m_name; }
+	
 
 };
 

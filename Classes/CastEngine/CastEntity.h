@@ -10,15 +10,18 @@ class ICastEntity
 {
 public:
 
-	virtual void setPropertyF( std::string propName, float value ) {}
-	virtual float* getPropertyF( std::string propName ) { return NULL; }
-	virtual void setPropertyI( std::string propName, int value ) {}
-	virtual int* getPropertyI( std::string propName )  { return NULL; }
+	//send negative values to 'decrement'
+	virtual void  incProperty( std::string propName, float value ) {}
+	virtual float getProperty( std::string propName ) { return 0; }
 
-	CastTarget* getTarget() { return NULL; }
+	virtual CastTarget* getTarget() { return NULL; }
 	
+	//effect is LEAVING this entity, towards somewhere else
 	//speed == 0.0f means no travel time, instant effect
-	void sendEffectToTarget( CastEffect* effect, float speed ) {}
+	virtual void sendEffectToTarget( CastEffect* effect, float speed ) {}
+
+	//effect is ARRIVING at this entity
+	virtual void applyEffect( CastEffect* effect ) { }
 };
 
 #endif

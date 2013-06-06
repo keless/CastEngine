@@ -74,8 +74,6 @@ void GameAbilityView::update( float delta )
 		m_castOverlay->setScaleX(0);
 	}
 
-
-
 }
 
 inline CCPoint locationInGLFromTouch(CCTouch& touch)

@@ -113,7 +113,8 @@ void CastCommandState::onCastComplete()
 	CastTarget* target = m_iOwner->getTarget();
 	for( int i=0; i< m_pModel->effectsOnCast.size(); i++ )
 	{
-		CastEffect* effect = new CastEffect();
+		CastEffect* effect = new CastEffect( );
+		effect->init( m_pModel->effectsOnCast[i], m_iOwner);
 		
 		//TODO: send all effects as one array so only one "packet" has to travel?
 		m_iOwner->sendEffectToTarget( effect, m_pModel->travelSpeed );
