@@ -17,6 +17,19 @@ enum CastEffectType
 	CET_BUFF_STAT,		//temporarily increases stats while in effect
 };
 
+/*
+ 
+ effects supported:
+   * 
+ 
+ todo support:
+   * effects that spawn more effects that jump to nearby targets
+   * effects that target nearby targets
+   * stacking buffs/debuffs (game code specific?)
+   * 
+ 
+ */
+
 class ICastEntity;
 
 class CastEffect : public CCObject
@@ -51,7 +64,8 @@ public:
 	void startTicks();
 
 	double getLifeTime() { return m_lifeTime; }
-	double getElapsedTime( double currTime ) { return currTime - m_lifeTime; } 
+	double getElapsedTime( double currTime ) { return currTime - m_lifeTime; }
+	bool isPositiveEffect(); //is this a nice buff, or a mean debuff?
 
 	void onTick( float dt );
 	void cancelTicks();

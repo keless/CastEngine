@@ -52,6 +52,16 @@ void CastEffect::init( Json::Value json, ICastEntity* from )
 	m_tickFreq = json.get("tickFreq", m_tickFreq).asDouble();
 }
 
+bool CastEffect::isPositiveEffect()
+{
+	if( m_type == CET_BUFF_STAT || m_type == CET_HEAL_STAT)
+	{
+		return true;
+	}
+	
+	return false;
+}
+
 void CastEffect::setTarget( ICastEntity* target )
 {
 	m_pTarget = target;

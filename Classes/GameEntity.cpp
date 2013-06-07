@@ -86,6 +86,8 @@ void GameEntity::sendEffectToTarget( CastEffect* effect, float speed )
 
 void GameEntity::applyEffect( CastEffect* effect )
 {
+	
+	
 	if( effect->getLifeTime() == 0 ) 
 	{
 		CCLog("apply instant effect");

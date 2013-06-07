@@ -102,7 +102,6 @@ void CastWorldModel::addEffectInstant(  ICastEntity* from, CastEffect* effect, C
 	//CC_SAFE_RELEASE(effect); 
 }
 
-
 void CastWorldModel::applyEffectToTarget( CastEffectPath path )
 {
 	CCLOG("apply effect to target");
@@ -159,3 +158,4 @@ void CastWorldModel::updateStep( float dt )
 		m_effectsInTransit.erase( m_effectsInTransit.begin() + i );
 	}
 }
+
