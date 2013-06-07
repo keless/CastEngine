@@ -90,11 +90,13 @@ bool HelloWorld::init()
 
 #include "CastCommandTime.h"
 #include "CastCommandScheduler.h"
+#include "CastWorldModel.h"
 //virtual 
 void HelloWorld::update( float dt )
 {
 	CastCommandTime::updateDelta(dt);
 	CastCommandScheduler::get()->update(dt);
+	CastWorldModel::get()->updateStep(dt);
 }
 
 void HelloWorld::initAbilities()
@@ -142,12 +144,15 @@ void HelloWorld::initAbilities()
 
 	Json::Value spellEffect2; //dot
 	spellEffect2["effectType"] = "damage";
-	spellEffect1["damageType"] = "fire";
-	spellEffect1["targetStat"] = "hp_curr";
+	spellEffect2["damageType"] = "fire";
+	spellEffect2["targetStat"] = "hp_curr";
 	spellEffect2["valueBase"] = 1.0f;
 	spellEffect2["valueStat"] = "int";
 	spellEffect2["valueMultiplier"] = 0.1f;
-	spellEffect2["effectLifetime"] = 1.0f;
+
+	spellEffect2["tickFreq"] = 0.5f; //every half second
+	spellEffect2["effectLifetime"] = 3.5f;  //so 7 ticks
+	
 	spellEffect2["stackFlag"] = "burn";
 	spell["effectsOnCast"].append( spellEffect2 );
 

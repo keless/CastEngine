@@ -5,7 +5,7 @@
 
 GameEntity::GameEntity(std::string name)
 {
-	m_activeAbility = NULL;
+	m_isDirty = true;
 
 	m_name = name;
 	hp_base = hp_curr = 100;
@@ -56,6 +56,10 @@ void GameEntity::incProperty( std::string propName, float value )
 
 	CCLog("stat %s delta %0.2f", propName.c_str(), value);
 
+	
+	dispatch("incProperty", new GameEntityPropertyChangeEvt(propName, value ));
+	m_isDirty = true;
+
 	//TODO -- if HP <= 0 do logic (set dirty flag and check in update loop)
 }
 float GameEntity::getProperty( std::string propName )
@@ -84,15 +88,38 @@ void GameEntity::applyEffect( CastEffect* effect )
 {
 	if( effect->getLifeTime() == 0 ) 
 	{
-		CCLog("todo: apply instant effect");
+		CCLog("apply instant effect");
 
-		effect->onTick();
+		effect->doEffect();
 
 	}
 	else {
 		CCLog("todo: apply effect over time");
 
-		bool isNegative = true;
+		m_negativeEffects.push_back(effect);
+		effect->retain();
+		effect->startTicks();
 
 	}
  }
+
+void GameEntity::removeEffect( CastEffect* effect )
+{
+	for( int i=0; i< m_negativeEffects.size(); i++ )
+	{
+		if( m_negativeEffects[i] == effect ) {
+			m_negativeEffects[i]->release();
+			m_negativeEffects.erase( m_negativeEffects.begin() + i );
+			return;
+		}
+	}
+
+	for( int i=0; i< m_positiveEffects.size(); i++ )
+	{
+		if( m_positiveEffects[i] == effect ) {
+			m_positiveEffects[i]->release();
+			m_positiveEffects.erase( m_positiveEffects.begin() + i );
+			return;
+		}
+	}
+}

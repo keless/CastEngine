@@ -7,6 +7,8 @@ using namespace cocos2d;
 
 #include "json.h"
 
+#define CAST_EFFECT_TICK_FREQ 1.0f  //default one per second
+
 enum CastEffectType
 {
 	CET_DAMAGE_STAT,	//decrements stats that can be decremented (health, mana, etc)
@@ -25,6 +27,7 @@ class CastEffect : public CCObject
 	CastEffectType m_type;
 	double m_startTime;
 	double m_lifeTime; //0.0f if instant effect
+	float m_tickFreq;
 
 	std::string m_damageType;
 	std::string m_targetStat;
@@ -45,10 +48,15 @@ public:
 	void init( Json::Value effectData, ICastEntity* from  );
 	void setTarget( ICastEntity* to );
 
+	void startTicks();
+
 	double getLifeTime() { return m_lifeTime; }
 	double getElapsedTime( double currTime ) { return currTime - m_lifeTime; } 
 
-	void onTick();
+	void onTick( float dt );
+	void cancelTicks();
+
+	void doEffect();
 
 	CastEffect* clone();
 

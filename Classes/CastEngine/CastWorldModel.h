@@ -42,6 +42,8 @@ struct CastEffectPath
 	CCPoint toPosition; //use this if 'to' is null
 	
 	CastEffect* effect;
+
+	//default copy constructor should be enough
 };
 
 class CastWorldModel

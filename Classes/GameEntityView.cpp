@@ -36,12 +36,27 @@ GameEntityView::GameEntityView( GameEntity* entity )
 		abilityView->setPositionY( i * abilityView->getContentSize().height );
 		addChild(abilityView, 51);
 	}
+
+	scheduleUpdate();
 }
 
 
 GameEntityView::~GameEntityView(void)
 {
 	m_pEntity->release();
+}
+
+void GameEntityView::update( float delta )
+{
+	if(m_pEntity->isDirty() ) {
+		updateView();
+	}
+}
+
+void GameEntityView::updateView()
+{
+	m_healthBar->setProgress(  (m_pEntity->getProperty("hp_curr")) / (float) (m_pEntity->getProperty("hp_base")) );
+	m_pEntity->setDirty(false);
 }
 
 bool GameEntityView::ccTouchBegan(CCTouch* touch, CCEvent* event)

@@ -66,7 +66,7 @@ void CastWorldModel::addEffectInTransit( ICastEntity* from, CastEffect* effect, 
 		//TODO: world position
 	}
 	
-	CC_SAFE_RELEASE(effect); 
+	//CC_SAFE_RELEASE(effect); 
 	
 
 	//TODO: scheduler?
@@ -99,7 +99,7 @@ void CastWorldModel::addEffectInstant(  ICastEntity* from, CastEffect* effect, C
 
 
 	
-	CC_SAFE_RELEASE(effect); 
+	//CC_SAFE_RELEASE(effect); 
 }
 
 
@@ -127,6 +127,7 @@ void CastWorldModel::applyEffectToTarget( CastEffectPath path )
 
 		targets[t]->applyEffect( eff );
 	}
+
 }
 
 void CastWorldModel::updateStep( float dt )
@@ -137,7 +138,7 @@ void CastWorldModel::updateStep( float dt )
 	for( int i=0; i< m_effectsInTransit.size(); i++) 
 	{
 		//TODO: if blockable, check physics collision
-		CastEffectPath& path = m_effectsInTransit[i];
+		CastEffectPath path = m_effectsInTransit[i];
 
 		float distToTargetFromOrigin = 1.0f; //TODO: add physics checks
 		float timeToTargetFromOrigin = distToTargetFromOrigin / path.speed;
