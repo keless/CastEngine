@@ -57,6 +57,9 @@ protected:
 	std::vector<CastEffectPath> m_effectsInTransit;
 	
 	void applyEffectToTarget( CastEffectPath );
+
+	std::map<ICastEntity*, ICastEntity*> m_allEntities;
+	friend class ICastEntity;
 	
 public:
 	CastWorldModel();
@@ -66,6 +69,8 @@ public:
 	void addEffectInstant( ICastEntity* from, CastEffect* effect, CastTarget* targetList, double startTime );
 
 	void updateStep( float dt );
+
+	bool isValid( ICastEntity* );
 };
 
 #endif /* defined(__CastEngine__CastWorldModel__) */

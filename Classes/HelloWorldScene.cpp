@@ -60,7 +60,6 @@ bool HelloWorld::init()
 	*/
 
 	m_playerModel = new GameEntity("Leeroy");
-	m_playerModel->retain();
 	m_playerModel->addAbility( m_abilities["fireball"] );
 	m_playerModel->addAbility( m_abilities["sword attack"] );
 
@@ -72,7 +71,7 @@ bool HelloWorld::init()
 	
 
 	m_enemyModel = new GameEntity("Giant Rat");
-	m_enemyModel->retain();
+	m_enemyModel->incProperty("hp_curr", -90);
 	m_enemyView = new GameEntityView( m_enemyModel );
 	m_enemyView->setPosition( 230, 200 );
 	addChild(m_enemyView );
@@ -97,6 +96,13 @@ void HelloWorld::update( float dt )
 	CastCommandTime::updateDelta(dt);
 	CastCommandScheduler::get()->update(dt);
 	CastWorldModel::get()->updateStep(dt);
+
+	if( m_enemyModel != NULL && m_enemyModel->getProperty("hp_curr") <= 0 ) {
+		removeChild(m_enemyView, true);
+		CC_SAFE_RELEASE_NULL(m_enemyView);
+
+		CC_SAFE_RELEASE_NULL(m_enemyModel);
+	}
 }
 
 void HelloWorld::initAbilities()

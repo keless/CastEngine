@@ -87,13 +87,11 @@ void GameEntity::sendEffectToTarget( CastEffect* effect, float speed )
 void GameEntity::applyEffect( CastEffect* effect )
 {
 	
-	
 	if( effect->getLifeTime() == 0 ) 
 	{
 		CCLog("apply instant effect");
 
 		effect->doEffect();
-
 	}
 	else {
 		CCLog("todo: apply effect over time");
@@ -101,7 +99,6 @@ void GameEntity::applyEffect( CastEffect* effect )
 		m_negativeEffects.push_back(effect);
 		effect->retain();
 		effect->startTicks();
-
 	}
  }
 

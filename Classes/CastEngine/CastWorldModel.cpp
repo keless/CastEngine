@@ -51,6 +51,8 @@ void CastWorldModel::addEffectInTransit( ICastEntity* from, CastEffect* effect, 
 		{
 			ICastEntity* target = targets[i];
 			
+			if( !CastWorldModel::get()->isValid( from ) ) continue;
+			if( !CastWorldModel::get()->isValid( target ) ) continue;
 			CCLOG("add effect in transit" );
 			
 			CastEffectPath path;
@@ -81,6 +83,9 @@ void CastWorldModel::addEffectInstant(  ICastEntity* from, CastEffect* effect, C
 		for( int i=0; i< targets.size(); i++)
 		{
 			ICastEntity* target = targets[i];
+
+			if( !CastWorldModel::get()->isValid( from ) ) continue;
+			if( !CastWorldModel::get()->isValid( target ) ) continue;
 			
 			CastEffectPath path;
 			path.from = from;
@@ -110,7 +115,9 @@ void CastWorldModel::applyEffectToTarget( CastEffectPath path )
 	CastEffect* effect = path.effect;
 	std::vector<ICastEntity*> targets;
 	if( path.to != NULL )  {
-		targets.push_back(path.to);
+		if( CastWorldModel::get()->isValid( path.to ) ) {
+			targets.push_back(path.to);
+		}
 	}else {
 		//if targeted position, check physics to determine targets
 		CCLog("todo: physics check at position for effect targets");
@@ -159,3 +166,7 @@ void CastWorldModel::updateStep( float dt )
 	}
 }
 
+bool CastWorldModel::isValid( ICastEntity* entity )
+{
+	return (m_allEntities.count(entity) > 0 );
+}

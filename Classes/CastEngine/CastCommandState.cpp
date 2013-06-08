@@ -6,6 +6,8 @@
 
 #include "CastEffect.h"
 
+#include "CastWorldModel.h"
+
 CastCommandState::CastCommandState(CastCommandModel* model, ICastEntity* owner)
 {
 	m_iOwner = owner;
@@ -106,11 +108,15 @@ void CastCommandState::onCastComplete()
 {
 	if( m_state != CCS_CASTING ) return;
 
+	if( !CastWorldModel::get()->isValid( m_iOwner ) ) return;
+
 	double currTime = CastCommandTime::get();
 	m_timeStart = currTime;
 	
 	//TODO: spawn effects
 	CastTarget* target = m_iOwner->getTarget();
+	target->validateTargets();
+
 	for( int i=0; i< m_pModel->effectsOnCast.size(); i++ )
 	{
 		CastEffect* effect = new CastEffect( );

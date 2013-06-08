@@ -37,11 +37,14 @@ public:
 	CastTarget(CastTargetType type = CTT_ENTITIES);
 	~CastTarget(void);
 
-	const std::vector<ICastEntity*>& getEntityList() { return m_entityList; }
+	const std::vector<ICastEntity*>& getEntityList();
 	CastTargetType getType() { return m_type; }
 	
 	void addTargetEntity( ICastEntity* target );
 	void setTargetPosition( CCPoint target );
+
+	//will purge pointers to entities that are invalid
+	void validateTargets();
 	
 };
 

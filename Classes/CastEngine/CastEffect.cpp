@@ -7,6 +7,8 @@
 
 #include "CastCommandTime.h"
 
+#include "CastWorldModel.h"
+
 typedef std::string String;
 
 CastEffect::CastEffect()
@@ -64,6 +66,7 @@ bool CastEffect::isPositiveEffect()
 
 void CastEffect::setTarget( ICastEntity* target )
 {
+	if( !CastWorldModel::get()->isValid( target ) ) return;
 	m_pTarget = target;
 }
 
@@ -76,6 +79,8 @@ void CastEffect::startTicks()
 
 void CastEffect::onTick( float dt )
 {
+	if( !CastWorldModel::get()->isValid( m_pTarget ) ) return;
+
 	double currTime = CastCommandTime::get();
 	float delta = currTime - m_startTime;
 	if( delta > m_lifeTime ) delta = m_lifeTime;
@@ -103,6 +108,8 @@ void CastEffect::cancelTicks()
 
 void CastEffect::doEffect()
 {
+	if( !CastWorldModel::get()->isValid( m_pTarget ) ) return;
+
 	CCLog("on tick %d", m_numTicksCompleted);
 	switch( m_type ) 
 	{

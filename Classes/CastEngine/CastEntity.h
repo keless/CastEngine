@@ -10,6 +10,9 @@ class ICastEntity
 {
 public:
 
+	ICastEntity();
+	virtual ~ICastEntity();
+
 	//send negative values to 'decrement'
 	virtual void  incProperty( std::string propName, float value ) {}
 	virtual float getProperty( std::string propName ) { return 0; }
