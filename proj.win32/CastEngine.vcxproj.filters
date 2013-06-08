@@ -58,6 +58,9 @@
     <ClCompile Include="..\Classes\CastEngine\CastWorldModel.cpp">
       <Filter>CastEngine</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\CastEngine\CastEntityPointer.cpp">
+      <Filter>CastEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\CastEngine\CastCommandModel.h">
@@ -133,6 +136,9 @@
       <Filter>CastEngine</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\CastEngine\CastWorldModel.h">
+      <Filter>CastEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\CastEngine\CastEntityPointer.h">
       <Filter>CastEngine</Filter>
     </ClInclude>
   </ItemGroup>

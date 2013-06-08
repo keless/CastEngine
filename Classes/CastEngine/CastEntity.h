@@ -2,12 +2,21 @@
 #define _CASTOBJECT_H_
 
 #include <string>
+#include <vector>
 
 class CastTarget;
 class CastEffect;
+class CastEntityPointer;
 
 class ICastEntity 
 {
+private:
+	std::vector<CastEntityPointer*> m_CastPointers;
+	void detachAllPointers();
+	void attachPointer( CastEntityPointer* ptr );
+	void detachPointer( CastEntityPointer* ptr );
+	friend class CastEntityPointer;
+
 public:
 
 	//send negative values to 'decrement'
@@ -23,6 +32,8 @@ public:
 	//effect is ARRIVING at this entity
 	virtual void applyEffect( CastEffect* effect ) = 0;
 	virtual void removeEffect( CastEffect* effect ) = 0;
+
+
 };
 
 #endif
