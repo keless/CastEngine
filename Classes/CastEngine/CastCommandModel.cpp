@@ -14,11 +14,25 @@ CastCommandModel::CastCommandModel(Json::Value castData)
 	stopOnHit = descriptor.get("stopOnHit", true).asBool();
 	effectSize = descriptor.get("effectSize", 0.0f).asDouble();
 	cooldownTime = descriptor.get("cooldownTime", 0.0f).asDouble();
+
+	if( ! descriptor.isMember("effectsOnCast") || !descriptor["effectsOnCast"].isArray() ) 
+	{
+		CCLOGERROR("CastCommandModel %s is missing effectsOnCast array", name.c_str());
+	}
 	
-	effectsOnCast = castData.get("effectsOnCast", Json::Value());
+	//effectsOnCast = castData.get("effectsOnCast", Json::Value());
 }
 
 
 CastCommandModel::~CastCommandModel(void)
 {
+}
+
+int CastCommandModel::getNumEffectsOnCast()
+{
+	return descriptor["effectsOnCast"].size();
+}
+Json::Value CastCommandModel::getEffectOnCast( int idx )
+{
+	return descriptor["effectsOnCast"][idx];
 }

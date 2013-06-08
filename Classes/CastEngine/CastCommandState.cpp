@@ -117,10 +117,11 @@ void CastCommandState::onCastComplete()
 	CastTarget* target = m_iOwner->getTarget();
 	target->validateTargets();
 
-	for( int i=0; i< m_pModel->effectsOnCast.size(); i++ )
+	for( int i=0; i< m_pModel->getNumEffectsOnCast(); i++ )
 	{
 		CastEffect* effect = new CastEffect( );
-		effect->init( m_pModel->effectsOnCast[i], m_iOwner);
+		effect->init(this, i, m_iOwner );
+			//m_pModel->effectsOnCast[i], m_iOwner);
 		
 		//TODO: send all effects as one array so only one "packet" has to travel?
 		m_iOwner->sendEffectToTarget( effect, m_pModel->travelSpeed );
@@ -152,4 +153,11 @@ void CastCommandState::onCooldownComplete()
 	m_state = CCS_IDLE;
 
 	//TODO: send cooldown complete signal
+}
+
+Json::Value CastCommandState::getDescriptor( std::string dataName )
+{
+	if( dataName.size() == 0 ) return m_pModel->descriptor;
+
+	return m_pModel->descriptor.get(dataName, Json::Value() );
 }

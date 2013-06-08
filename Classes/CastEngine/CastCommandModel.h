@@ -35,7 +35,6 @@ class CastCommandModel :
 	float effectSize; //zero if no physics involved
 	int effectShape; //singleTarget, line, cone, circle, etc
 
-	Json::Value effectsOnCast;
 
 	//debug:
 	Json::Value descriptor;
@@ -47,9 +46,13 @@ public:
 	bool isChanneled() { return channelTime > 0; }
 	bool isInstant() { return castTime <= 0; }
 
+	int getNumEffectsOnCast();
+	Json::Value getEffectOnCast( int idx );
+
 	std::string getName() { return name; }
 
 	friend class CastCommandState;
+	friend class CastEffect;
 };
 
 #endif

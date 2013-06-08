@@ -9,7 +9,7 @@
 #ifndef __CastEngine__CastWorldModel__
 #define __CastEngine__CastWorldModel__
 
-#include <cocos2d.h>
+#include "cocos2d.h"
 using namespace cocos2d;
 
 #include "CastTarget.h"

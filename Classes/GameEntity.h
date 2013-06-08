@@ -38,16 +38,11 @@ class GameEntity :
 	std::vector<CastEffect*> m_negativeEffects;
 	std::vector<CastEffect*> m_positiveEffects;
 
-	bool m_isDirty; //every frame: true if stat changed, false if not
-
 public:
 	GameEntity( std::string name );
 	~GameEntity(void);
 	
 	std::string getName() { return m_name; }
-
-	bool isDirty() { return m_isDirty; }
-	void setDirty( bool dirt ) { m_isDirty = dirt; }
 
 	virtual void addAbility( CastCommandModel* ability );
 	std::vector<CastCommandState*>& getAbilityList();
@@ -55,6 +50,8 @@ public:
 	//ICastEntity methods
 	virtual void incProperty( std::string propName, float value );
 	virtual float getProperty( std::string propName );
+
+	virtual void handleEffectReaction( Json::Value& reaction );
 
 	virtual CastTarget* getTarget();
 	virtual void sendEffectToTarget( CastEffect* effect, float speed ); //effect LEAVING from this entity
@@ -71,6 +68,14 @@ public:
 	float delta;
 
 	GameEntityPropertyChangeEvt(std::string propertyName, float valueChange ) : prop(propertyName), delta(valueChange) { this->autorelease(); }
+};
+
+class GameEntityReactEvt : public CCObject 
+{
+public:
+	Json::Value react;
+
+	GameEntityReactEvt( Json::Value reaction ) : react(reaction) { this->autorelease(); }
 };
 
 #endif

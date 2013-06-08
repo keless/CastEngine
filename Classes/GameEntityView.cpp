@@ -6,6 +6,9 @@ GameEntityView::GameEntityView( GameEntity* entity )
 	m_pEntity = entity;
 	m_pEntity->retain();
 
+	m_pEntity->addListener("react", this, callfuncO_selector(GameEntityView::onShouldReact) );
+	m_pEntity->addListener("incProperty", this, callfuncO_selector(GameEntityView::onStatUpdate) );
+
 	setContentSize( CCSizeMake( 200, 200 ));
 
 	CCLayerColor* bg = CCLayerColor::create(ccc4(25,25,25,255), 200,200);
@@ -43,20 +46,56 @@ GameEntityView::GameEntityView( GameEntity* entity )
 
 GameEntityView::~GameEntityView(void)
 {
+	m_pEntity->remListener("react", this, callfuncO_selector(GameEntityView::onShouldReact) );
+	m_pEntity->remListener("incProperty", this, callfuncO_selector(GameEntityView::onStatUpdate) );
+
 	m_pEntity->release();
 }
 
 void GameEntityView::update( float delta )
 {
-	if(m_pEntity->isDirty() ) {
-		updateView();
+
+}
+
+void GameEntityView::onStatUpdate(CCObject* e)
+{
+	updateView();
+}
+
+void GameEntityView::onShouldReact(CCObject* e)
+{
+	GameEntityReactEvt* evt = dynamic_cast<GameEntityReactEvt*>(e);
+	if( evt == NULL ) return;
+
+	CCLog("todo: react to effect");
+
+	if( evt->react.isString() ) {
+		std::string react = evt->react.asString();
+		if( react.compare("shake") == 0 ) {
+			CCLog("todo: shake entity view ");
+
+#define SHAKE_TAG 0xDEADBEEF
+			if( getActionByTag(SHAKE_TAG) == NULL ) {
+				CCSequence* shake = CCSequence::create(
+					CCRotateBy::create(0.1f, 10, 0),
+					CCRotateBy::create(0.2f, -20, 0),
+					CCRotateBy::create(0.1f, 10, 0), 
+					NULL);
+				shake->setTag(SHAKE_TAG);
+
+				runAction(shake);
+			}
+
+		}else if( react.compare("burn") == 0 ) {
+			CCLog("todo: particle system burn");
+		}
 	}
 }
 
 void GameEntityView::updateView()
 {
 	m_healthBar->setProgress(  (m_pEntity->getProperty("hp_curr")) / (float) (m_pEntity->getProperty("hp_base")) );
-	m_pEntity->setDirty(false);
+
 }
 
 bool GameEntityView::ccTouchBegan(CCTouch* touch, CCEvent* event)
@@ -85,6 +124,15 @@ void GameEntityView::ccTouchEnded(CCTouch* touch, CCEvent* event)
 	//activate ability if possible
 
 	//todo: see if we can activate this ability or not (cant cast multiple abilities at the same time!)
+
+	//dont send touch if any ability is casting
+	std::vector<CastCommandState*>& abilityList = m_pEntity->getAbilityList();
+	for( int i=0; i< abilityList.size(); i++) {
+		if( abilityList[i]->isCasting() ) {
+			//abort touch
+			return;
+		}
+	}
 
 	for( int i=0; i< m_abilityViews.size(); i++) {
 		GameAbilityView* view = m_abilityViews[i];

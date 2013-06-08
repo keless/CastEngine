@@ -9,6 +9,10 @@
 
 #include "CastWorldModel.h"
 
+#include "CastCommandState.h"
+
+#include "CastCommandModel.h"
+
 typedef std::string String;
 
 CastEffect::CastEffect()
@@ -22,20 +26,31 @@ CastEffect::CastEffect()
 
 	m_pTarget = NULL;
 	m_pOrigin = NULL;
+
+	m_pModel = NULL;
+	m_modelEffectIndex = -1;
 	
 	this->autorelease();
 }
 
 CastEffect::~CastEffect()
 {
+	CC_SAFE_RELEASE_NULL(m_pModel);
+
 	//unschedule any callbacks
 	cancelTicks();
 
 	CCLOG("~CastEffect");
 }
 
-void CastEffect::init( Json::Value json, ICastEntity* from )
+void CastEffect::init(  CastCommandState* originState, int effectIdx, ICastEntity* from  )
 {
+	m_pModel = originState->m_pModel;
+	m_pModel->retain();
+	m_modelEffectIndex = effectIdx;
+
+	Json::Value& json = m_pModel->descriptor["effectsOnCast"].get(effectIdx, Json::Value());
+
 	String type = json.get("effectType", "damage").asString();
 	if( type.compare("damage") == 0 ){
 		m_type = CET_DAMAGE_STAT;
@@ -110,6 +125,11 @@ void CastEffect::doEffect()
 {
 	if( !CastWorldModel::get()->isValid( m_pTarget ) ) return;
 
+	Json::Value json = m_pModel->getEffectOnCast(m_modelEffectIndex);
+	if( json.isMember("react") ) {
+		m_pTarget->handleEffectReaction( json["react"] );
+	}
+	
 	CCLog("on tick %d", m_numTicksCompleted);
 	switch( m_type ) 
 	{
@@ -125,10 +145,23 @@ void CastEffect::doEffect()
 		CCLOG("TODO: handle effect type");
 	}
 
+
+	
+
 	if( m_lifeTime == 0 ) {
 		CCLog("instant effect complete-- TODO: clean up");
 	}
 
+}
+
+Json::Value CastEffect::getDescriptor( std::string name )
+{
+	if( m_pModel == NULL || m_modelEffectIndex < 0 ) return Json::Value();
+
+	if( name.size() == 0 )
+		return	m_pModel->descriptor[m_modelEffectIndex];
+	
+	return m_pModel->descriptor[m_modelEffectIndex].get(name, Json::Value() );
 }
 
 CastEffect* CastEffect::clone()
@@ -147,6 +180,8 @@ CastEffect* CastEffect::clone()
 	effect->m_value = m_value;
 	effect->m_pTarget = m_pTarget;
 	effect->m_pOrigin = m_pOrigin;
+	effect->m_pModel = m_pModel;
+	effect->m_modelEffectIndex = m_modelEffectIndex;
 
 	return effect;
 }

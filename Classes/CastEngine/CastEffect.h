@@ -31,6 +31,8 @@ enum CastEffectType
  */
 
 class ICastEntity;
+class CastCommandState;
+class CastCommandModel;
 
 class CastEffect : public CCObject
 {
@@ -54,11 +56,14 @@ class CastEffect : public CCObject
 	ICastEntity* m_pTarget;
 	ICastEntity* m_pOrigin;
 
+	CastCommandModel* m_pModel;
+	int m_modelEffectIndex;
+
 public:
 	CastEffect();
 	virtual ~CastEffect();
 
-	void init( Json::Value effectData, ICastEntity* from  );
+	void init( CastCommandState* originState, int effectIdx, ICastEntity* from  );
 	void setTarget( ICastEntity* to );
 
 	void startTicks();
@@ -71,6 +76,8 @@ public:
 	void cancelTicks();
 
 	void doEffect();
+
+	Json::Value getDescriptor( std::string name = "" );
 
 	CastEffect* clone();
 

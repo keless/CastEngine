@@ -5,8 +5,6 @@
 
 GameEntity::GameEntity(std::string name)
 {
-	m_isDirty = true;
-
 	m_name = name;
 	hp_base = hp_curr = 100;
 
@@ -58,7 +56,7 @@ void GameEntity::incProperty( std::string propName, float value )
 
 	
 	dispatch("incProperty", new GameEntityPropertyChangeEvt(propName, value ));
-	m_isDirty = true;
+
 
 	//TODO -- if HP <= 0 do logic (set dirty flag and check in update loop)
 }
@@ -66,6 +64,12 @@ float GameEntity::getProperty( std::string propName )
 {
 	if( m_statsMap.count(propName) == 0 ) return 0;
 	return (*m_statsMap[propName]);
+}
+
+void GameEntity::handleEffectReaction( Json::Value& reaction )
+{
+	GameEntityReactEvt* evt = new GameEntityReactEvt( reaction );
+	dispatch("react", evt);
 }
 
 CastTarget* GameEntity::getTarget()

@@ -2,6 +2,7 @@
 #define _CASTOBJECT_H_
 
 #include <string>
+#include "json.h"
 
 class CastTarget;
 class CastEffect;
@@ -19,6 +20,8 @@ public:
 
 	virtual CastTarget* getTarget() { return NULL; }
 	
+	virtual void handleEffectReaction( Json::Value& reaction ) {}
+
 	//effect is LEAVING this entity, towards somewhere else
 	//speed == 0.0f means no travel time, instant effect
 	virtual void sendEffectToTarget( CastEffect* effect, float speed ) = 0;

@@ -71,9 +71,9 @@ bool HelloWorld::init()
 	
 
 	m_enemyModel = new GameEntity("Giant Rat");
-	m_enemyModel->incProperty("hp_curr", -90);
+	//m_enemyModel->incProperty("hp_curr", -90);
 	m_enemyView = new GameEntityView( m_enemyModel );
-	m_enemyView->setPosition( 230, 200 );
+	m_enemyView->setPosition( 270, 200 );
 	addChild(m_enemyView );
 
 	m_playerModel->getTarget()->addTargetEntity(m_enemyModel);
@@ -122,6 +122,7 @@ void HelloWorld::initAbilities()
 	swordEffect["valueBase"] = 2.0f;
 	swordEffect["valueStat"] = "str"; //note: intellect
 	swordEffect["valueMultiplier"] = 2.0f;
+	swordEffect["react"] = "shake";
 	attack["effectsOnCast"].append( swordEffect );
 
 	mod = new CastCommandModel( attack );
@@ -146,6 +147,7 @@ void HelloWorld::initAbilities()
 	spellEffect1["valueBase"] = 2.0f;
 	spellEffect1["valueStat"] = "int"; //note: intellect
 	spellEffect1["valueMultiplier"] = 1.0f;
+	spellEffect1["react"] = "shake";
 	spell["effectsOnCast"].append( spellEffect1 );
 
 	Json::Value spellEffect2; //dot

@@ -24,6 +24,9 @@ public:
 	GameEntityView( GameEntity* entity );
 	~GameEntityView(void);
 
+	void onStatUpdate(CCObject* e);
+	void onShouldReact(CCObject* e);
+
 	void updateView();
 
 	virtual void update( float delta );

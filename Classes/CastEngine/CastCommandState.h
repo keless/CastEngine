@@ -51,6 +51,7 @@ class CastCommandState :
 	CastCommandModel* m_pModel; //todo: use identifier instead of direct pointer?
 	ICastEntity* m_iOwner;
 
+	friend class CastEffect;
 
 	void onCastComplete();
 	void spawnCastEffects();
@@ -68,6 +69,8 @@ public:
 	bool isOnCooldown() { return m_state == CCS_COOLDOWN; }
 	float getCooldownPct(); //0 means 'on cooldown', 1.0 means 'off cooldown'
 	bool isIdle() { return m_state == CCS_IDLE; }
+
+	Json::Value getDescriptor( std::string dataName = "" );
 
 	bool startCast();
 
