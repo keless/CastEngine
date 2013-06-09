@@ -40,3 +40,17 @@ void CastTarget::validateTargets()
 		}
 	}
 }
+
+bool CastTarget::hasValidTarget()
+{
+	if( m_type == CTT_ENTITIES ) 
+	{
+		validateTargets();
+		return m_entityList.size() > 0;
+	}else {
+		return true;
+	}
+	
+
+
+}

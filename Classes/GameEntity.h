@@ -47,6 +47,9 @@ public:
 	virtual void addAbility( CastCommandModel* ability );
 	std::vector<CastCommandState*>& getAbilityList();
 
+	//true if not casting any abilities and has valid target
+	bool canCast();
+
 	//ICastEntity methods
 	virtual void incProperty( std::string propName, float value );
 	virtual float getProperty( std::string propName );

@@ -46,6 +46,20 @@ std::vector<CastCommandState*>& GameEntity::getAbilityList()
 	return m_abilities;
 }
 
+bool GameEntity::canCast()
+{
+	//dont send touch to abilities if any ability is casting
+	for( int i=0; i< m_abilities.size(); i++) {
+		if( m_abilities[i]->isCasting() ) {
+			//abort touch
+			return false;
+		}
+	}
+
+	if(! m_abilityTargets->hasValidTarget() ) return false;
+
+	return true;
+}
 
 void GameEntity::incProperty( std::string propName, float value )
 {

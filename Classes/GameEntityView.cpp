@@ -164,14 +164,8 @@ void GameEntityView::ccTouchEnded(CCTouch* touch, CCEvent* event)
 
 	//todo: see if we can activate this ability or not (cant cast multiple abilities at the same time!)
 
-	//dont send touch if any ability is casting
-	std::vector<CastCommandState*>& abilityList = m_pEntity->getAbilityList();
-	for( int i=0; i< abilityList.size(); i++) {
-		if( abilityList[i]->isCasting() ) {
-			//abort touch
-			return;
-		}
-	}
+	//dont send touch if cant cast
+	if( ! m_pEntity->canCast() ) return;
 
 	for( int i=0; i< m_abilityViews.size(); i++) {
 		GameAbilityView* view = m_abilityViews[i];

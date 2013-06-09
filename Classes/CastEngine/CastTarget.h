@@ -45,6 +45,8 @@ public:
 
 	//will purge pointers to entities that are invalid
 	void validateTargets();
+
+	bool hasValidTarget();
 	
 };
 

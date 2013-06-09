@@ -109,66 +109,99 @@ void HelloWorld::initAbilities()
 {
 	CastCommandModel* mod = NULL;
 
-	Json::Value attack;
-	attack["name"] = "sword attack";
-	attack["castTime"] = 0.15f; //seconds
-	attack["cooldownTime"] = 1.85f; //seconds
-	attack["range"] = 1.0f; //melee range
+	{
+		Json::Value attack;
 
-	Json::Value swordEffect; //direct damage
-	swordEffect["effectType"] = "damage";
-	swordEffect["damageType"] = "piercing";
-	swordEffect["targetStat"] = "hp_curr";
-	swordEffect["valueBase"] = 2.0f;
-	swordEffect["valueStat"] = "str"; //note: intellect
-	swordEffect["valueMultiplier"] = 2.0f;
-	swordEffect["react"] = "shake";
-	attack["effectsOnCast"].append( swordEffect );
+		attack["name"] = "sword attack";
+		attack["castTime"] = 0.15f; //seconds
+		attack["cooldownTime"] = 1.85f; //seconds
+		attack["range"] = 1.0f; //melee range
 
-	mod = new CastCommandModel( attack );
-	mod->retain();
-	m_abilities[mod->getName()] = mod;
+		Json::Value swordEffect; //direct damage
+		swordEffect["effectType"] = "damage";
+		swordEffect["damageType"] = "piercing";
+		swordEffect["targetStat"] = "hp_curr";
+		swordEffect["valueBase"] = 2.0f;
+		swordEffect["valueStat"] = "str"; //note: intellect
+		swordEffect["valueMultiplier"] = 2.0f;
+		swordEffect["react"] = "shake";
+		attack["effectsOnCast"].append( swordEffect );
+
+		mod = new CastCommandModel( attack );
+		mod->retain();
+		m_abilities[mod->getName()] = mod;
+	}
+
+	{
+		Json::Value spell;
+
+		spell["name"] = "fireball";
+		spell["castTime"] = 1.5f;
+		spell["travelSpeed"] = 5.0f; //five units per second
+		spell["range"] = 5;
+		spell["cooldownTime"] = 0.15f;
+		spell["effectWhileTravel"] = true;
+		spell["stopOnHit"] = true;
+	
+		Json::Value spellEffect1; //direct damage
+		spellEffect1["effectType"] = "damage";
+		spellEffect1["damageType"] = "fire";
+		spellEffect1["targetStat"] = "hp_curr";
+		spellEffect1["valueBase"] = 2.0f;
+		spellEffect1["valueStat"] = "int"; //note: intellect
+		spellEffect1["valueMultiplier"] = 1.0f;
+		spellEffect1["react"] = "shake";
+		spell["effectsOnCast"].append( spellEffect1 );
+
+		Json::Value spellEffect2; //dot
+		spellEffect2["effectType"] = "damage";
+		spellEffect2["damageType"] = "fire";
+		spellEffect2["targetStat"] = "hp_curr";
+		spellEffect2["valueBase"] = 1.0f;
+		spellEffect2["valueStat"] = "int";
+		spellEffect2["valueMultiplier"] = 0.1f;
+
+		spellEffect2["tickFreq"] = 0.5f; //every half second
+		spellEffect2["effectLifetime"] = 3.5f;  //so 7 ticks
+		spellEffect2["react"] = "burn";
+		spellEffect2["stackFlag"] = "burn";
+		spell["effectsOnCast"].append( spellEffect2 );
+
+		mod = new CastCommandModel( spell );
+		mod->retain();
+		m_abilities[mod->getName()] = mod;	
+
+	}
 
 
-	Json::Value spell;
-	spell["name"] = "fireball";
-	spell["castTime"] = 1.5f;
-	spell["travelSpeed"] = 5.0f; //five units per second
-	spell["range"] = 5;
-	spell["cooldownTime"] = 0.15f;
-	spell["effectWhileTravel"] = true;
-	spell["stopOnHit"] = true;
+
+
+	{
+		Json::Value heal;
+
+		heal["name"] = "Heal";
+		heal["castTime"] = 0.75f; //seconds
+		heal["cooldownTime"] = 0.25f; //seconds
+		heal["range"] = 0.0f; //self target range
+
+		Json::Value effect1; //direct heal
+		effect1["effectType"] = "heal";
+		effect1["targetStat"] = "hp_curr";
+		effect1["valueBase"] = 30.0f;
+		effect1["valueStat"] = "int"; //note: intellect
+		effect1["valueMultiplier"] = 2.0f;
+		effect1["react"] = "heal";
+		heal["effectsOnCast"].append( effect1 );
+
+		mod = new CastCommandModel( heal );
+		mod->retain();
+		m_abilities[mod->getName()] = mod;
+	}
+
 	
 
-	Json::Value spellEffect1; //direct damage
-	spellEffect1["effectType"] = "damage";
-	spellEffect1["damageType"] = "fire";
-	spellEffect1["targetStat"] = "hp_curr";
-	spellEffect1["valueBase"] = 2.0f;
-	spellEffect1["valueStat"] = "int"; //note: intellect
-	spellEffect1["valueMultiplier"] = 1.0f;
-	spellEffect1["react"] = "shake";
-	spell["effectsOnCast"].append( spellEffect1 );
-
-	Json::Value spellEffect2; //dot
-	spellEffect2["effectType"] = "damage";
-	spellEffect2["damageType"] = "fire";
-	spellEffect2["targetStat"] = "hp_curr";
-	spellEffect2["valueBase"] = 1.0f;
-	spellEffect2["valueStat"] = "int";
-	spellEffect2["valueMultiplier"] = 0.1f;
-
-	spellEffect2["tickFreq"] = 0.5f; //every half second
-	spellEffect2["effectLifetime"] = 3.5f;  //so 7 ticks
-	spellEffect2["react"] = "burn";
-	spellEffect2["stackFlag"] = "burn";
-	spell["effectsOnCast"].append( spellEffect2 );
 
 
-
-	mod = new CastCommandModel( spell );
-	mod->retain();
-	m_abilities[mod->getName()] = mod;
 }
 
 inline CCPoint locationInGLFromTouch(CCTouch& touch)
