@@ -62,6 +62,7 @@ bool HelloWorld::init()
 	m_playerModel = new GameEntity("Leeroy");
 	m_playerModel->addAbility( m_abilities["fireball"] );
 	m_playerModel->addAbility( m_abilities["sword attack"] );
+	m_playerModel->addAbility( m_abilities["Heal"] );
 
 	m_playerView = new GameEntityView( m_playerModel );
 	m_playerView->setPositionX(50);

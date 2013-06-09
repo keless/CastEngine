@@ -54,6 +54,8 @@ void CastEffect::init(  CastCommandState* originState, int effectIdx, ICastEntit
 	String type = json.get("effectType", "damage").asString();
 	if( type.compare("damage") == 0 ){
 		m_type = CET_DAMAGE_STAT;
+	}else if( type.compare("heal") == 0 ) {
+		m_type = CET_HEAL_STAT;
 	}
 
 	m_pOrigin = from;

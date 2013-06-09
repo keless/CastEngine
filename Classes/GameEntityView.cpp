@@ -29,14 +29,21 @@ GameEntityView::GameEntityView( GameEntity* entity )
 	addChild(m_healthBar, 49);
 
 	std::vector<CastCommandState*>& abilities = m_pEntity->getAbilityList();
+	int maxPerRow = 2;
+	int row = 0;
+	int col = 0;
 	for( int i=0; i < abilities.size(); i++)
 	{
+		col = (i/maxPerRow);
+		row = i - (col*maxPerRow);
+
 		CastCommandState* ability = abilities[i];
 
 		GameAbilityView* abilityView = new GameAbilityView( ability );
 		m_abilityViews.push_back(abilityView);
 
-		abilityView->setPositionY( i * abilityView->getContentSize().height );
+		abilityView->setPositionX( col * abilityView->getContentSize().width );
+		abilityView->setPositionY( row * abilityView->getContentSize().height );
 		addChild(abilityView, 51);
 	}
 

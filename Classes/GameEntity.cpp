@@ -66,6 +66,12 @@ void GameEntity::incProperty( std::string propName, float value )
 	if( m_statsMap.count(propName) == 0 ) return;
 	(*m_statsMap[propName]) += value;
 
+	//bounds check hp_curr
+	if( propName.compare("hp_curr") == 0 ) {
+		if( hp_curr < 0 ) hp_curr = 0;
+		if( hp_curr > hp_base ) hp_curr = hp_base;
+	}
+
 	CCLog("stat %s delta %0.2f", propName.c_str(), value);
 
 	
