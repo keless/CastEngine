@@ -40,6 +40,13 @@ GameEntityView::GameEntityView( GameEntity* entity )
 		addChild(abilityView, 51);
 	}
 
+	/*
+	CCParticleFire* fire = CCParticleFire::create();
+	fire->setPosition(ccp(0,0));
+	//fire->setAnchorPoint(ccp(0,0));
+	addChild(fire);
+	*/
+
 	scheduleUpdate();
 }
 
@@ -62,6 +69,50 @@ void GameEntityView::onStatUpdate(CCObject* e)
 	updateView();
 }
 
+void GameEntityView::doShake()
+{
+	CCLog("shake entity view ");
+#define SHAKE_TAG 0xDEADBEEF
+	if( getActionByTag(SHAKE_TAG) == NULL ) {
+		CCSequence* shake = CCSequence::create(
+			CCRotateBy::create(0.1f, 10, 0),
+			CCRotateBy::create(0.2f, -20, 0),
+			CCRotateBy::create(0.1f, 10, 0), 
+			NULL);
+		shake->setTag(SHAKE_TAG);
+
+		runAction(shake);
+	}
+}
+
+void GameEntityView::doBurn()
+{
+	CCLog("todo: particle system burn");
+
+	CCParticleFire* fire = CCParticleFire::createWithTotalParticles(150);
+	CCPoint point = CCPointMake(  m_healthBar->getContentSize().width/2, 0 );
+
+	//fire->stopSystem();
+	fire->setSpeed(20);
+	fire->setStartSize(25);
+	CCPoint posVar = fire->getPosVar();
+	posVar.y /= 2;
+	fire->setPosVar( posVar );
+
+	fire->setPosition( point );
+	m_healthBar->addChild(fire);
+
+	CCSequence* seq = CCSequence::create(
+					CCDelayTime::create(0.5f),
+					CCCallFunc::create(fire, callfunc_selector(CCParticleFire::stopSystem)),
+					CCDelayTime::create(2.5f),
+					CCRemoveSelf::create(true),
+					NULL
+				);
+
+	fire->runAction(seq);
+}
+
 void GameEntityView::onShouldReact(CCObject* e)
 {
 	GameEntityReactEvt* evt = dynamic_cast<GameEntityReactEvt*>(e);
@@ -72,22 +123,10 @@ void GameEntityView::onShouldReact(CCObject* e)
 	if( evt->react.isString() ) {
 		std::string react = evt->react.asString();
 		if( react.compare("shake") == 0 ) {
-			CCLog("todo: shake entity view ");
-
-#define SHAKE_TAG 0xDEADBEEF
-			if( getActionByTag(SHAKE_TAG) == NULL ) {
-				CCSequence* shake = CCSequence::create(
-					CCRotateBy::create(0.1f, 10, 0),
-					CCRotateBy::create(0.2f, -20, 0),
-					CCRotateBy::create(0.1f, 10, 0), 
-					NULL);
-				shake->setTag(SHAKE_TAG);
-
-				runAction(shake);
-			}
+			doShake();
 
 		}else if( react.compare("burn") == 0 ) {
-			CCLog("todo: particle system burn");
+			doBurn();
 		}
 	}
 }

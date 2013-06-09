@@ -27,6 +27,9 @@ public:
 	void onStatUpdate(CCObject* e);
 	void onShouldReact(CCObject* e);
 
+	void doShake();
+	void doBurn();
+
 	void updateView();
 
 	virtual void update( float delta );

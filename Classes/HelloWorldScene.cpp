@@ -160,7 +160,7 @@ void HelloWorld::initAbilities()
 
 	spellEffect2["tickFreq"] = 0.5f; //every half second
 	spellEffect2["effectLifetime"] = 3.5f;  //so 7 ticks
-	
+	spellEffect2["react"] = "burn";
 	spellEffect2["stackFlag"] = "burn";
 	spell["effectsOnCast"].append( spellEffect2 );
 
