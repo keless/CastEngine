@@ -24,11 +24,15 @@ public:
 	GameEntityView( GameEntity* entity );
 	~GameEntityView(void);
 
+	void setBackground( std::string imgName );
+
 	void onStatUpdate(CCObject* e);
 	void onShouldReact(CCObject* e);
 
 	void doShake();
 	void doBurn();
+	void doLifedrain( ICastEntity* to );
+	void doHeal();
 
 	void updateView();
 

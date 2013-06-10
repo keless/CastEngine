@@ -20,7 +20,7 @@ public:
 
 	virtual CastTarget* getTarget() { return NULL; }
 	
-	virtual void handleEffectReaction( Json::Value& reaction ) {}
+	virtual void handleEffectReaction( Json::Value& reaction, CastEffect* source ) {}
 
 	//effect is LEAVING this entity, towards somewhere else
 	//speed == 0.0f means no travel time, instant effect

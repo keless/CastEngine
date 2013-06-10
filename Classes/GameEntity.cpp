@@ -86,9 +86,9 @@ float GameEntity::getProperty( std::string propName )
 	return (*m_statsMap[propName]);
 }
 
-void GameEntity::handleEffectReaction( Json::Value& reaction )
+void GameEntity::handleEffectReaction( Json::Value& reaction, CastEffect* source )
 {
-	GameEntityReactEvt* evt = new GameEntityReactEvt( reaction );
+	GameEntityReactEvt* evt = new GameEntityReactEvt( reaction, source );
 	dispatch("react", evt);
 }
 

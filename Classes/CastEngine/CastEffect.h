@@ -70,6 +70,9 @@ public:
 
 	void startTicks();
 
+	ICastEntity* getTarget() { return m_pTarget; }
+	ICastEntity* getOrigin() { return m_pOrigin; }
+
 	double getLifeTime() { return m_lifeTime; }
 	double getElapsedTime( double currTime ) { return currTime - m_lifeTime; }
 	bool isPositiveEffect(); //is this a nice buff, or a mean debuff?

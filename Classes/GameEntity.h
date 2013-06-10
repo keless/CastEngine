@@ -5,6 +5,7 @@
 using namespace cocos2d;
 
 #include "CastEntity.h"
+#include "CastEffect.h"
 #include "CastCommandState.h"
 #include "CastTarget.h"
 
@@ -54,7 +55,7 @@ public:
 	virtual void incProperty( std::string propName, float value );
 	virtual float getProperty( std::string propName );
 
-	virtual void handleEffectReaction( Json::Value& reaction );
+	virtual void handleEffectReaction( Json::Value& reaction, CastEffect* source );
 
 	virtual CastTarget* getTarget();
 	virtual void sendEffectToTarget( CastEffect* effect, float speed ); //effect LEAVING from this entity
@@ -77,8 +78,9 @@ class GameEntityReactEvt : public CCObject
 {
 public:
 	Json::Value react;
+	CastEffect* source;
 
-	GameEntityReactEvt( Json::Value reaction ) : react(reaction) { this->autorelease(); }
+	GameEntityReactEvt( Json::Value reaction, CastEffect* src ) : react(reaction), source(src) { this->autorelease(); }
 };
 
 #endif

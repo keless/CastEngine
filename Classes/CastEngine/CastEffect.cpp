@@ -135,9 +135,15 @@ void CastEffect::doEffect()
 {
 	if( !CastWorldModel::get()->isValid( m_pTarget ) ) return;
 
-	Json::Value json = m_pModel->getEffectOnCast(m_modelEffectIndex);
+	Json::Value json;
+	if( m_isChannelEffect ) {
+		json = m_pModel->getEffectOnChannel(m_modelEffectIndex);
+	}else {
+		json = m_pModel->getEffectOnCast(m_modelEffectIndex);
+	}
+
 	if( json.isMember("react") ) {
-		m_pTarget->handleEffectReaction( json["react"] );
+		m_pTarget->handleEffectReaction( json["react"], this );
 	}
 	
 	CCLog("on tick %d", m_numTicksCompleted);

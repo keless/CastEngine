@@ -71,6 +71,17 @@ void GameEntityView::update( float delta )
 
 }
 
+void GameEntityView::setBackground( std::string imgName )
+{
+	CCSize size = this->getContentSize();
+	CCTexture2D* tex =  CCTextureCache::sharedTextureCache()->addImage( imgName.c_str() );
+	CCSprite* spriteBG = CCSprite::createWithTexture(tex);
+	spriteBG->setScaleX( size.width / spriteBG->getContentSize().width );
+	spriteBG->setScaleY( size.height / spriteBG->getContentSize().height );
+	spriteBG->setAnchorPoint(ccp(0,0));
+	addChild(spriteBG);
+}
+
 void GameEntityView::onStatUpdate(CCObject* e)
 {
 	updateView();
@@ -120,6 +131,63 @@ void GameEntityView::doBurn()
 	fire->runAction(seq);
 }
 
+void GameEntityView::doLifedrain( ICastEntity* to )
+{
+	CCParticleFire* life = CCParticleFire::createWithTotalParticles(50);
+	CCPoint point =  m_healthBar->boundingBox().origin;
+
+	life->setStartColor( ccc4f(0,1.0f,0,1.0f) );
+	life->setEndColor( ccc4f(0,1.0f,0,1.0f) );
+	life->setPosition(ccp(0,0));
+
+	//TODO: use physics interface to get position of 'to' entity and direct stream
+
+	life->setGravity( CCPointMake( -90, 0 ) );
+	life->setStartSize(25);
+	life->setPosVar( CCPointMake( 10,10 ));
+
+	m_healthBar->addChild(life);
+
+	CCSequence* seq = CCSequence::create(
+				CCDelayTime::create(0.5f),
+				CCCallFunc::create(life, callfunc_selector(CCParticleFire::stopSystem)),
+				CCDelayTime::create(2.5f),
+				CCRemoveSelf::create(true),
+				NULL
+			);
+
+	life->runAction(seq);
+}
+
+void GameEntityView::doHeal()
+{
+	CCParticleFire* heal = CCParticleFire::createWithTotalParticles(150);
+	CCPoint point = CCPointMake(  m_healthBar->getContentSize().width/2, 0 );
+
+	heal->setStartColor( ccc4f(1,1,1,1.0f) );
+	heal->setEndColor( ccc4f(1,1,1,1.0f) );
+
+	heal->setSpeed(20);
+	heal->setStartSize(25);
+	CCPoint posVar = heal->getPosVar();
+	posVar.y /= 2;
+	heal->setPosVar( posVar );
+
+	heal->setPosition( point );
+	m_healthBar->addChild(heal);
+
+	CCSequence* seq = CCSequence::create(
+					CCDelayTime::create(0.5f),
+					CCCallFunc::create(heal, callfunc_selector(CCParticleFire::stopSystem)),
+					CCDelayTime::create(2.5f),
+					CCRemoveSelf::create(true),
+					NULL
+				);
+
+	heal->runAction(seq);
+}
+
+
 void GameEntityView::onShouldReact(CCObject* e)
 {
 	GameEntityReactEvt* evt = dynamic_cast<GameEntityReactEvt*>(e);
@@ -131,9 +199,12 @@ void GameEntityView::onShouldReact(CCObject* e)
 		std::string react = evt->react.asString();
 		if( react.compare("shake") == 0 ) {
 			doShake();
-
 		}else if( react.compare("burn") == 0 ) {
 			doBurn();
+		}else if( react.compare("lifedrain") == 0 ) {
+			doLifedrain( evt->source->getOrigin() );
+		}else if( react.compare("heal") == 0 ) {
+			doHeal();
 		}
 	}
 }

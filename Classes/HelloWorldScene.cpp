@@ -75,6 +75,7 @@ bool HelloWorld::init()
 	m_enemyModel = new GameEntity("Giant Rat");
 	//m_enemyModel->incProperty("hp_curr", -90);
 	m_enemyView = new GameEntityView( m_enemyModel );
+	m_enemyView->setBackground("rat.png");
 	m_enemyView->setPosition( 270, 200 );
 	addChild(m_enemyView );
 
@@ -87,6 +88,7 @@ bool HelloWorld::init()
     
     return true;
 }
+
 
 
 #include "CastCommandTime.h"
