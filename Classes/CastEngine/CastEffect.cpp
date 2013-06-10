@@ -30,6 +30,7 @@ CastEffect::CastEffect()
 	m_pModel = NULL;
 	m_modelEffectIndex = -1;
 	m_isChannelEffect = false;
+	m_isReturnEffect = false;
 	
 	this->autorelease();
 }
@@ -44,20 +45,28 @@ CastEffect::~CastEffect()
 	CCLOG("~CastEffect");
 }
 
+void CastEffect::initReturnEffect( CastEffect* parent )
+{
+	m_isReturnEffect = true;
+
+	CastCommandState* originState = parent->m_pParent;
+	ICastEntity* to = parent->m_pTarget;
+	ICastEntity* from = parent->m_pOrigin;
+	int effectIdx = parent->m_modelEffectIndex;
+	bool isChannelEffect = parent->m_isChannelEffect;
+	init( originState, effectIdx, from, isChannelEffect);
+}
+
 void CastEffect::init(  CastCommandState* originState, int effectIdx, ICastEntity* from, bool isChannelEffect  )
 {
+	m_pParent = originState;
 	m_pModel = originState->m_pModel;
 	m_pModel->retain();
 	m_modelEffectIndex = effectIdx;
 	m_isChannelEffect = isChannelEffect;
 
 	
-	Json::Value json;
-	if( m_isChannelEffect ) {
-		json = m_pModel->getEffectOnChannel(effectIdx);
-	}else {
-		json = m_pModel->getEffectOnCast(effectIdx);
-	}
+	Json::Value json = getDescriptor();
 
 	String type = json.get("effectType", "damage").asString();
 	if( type.compare("damage") == 0 ){
@@ -87,6 +96,19 @@ bool CastEffect::isPositiveEffect()
 	}
 	
 	return false;
+}
+
+float CastEffect::getTravelSpeed()
+{
+	return (float)m_pModel->descriptor.get("travelSpeed", 0.0f).asDouble();
+}
+
+bool CastEffect::hasReturnEffect()
+{
+	Json::Value json = getDescriptor();
+
+	return json.isMember("returnEffect");
+
 }
 
 void CastEffect::setTarget( ICastEntity* target )
@@ -133,14 +155,11 @@ void CastEffect::cancelTicks()
 
 void CastEffect::doEffect()
 {
-	if( !CastWorldModel::get()->isValid( m_pTarget ) ) return;
+	CastWorldModel* world = CastWorldModel::get();
 
-	Json::Value json;
-	if( m_isChannelEffect ) {
-		json = m_pModel->getEffectOnChannel(m_modelEffectIndex);
-	}else {
-		json = m_pModel->getEffectOnCast(m_modelEffectIndex);
-	}
+	if( ! world->isValid( m_pTarget ) ) return;
+
+	Json::Value json = getDescriptor();
 
 	if( json.isMember("react") ) {
 		m_pTarget->handleEffectReaction( json["react"], this );
@@ -161,9 +180,33 @@ void CastEffect::doEffect()
 		CCLOG("TODO: handle effect type");
 	}
 
-	if( m_lifeTime == 0 ) {
-		CCLog("instant effect complete-- TODO: clean up");
+	//check for return effect
+
+
+	if( json.isMember("returnEffect") )
+	{
+		json = json["returnEffect"];
+
+		//validate 
+		if( ! world->isValid( m_pOrigin ) ) return;
+
+		CastEffect* bounce = new CastEffect();
+		bounce->initReturnEffect(this);
+
+		bounce->m_value = m_value;
+
+		//swap direction
+		ICastEntity* from = m_pTarget;
+		ICastEntity* to = m_pOrigin;
+
+		CastTarget* ghostTarget = new CastTarget();
+		ghostTarget->addTargetEntity(to);
+
+		world->addEffectInTransit(from, bounce, ghostTarget, CastCommandTime::get());
+
+		CC_SAFE_RELEASE_NULL(ghostTarget);
 	}
+
 
 }
 
@@ -171,19 +214,23 @@ Json::Value CastEffect::getDescriptor( std::string name )
 {
 	if( m_pModel == NULL || m_modelEffectIndex < 0 ) return Json::Value();
 
+	Json::Value json;
 	if( m_isChannelEffect ) {
-		if( name.size() == 0 )
-			return	m_pModel->getEffectOnChannel(m_modelEffectIndex);
-	
-		return m_pModel->getEffectOnChannel(m_modelEffectIndex).get(name, Json::Value() );
+		json = m_pModel->getEffectOnChannel(m_modelEffectIndex);
 	}else {
-		if( name.size() == 0 )
-			return	m_pModel->getEffectOnCast(m_modelEffectIndex);
-	
-		return m_pModel->getEffectOnCast(m_modelEffectIndex).get(name, Json::Value() );
+		json = m_pModel->getEffectOnCast(m_modelEffectIndex);
 	}
 
+	if( m_isReturnEffect )
+	{
+		json = json.get("returnEffect", Json::Value());
+	}
 
+	if( name.size() > 0 ) {
+		json = json.get(name, Json::Value() );
+	}
+
+	return json;
 }
 
 CastEffect* CastEffect::clone()
@@ -203,8 +250,10 @@ CastEffect* CastEffect::clone()
 	effect->m_pTarget = m_pTarget;
 	effect->m_pOrigin = m_pOrigin;
 	effect->m_pModel = m_pModel;
+	effect->m_pParent = m_pParent;
 	effect->m_modelEffectIndex = m_modelEffectIndex;
 	effect->m_isChannelEffect = m_isChannelEffect;
+	effect->m_isReturnEffect = m_isReturnEffect;
 
 	return effect;
 }

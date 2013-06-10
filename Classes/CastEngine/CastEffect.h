@@ -45,6 +45,7 @@ class CastEffect : public CCObject
 	float m_tickFreq;
 
 	bool m_isChannelEffect; //look for json under effectsOnChannel instead of effectsOnCast
+	bool m_isReturnEffect;
 
 	std::string m_damageType;
 	std::string m_targetStat;
@@ -59,12 +60,16 @@ class CastEffect : public CCObject
 	ICastEntity* m_pOrigin;
 
 	CastCommandModel* m_pModel;
+	CastCommandState* m_pParent;
 	int m_modelEffectIndex;
+
+	void initReturnEffect( CastEffect* parent );
 
 public:
 	CastEffect();
 	virtual ~CastEffect();
 
+	
 	void init( CastCommandState* originState, int effectIdx, ICastEntity* from, bool isChannelEffect  );
 	void setTarget( ICastEntity* to );
 
@@ -76,6 +81,11 @@ public:
 	double getLifeTime() { return m_lifeTime; }
 	double getElapsedTime( double currTime ) { return currTime - m_lifeTime; }
 	bool isPositiveEffect(); //is this a nice buff, or a mean debuff?
+
+	void initReturn();
+	bool hasReturnEffect();
+	
+	float getTravelSpeed();
 
 	void onTick( float dt );
 	void cancelTicks();

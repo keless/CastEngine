@@ -97,13 +97,13 @@ CastTarget* GameEntity::getTarget()
 	return m_abilityTargets;
 }
 
-void GameEntity::sendEffectToTarget( CastEffect* effect, float speed )
+void GameEntity::sendEffectToTarget( CastEffect* effect )
 {
 	CastWorldModel* world = CastWorldModel::get();
 	
 	//TODO: handle ammo/mana cost?
 	
-	world->addEffectInTransit(this, effect, m_abilityTargets, CastCommandTime::get(), speed);
+	world->addEffectInTransit(this, effect, m_abilityTargets, CastCommandTime::get());
 	
 	
 }
@@ -116,6 +116,7 @@ void GameEntity::applyEffect( CastEffect* effect )
 		CCLog("apply instant effect");
 
 		effect->doEffect();
+
 	}
 	else {
 		CCLog("todo: apply effect over time");
@@ -124,6 +125,8 @@ void GameEntity::applyEffect( CastEffect* effect )
 		effect->retain();
 		effect->startTicks();
 	}
+
+
  }
 
 void GameEntity::removeEffect( CastEffect* effect )

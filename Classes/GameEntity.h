@@ -58,7 +58,7 @@ public:
 	virtual void handleEffectReaction( Json::Value& reaction, CastEffect* source );
 
 	virtual CastTarget* getTarget();
-	virtual void sendEffectToTarget( CastEffect* effect, float speed ); //effect LEAVING from this entity
+	virtual void sendEffectToTarget( CastEffect* effect ); //effect LEAVING from this entity
 	virtual void applyEffect( CastEffect* effect );						//effect ARRIVING at this entity
 	virtual void removeEffect( CastEffect* effect );
 	

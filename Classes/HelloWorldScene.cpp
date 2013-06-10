@@ -60,6 +60,7 @@ bool HelloWorld::init()
 	*/
 
 	m_playerModel = new GameEntity("Leeroy");
+	m_playerModel->incProperty("hp_curr", -90);
 	m_playerModel->addAbility( m_abilities["fireball"] );
 	m_playerModel->addAbility( m_abilities["sword attack"] );
 	m_playerModel->addAbility( m_abilities["Heal"] );
@@ -212,6 +213,11 @@ void HelloWorld::initAbilities()
 		lifedrain["cooldownTime"] = 0.10f; //seconds
 		lifedrain["range"] = 0.0f; //self target range
 
+		Json::Value returnEffect;
+		returnEffect["effectType"] = "heal";
+		returnEffect["targetStat"] = "hp_curr";
+		returnEffect["react"] = "heal";
+
 		Json::Value effect1; //direct heal
 		effect1["effectType"] = "damage";
 		effect1["targetStat"] = "hp_curr";
@@ -219,6 +225,8 @@ void HelloWorld::initAbilities()
 		effect1["valueStat"] = "int"; //note: intellect
 		effect1["valueMultiplier"] = 2.0f;
 		effect1["react"] = "lifedrain";
+		effect1["returnEffect"] = returnEffect;
+
 		effect1["travelSpeed"] = 0.0f;
 		lifedrain["effectsOnChannel"].append( effect1 );
 

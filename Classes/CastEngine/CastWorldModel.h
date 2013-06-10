@@ -65,7 +65,7 @@ public:
 	CastWorldModel();
 	~CastWorldModel();
 	
-	void addEffectInTransit( ICastEntity* from, CastEffect* effect, CastTarget* targetList, double startTime, double speed );
+	void addEffectInTransit( ICastEntity* from, CastEffect* effect, CastTarget* targetList, double startTime );
 	void addEffectInstant( ICastEntity* from, CastEffect* effect, CastTarget* targetList, double startTime );
 
 	void updateStep( float dt );

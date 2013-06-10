@@ -167,8 +167,8 @@ void CastCommandState::spawnChannelEffects()
 		CastEffect* effect = new CastEffect( );
 		effect->init(this, i, m_iOwner, true );
 		
-		//TODO: send all effects as one array so only one "packet" has to travel?
-		m_iOwner->sendEffectToTarget( effect, m_pModel->travelSpeed );
+		//TODO: send all effects as one array so only one "packet" has to travel
+		m_iOwner->sendEffectToTarget( effect );
 	}
 }
 
@@ -191,7 +191,7 @@ void CastCommandState::onCastComplete()
 		effect->init(this, i, m_iOwner, false );
 		
 		//TODO: send all effects as one array so only one "packet" has to travel?
-		m_iOwner->sendEffectToTarget( effect, m_pModel->travelSpeed );
+		m_iOwner->sendEffectToTarget( effect );
 		
 	}
 

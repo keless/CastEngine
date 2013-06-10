@@ -35,9 +35,9 @@ CastWorldModel::~CastWorldModel()
 	
 }
 
-void CastWorldModel::addEffectInTransit( ICastEntity* from, CastEffect* effect, CastTarget* targetList, double startTime, double speed   )
+void CastWorldModel::addEffectInTransit( ICastEntity* from, CastEffect* effect, CastTarget* targetList, double startTime  )
 {
-	
+	float speed = effect->getTravelSpeed();
 	if( speed == 0.0 )
 	{
 		addEffectInstant(from, effect, targetList, startTime);
