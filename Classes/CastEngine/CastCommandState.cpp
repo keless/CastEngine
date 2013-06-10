@@ -16,6 +16,8 @@ CastCommandState::CastCommandState(CastCommandModel* model, ICastEntity* owner)
 
 	m_state = CCS_IDLE;
 	m_timeStart = 0;
+
+	m_channelTicks = 0;
 }
 
 
@@ -33,9 +35,23 @@ float CastCommandState::getCastPct()
 		if( delta < 0 ) delta = 0;
 		return delta / m_pModel->castTime;
 	}else {
-		return 1.0f;
+		return 0.0f;
 	}
 }
+
+float CastCommandState::getChannelPct()
+{
+	if( m_state == CCS_CHANNELING ) {
+		double currTime = CastCommandTime::get();
+		float delta = (float)(currTime - m_timeStart);
+		if( delta > m_pModel->channelTime ) delta = m_pModel->channelTime;  //TODO: support cast speed increase
+		if( delta < 0 ) delta = 0;
+		return delta / m_pModel->channelTime;
+	}else {
+		return 0.0f;
+	}
+}
+
 
 float CastCommandState::getCooldownPct()
 {
@@ -57,6 +73,7 @@ bool CastCommandState::startCast()
 
 	m_state = CCS_CASTING;
 	m_timeStart = CastCommandTime::get();
+	m_channelTicks = 0;
 
 	if( m_pModel->castTime == 0 ) {
 		//handle instant cast
@@ -78,21 +95,36 @@ void CastCommandState::onSchedulerTick( float dt)
 	double currTime = CastCommandTime::get();
 	float delta = (float)(currTime - m_timeStart);
 
-	CCLog("Cast %s tick : delta %.2f", m_pModel->getName().c_str(), delta); 
+	//CCLog("Cast %s tick : delta %.2f", m_pModel->getName().c_str(), delta); 
 
 	if( m_state == CCS_CASTING ) 
 	{
 		if( delta >= m_pModel->castTime )  //TODO: handle cast speed increase
 		{ 
 			//casting complete
-			//TODO: handle extra time lost if delta > castTime?
-
 			CastCommandScheduler::get()->unscheduleSelector( schedule_selector(CastCommandState::onSchedulerTick), this );
 			onCastComplete();
 		}
 	}
 	else if( m_state == CCS_CHANNELING ) {
 		//TODO: handle channeling ticks
+		if( delta > m_pModel->channelTime ) delta = m_pModel->channelTime;
+
+		int numTicksPassed = delta / m_pModel->channelFreq;
+		int ticksToDo = numTicksPassed - m_channelTicks;
+		for( int i=0; i< ticksToDo; i++ ) {
+			//do tick
+			spawnChannelEffects();
+			CCLOG("channel %s tick", m_pModel->getName().c_str());
+			m_channelTicks++;
+		}
+
+		if( delta >= m_pModel->channelTime ) {
+			// cancel callback
+			CastCommandScheduler::get()->unscheduleSelector( schedule_selector(CastCommandState::onSchedulerTick), this );
+			onChannelComplete();
+		}
+		
 	}
 	else if( m_state == CCS_COOLDOWN ) 
 	{
@@ -101,6 +133,42 @@ void CastCommandState::onSchedulerTick( float dt)
 			CastCommandScheduler::get()->unscheduleSelector( schedule_selector(CastCommandState::onSchedulerTick), this );
 			onCooldownComplete();
 		}
+	}
+}
+
+void CastCommandState::onChannelComplete()
+{
+	if( m_state != CCS_CHANNELING ) return;
+	if( !CastWorldModel::get()->isValid( m_iOwner ) ) return;
+
+	CCLog("channel complete");
+
+	onCooldownStart();
+}
+
+void CastCommandState::onCooldownStart()
+{
+	m_state = CCS_COOLDOWN; //TODO: handle cooldown redux?
+	CastCommandScheduler::get()->scheduleSelector( schedule_selector(CastCommandState::onSchedulerTick), this, m_pModel->cooldownTime, 0, 0.0f, false);
+
+}
+
+void CastCommandState::spawnChannelEffects()
+{
+	CCLog("todo: spawn channel tick effect");
+
+		//spawn effects
+	CastTarget* target = m_iOwner->getTarget();
+	target->validateTargets();
+
+	
+	for( int i=0; i< m_pModel->getNumEffectsOnChannel(); i++ )
+	{
+		CastEffect* effect = new CastEffect( );
+		effect->init(this, i, m_iOwner, true );
+		
+		//TODO: send all effects as one array so only one "packet" has to travel?
+		m_iOwner->sendEffectToTarget( effect, m_pModel->travelSpeed );
 	}
 }
 
@@ -113,15 +181,14 @@ void CastCommandState::onCastComplete()
 	double currTime = CastCommandTime::get();
 	m_timeStart = currTime;
 	
-	//TODO: spawn effects
+	//spawn effects
 	CastTarget* target = m_iOwner->getTarget();
 	target->validateTargets();
 
 	for( int i=0; i< m_pModel->getNumEffectsOnCast(); i++ )
 	{
 		CastEffect* effect = new CastEffect( );
-		effect->init(this, i, m_iOwner );
-			//m_pModel->effectsOnCast[i], m_iOwner);
+		effect->init(this, i, m_iOwner, false );
 		
 		//TODO: send all effects as one array so only one "packet" has to travel?
 		m_iOwner->sendEffectToTarget( effect, m_pModel->travelSpeed );
@@ -130,14 +197,12 @@ void CastCommandState::onCastComplete()
 
 	if( m_pModel->channelTime > 0.0f ) {
 		//begin channeling
-		//TODO: spawn channeling samples
 		m_state = CCS_CHANNELING;
-
+		int numTicks = (m_pModel->channelTime / m_pModel->channelFreq) + 1;
+		CastCommandScheduler::get()->scheduleSelector( schedule_selector(CastCommandState::onSchedulerTick), this, m_pModel->channelFreq, numTicks, 0.0f, false);
 	}else {
 		CCLog("Cast %s complete!", m_pModel->getName().c_str());
-
-		m_state = CCS_COOLDOWN; //TODO: handle cooldown redux?
-		CastCommandScheduler::get()->scheduleSelector( schedule_selector(CastCommandState::onSchedulerTick), this, m_pModel->cooldownTime, 0, 0.0f, false);
+		onCooldownStart();
 	}
 }
 

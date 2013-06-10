@@ -70,9 +70,13 @@ void GameAbilityView::update( float delta )
 
 		float cast = m_pAbility->getCastPct();
 		m_castOverlay->setScaleX( cast );
+	}else if(  m_pAbility->isChanneling()  ) {
+		float channel = m_pAbility->getChannelPct();
+		m_castOverlay->setScaleX( 1.0f - channel );
 	}else {
 		m_castOverlay->setScaleX(0);
 	}
+
 
 }
 

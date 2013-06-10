@@ -8,6 +8,7 @@ CastCommandModel::CastCommandModel(Json::Value castData)
 	name = descriptor.get("name", "effectName").asString();
 	castTime = descriptor.get("castTime", 0.0f).asDouble();
 	channelTime = descriptor.get("channelTime", 0.0f).asDouble();
+	channelFreq = descriptor.get("channelFreq", 1.0f).asDouble();
 	travelSpeed = descriptor.get("travelSpeed", 0.0f).asDouble();
 	range = descriptor.get("range", 0.0f).asDouble();
 	effectWhileTraveling = descriptor.get("effectWhileTravel", false).asBool();
@@ -26,6 +27,15 @@ CastCommandModel::CastCommandModel(Json::Value castData)
 
 CastCommandModel::~CastCommandModel(void)
 {
+}
+
+int CastCommandModel::getNumEffectsOnChannel()
+{
+	return descriptor["effectsOnChannel"].size();
+}
+Json::Value CastCommandModel::getEffectOnChannel( int idx )
+{
+	return descriptor["effectsOnChannel"][idx];
 }
 
 int CastCommandModel::getNumEffectsOnCast()

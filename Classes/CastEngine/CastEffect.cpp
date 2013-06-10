@@ -29,6 +29,7 @@ CastEffect::CastEffect()
 
 	m_pModel = NULL;
 	m_modelEffectIndex = -1;
+	m_isChannelEffect = false;
 	
 	this->autorelease();
 }
@@ -43,13 +44,20 @@ CastEffect::~CastEffect()
 	CCLOG("~CastEffect");
 }
 
-void CastEffect::init(  CastCommandState* originState, int effectIdx, ICastEntity* from  )
+void CastEffect::init(  CastCommandState* originState, int effectIdx, ICastEntity* from, bool isChannelEffect  )
 {
 	m_pModel = originState->m_pModel;
 	m_pModel->retain();
 	m_modelEffectIndex = effectIdx;
+	m_isChannelEffect = isChannelEffect;
 
-	Json::Value& json = m_pModel->descriptor["effectsOnCast"].get(effectIdx, Json::Value());
+	
+	Json::Value json;
+	if( m_isChannelEffect ) {
+		json = m_pModel->getEffectOnChannel(effectIdx);
+	}else {
+		json = m_pModel->getEffectOnCast(effectIdx);
+	}
 
 	String type = json.get("effectType", "damage").asString();
 	if( type.compare("damage") == 0 ){
@@ -147,9 +155,6 @@ void CastEffect::doEffect()
 		CCLOG("TODO: handle effect type");
 	}
 
-
-	
-
 	if( m_lifeTime == 0 ) {
 		CCLog("instant effect complete-- TODO: clean up");
 	}
@@ -160,10 +165,19 @@ Json::Value CastEffect::getDescriptor( std::string name )
 {
 	if( m_pModel == NULL || m_modelEffectIndex < 0 ) return Json::Value();
 
-	if( name.size() == 0 )
-		return	m_pModel->descriptor[m_modelEffectIndex];
+	if( m_isChannelEffect ) {
+		if( name.size() == 0 )
+			return	m_pModel->getEffectOnChannel(m_modelEffectIndex);
 	
-	return m_pModel->descriptor[m_modelEffectIndex].get(name, Json::Value() );
+		return m_pModel->getEffectOnChannel(m_modelEffectIndex).get(name, Json::Value() );
+	}else {
+		if( name.size() == 0 )
+			return	m_pModel->getEffectOnCast(m_modelEffectIndex);
+	
+		return m_pModel->getEffectOnCast(m_modelEffectIndex).get(name, Json::Value() );
+	}
+
+
 }
 
 CastEffect* CastEffect::clone()
@@ -184,6 +198,7 @@ CastEffect* CastEffect::clone()
 	effect->m_pOrigin = m_pOrigin;
 	effect->m_pModel = m_pModel;
 	effect->m_modelEffectIndex = m_modelEffectIndex;
+	effect->m_isChannelEffect = m_isChannelEffect;
 
 	return effect;
 }

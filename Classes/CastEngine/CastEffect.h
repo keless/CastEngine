@@ -44,6 +44,8 @@ class CastEffect : public CCObject
 	double m_lifeTime; //0.0f if instant effect
 	float m_tickFreq;
 
+	bool m_isChannelEffect; //look for json under effectsOnChannel instead of effectsOnCast
+
 	std::string m_damageType;
 	std::string m_targetStat;
 	std::string m_stackFlag; //helper for stacking multiple effects
@@ -63,7 +65,7 @@ public:
 	CastEffect();
 	virtual ~CastEffect();
 
-	void init( CastCommandState* originState, int effectIdx, ICastEntity* from  );
+	void init( CastCommandState* originState, int effectIdx, ICastEntity* from, bool isChannelEffect  );
 	void setTarget( ICastEntity* to );
 
 	void startTicks();

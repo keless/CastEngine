@@ -63,6 +63,7 @@ bool HelloWorld::init()
 	m_playerModel->addAbility( m_abilities["fireball"] );
 	m_playerModel->addAbility( m_abilities["sword attack"] );
 	m_playerModel->addAbility( m_abilities["Heal"] );
+	m_playerModel->addAbility( m_abilities["Life Drain"] );
 
 	m_playerView = new GameEntityView( m_playerModel );
 	m_playerView->setPositionX(50);
@@ -183,7 +184,7 @@ void HelloWorld::initAbilities()
 		heal["name"] = "Heal";
 		heal["castTime"] = 0.75f; //seconds
 		heal["cooldownTime"] = 0.25f; //seconds
-		heal["range"] = 0.0f; //self target range
+		heal["range"] = 2.0f; //spear range
 
 		Json::Value effect1; //direct heal
 		effect1["effectType"] = "heal";
@@ -199,7 +200,30 @@ void HelloWorld::initAbilities()
 		m_abilities[mod->getName()] = mod;
 	}
 
-	
+	{
+		Json::Value lifedrain;
+
+		lifedrain["name"] = "Life Drain";
+		lifedrain["castTime"] = 0.0f; //seconds
+		lifedrain["channelTime"] = 0.90f; //seconds
+		lifedrain["channelFreq"] = 0.90f / 4; //seconds
+		lifedrain["cooldownTime"] = 0.10f; //seconds
+		lifedrain["range"] = 0.0f; //self target range
+
+		Json::Value effect1; //direct heal
+		effect1["effectType"] = "damage";
+		effect1["targetStat"] = "hp_curr";
+		effect1["valueBase"] = 2.0f;
+		effect1["valueStat"] = "int"; //note: intellect
+		effect1["valueMultiplier"] = 2.0f;
+		effect1["react"] = "lifedrain";
+		effect1["travelSpeed"] = 0.0f;
+		lifedrain["effectsOnChannel"].append( effect1 );
+
+		mod = new CastCommandModel( lifedrain );
+		mod->retain();
+		m_abilities[mod->getName()] = mod;
+	}
 
 
 

@@ -24,6 +24,7 @@ class CastCommandModel :
 	//base values, unmodified by buff/debufs (which happens at time of cast)
 	float castTime;		//zero if instant 
 	float channelTime;	//zero if not channelled
+	float channelFreq;	//tick frequency of channeling		
 	float travelSpeed;	//zero if instant (units per second, where 1 unit is melee range, 2 units is polearm range, and 3+ units is 'ranged attack')
 	float range;		//distance it can travel
 	bool effectWhileTraveling; //true if can cause effect while travelling (might be immediately consumed: fireball; or continue to effect while travelling: lava wall)
@@ -45,6 +46,9 @@ public:
 
 	bool isChanneled() { return channelTime > 0; }
 	bool isInstant() { return castTime <= 0; }
+
+	int getNumEffectsOnChannel(); //per tick
+	Json::Value getEffectOnChannel( int idx );
 
 	int getNumEffectsOnCast();
 	Json::Value getEffectOnCast( int idx );

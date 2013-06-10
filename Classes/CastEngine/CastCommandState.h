@@ -48,6 +48,7 @@ class CastCommandState :
 {
 	CCSstate m_state;
 	double m_timeStart; //start of state at begin cast
+	int m_channelTicks;
 	CastCommandModel* m_pModel; //todo: use identifier instead of direct pointer?
 	ICastEntity* m_iOwner;
 
@@ -55,6 +56,9 @@ class CastCommandState :
 
 	void onCastComplete();
 	void spawnCastEffects();
+	void onChannelComplete();
+	void spawnChannelEffects();
+	void onCooldownStart();
 	void onCooldownComplete();
 	void onSchedulerTick(float dt);
 
@@ -64,8 +68,11 @@ public:
 
 	std::string getName() { return m_pModel->getName(); }
 
+	
 	bool isCasting() { return m_state == CCS_CASTING; }
 	float getCastPct(); //0 means 'not casting', 1.0 means 'cast complete'
+	bool isChanneling() { return m_state == CCS_CHANNELING; }
+	float getChannelPct(); //0 means 'not channeling' 1.0 means 'channel complete'
 	bool isOnCooldown() { return m_state == CCS_COOLDOWN; }
 	float getCooldownPct(); //0 means 'on cooldown', 1.0 means 'off cooldown'
 	bool isIdle() { return m_state == CCS_IDLE; }
