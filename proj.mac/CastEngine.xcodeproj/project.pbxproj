@@ -185,6 +185,7 @@
 		33BDC093175FC15200BE734B /* json_valueiterator.inl in Resources */ = {isa = PBXBuildFile; fileRef = 33BDC08A175FC15200BE734B /* json_valueiterator.inl */; };
 		33BDC094175FC15200BE734B /* json_writer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33BDC08B175FC15200BE734B /* json_writer.cpp */; };
 		33BDC0A1176269B300BE734B /* CastWorldModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33BDC09F176269B300BE734B /* CastWorldModel.cpp */; };
+		33BDC0A41767AFF500BE734B /* rat.png in Resources */ = {isa = PBXBuildFile; fileRef = 33BDC0A31767AFF500BE734B /* rat.png */; };
 		41BC70E415BF81A5006A0A6C /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 41BC70DA15BF81A5006A0A6C /* AppController.mm */; };
 		41BC70E515BF81A5006A0A6C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 41BC70DC15BF81A5006A0A6C /* InfoPlist.strings */; };
 		41BC70E615BF81A5006A0A6C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41BC70DE15BF81A5006A0A6C /* MainMenu.xib */; };
@@ -567,6 +568,7 @@
 		33BDC08E175FC15200BE734B /* writer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = writer.h; sourceTree = "<group>"; };
 		33BDC09F176269B300BE734B /* CastWorldModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CastWorldModel.cpp; sourceTree = "<group>"; };
 		33BDC0A0176269B300BE734B /* CastWorldModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CastWorldModel.h; sourceTree = "<group>"; };
+		33BDC0A31767AFF500BE734B /* rat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rat.png; sourceTree = "<group>"; };
 		41BC70D915BF81A5006A0A6C /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = SOURCE_ROOT; };
 		41BC70DA15BF81A5006A0A6C /* AppController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppController.mm; sourceTree = SOURCE_ROOT; };
 		41BC70DD15BF81A5006A0A6C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
@@ -1273,6 +1275,7 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				33BDC0A31767AFF500BE734B /* rat.png */,
 				1AFAF8C016D3884900DB1158 /* CloseNormal.png */,
 				1AFAF8C116D3884900DB1158 /* CloseSelected.png */,
 				1AFAF8C216D3884900DB1158 /* HelloWorld.png */,
@@ -1373,6 +1376,7 @@
 				33BDC08F175FC15200BE734B /* json_internalarray.inl in Resources */,
 				33BDC090175FC15200BE734B /* json_internalmap.inl in Resources */,
 				33BDC093175FC15200BE734B /* json_valueiterator.inl in Resources */,
+				33BDC0A41767AFF500BE734B /* rat.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
