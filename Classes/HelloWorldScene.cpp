@@ -88,12 +88,14 @@ bool HelloWorld::init()
 
 void HelloWorld::spawnEnemy()
 {
-		EntityPair enemy;
+	CCSize screen = boundingBox().size;
+
+	EntityPair enemy;
 	enemy.enemyModel =  new GameEntity("Giant Rat");
 	//m_enemyModel->incProperty("hp_curr", -90);
 	enemy.enemyView =  new GameEntityView( enemy.enemyModel );
 	enemy.enemyView->setBackground("rat.png");
-	enemy.enemyView->setPosition( 270, 200 );
+	enemy.enemyView->setPosition( screen.width, 220 );
 	addChild(enemy.enemyView);
 	m_enemies.push_back(enemy);
 }
@@ -118,6 +120,17 @@ void HelloWorld::update( float dt )
 			CC_SAFE_RELEASE_NULL(enemy.enemyView);
 
 			m_enemies.erase( m_enemies.begin() + i );
+		}
+		else {
+			//move enemy forward
+			float speed = 25.0f; //5 pixels/sec
+			float leash = 300; //100 pixels away from player
+			float eX = enemy.enemyView->getPositionX();
+			float dx = eX - m_playerView->getPositionX();
+			if( dx > leash ) {
+				enemy.enemyView->setPositionX( eX - speed * dt );
+			}
+
 		}
 	}
 
