@@ -18,6 +18,11 @@ const std::vector<ICastEntity*>& CastTarget::getEntityList()
 	return m_entityList; 
 }
 
+void CastTarget::clearTargetEntities()
+{
+	m_entityList.clear();
+}
+
 void CastTarget::addTargetEntity( ICastEntity* target )
 {
 	m_type = CTT_ENTITIES;

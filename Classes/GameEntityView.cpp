@@ -15,6 +15,12 @@ GameEntityView::GameEntityView( GameEntity* entity )
 	bg->setAnchorPoint(ccp(0,0));
 	addChild(bg);
 
+	m_highlight = CCLayerColor::create(ccc4(200,200,20,255), 204,204);
+	m_highlight->setPosition(ccp(-2,-2));
+	m_highlight->setAnchorPoint(ccp(0,0));
+	addChild(m_highlight);
+	setHighlighted(false);
+
 	m_lblName = CCLabelTTF::create();
 	m_lblName->initWithString( m_pEntity->getName().c_str(), "Arial", 24.0f  );
 	m_lblName->setAnchorPoint(ccp(0.0f, 1.0f ) );
@@ -207,6 +213,11 @@ void GameEntityView::onShouldReact(CCObject* e)
 			doHeal();
 		}
 	}
+}
+
+void GameEntityView::setHighlighted( bool highlight )
+{
+	m_highlight->setVisible(highlight);
 }
 
 void GameEntityView::updateView()

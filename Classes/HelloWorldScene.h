@@ -10,17 +10,22 @@
 #include "CastCommandState.h"
 #include "CastCommandModel.h"
 
+struct EntityPair
+{
+	GameEntity* enemyModel;
+	GameEntityView* enemyView;
+};
+
 class HelloWorld : public cocos2d::CCLayer
 {
 	GameEntity* m_playerModel;
 	GameEntityView* m_playerView;
 
-	GameEntity* m_enemyModel;
-	GameEntityView* m_enemyView;
+	std::vector<EntityPair> m_enemies;
 
 	std::map<std::string, CastCommandModel*> m_abilities;
 	void initAbilities();
-
+	void spawnEnemy();
 public:
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
     virtual bool init();  

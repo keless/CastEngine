@@ -71,17 +71,13 @@ bool HelloWorld::init()
 	m_playerView->setPositionY( 250 );
 	addChild(m_playerView);
 
-	
+	spawnEnemy();
 
-	m_enemyModel = new GameEntity("Giant Rat");
-	//m_enemyModel->incProperty("hp_curr", -90);
-	m_enemyView = new GameEntityView( m_enemyModel );
-	m_enemyView->setBackground("rat.png");
-	m_enemyView->setPosition( 270, 200 );
-	addChild(m_enemyView );
 
-	m_playerModel->getTarget()->addTargetEntity(m_enemyModel);
-	m_enemyModel->getTarget()->addTargetEntity(m_playerModel);
+	//m_playerModel->getTarget()->addTargetEntity(m_enemyModel);
+	//m_enemyView->setHighlighted(true);
+
+	//m_enemyModel->getTarget()->addTargetEntity(m_playerModel);
 	
 	scheduleUpdate();
 	setTouchEnabled(true);
@@ -90,6 +86,17 @@ bool HelloWorld::init()
     return true;
 }
 
+void HelloWorld::spawnEnemy()
+{
+		EntityPair enemy;
+	enemy.enemyModel =  new GameEntity("Giant Rat");
+	//m_enemyModel->incProperty("hp_curr", -90);
+	enemy.enemyView =  new GameEntityView( enemy.enemyModel );
+	enemy.enemyView->setBackground("rat.png");
+	enemy.enemyView->setPosition( 270, 200 );
+	addChild(enemy.enemyView);
+	m_enemies.push_back(enemy);
+}
 
 
 #include "CastCommandTime.h"
@@ -102,11 +109,20 @@ void HelloWorld::update( float dt )
 	CastCommandScheduler::get()->update(dt);
 	CastWorldModel::get()->updateStep(dt);
 
-	if( m_enemyModel != NULL && m_enemyModel->getProperty("hp_curr") <= 0 ) {
-		removeChild(m_enemyView, true);
-		CC_SAFE_RELEASE_NULL(m_enemyView);
+	for( int i=m_enemies.size()-1; i >= 0; i--) {
+		EntityPair& enemy = m_enemies[i];
 
-		CC_SAFE_RELEASE_NULL(m_enemyModel);
+		if( enemy.enemyModel->getProperty("hp_curr") <= 0 ) {
+			removeChild(enemy.enemyView);
+			CC_SAFE_RELEASE_NULL(enemy.enemyModel);
+			CC_SAFE_RELEASE_NULL(enemy.enemyView);
+
+			m_enemies.erase( m_enemies.begin() + i );
+		}
+	}
+
+	if( m_enemies.size()  == 0 ) {
+		spawnEnemy();
 	}
 }
 
@@ -279,6 +295,45 @@ void HelloWorld::ccTouchesEnded(CCSet* touches, CCEvent* event)
 			break;
 
 		m_playerView->ccTouchEnded(touch, event);
+
+		int touchedIdx = -1;
+		for( int i=0; i< m_enemies.size(); i++) 
+		{
+			if( m_enemies[i].enemyView->boundingBox().containsPoint( touch->getLocation() ) )
+			{
+				touchedIdx = i;
+				break;
+			}
+		}
+
+		if( touchedIdx != -1 ) {
+			//dehighlight previous targets
+			CastTarget* pTarget = m_playerModel->getTarget();
+			for( int tIdx =0 ; tIdx< pTarget->getEntityList().size(); tIdx++) 
+			{
+				GameEntity* entity = (GameEntity*)pTarget->getEntityList()[tIdx];
+
+				for( int vIdx=0; vIdx < m_enemies.size() ; vIdx++)
+				{
+					if( entity == m_enemies[vIdx].enemyModel )
+					{
+						GameEntityView* view = m_enemies[vIdx].enemyView;
+						view->setHighlighted(false); 
+						break;
+					}
+				}
+
+			}
+			pTarget->clearTargetEntities();
+				
+		
+			//highlight new target
+				
+			pTarget->addTargetEntity( m_enemies[touchedIdx].enemyModel);
+			m_enemies[touchedIdx].enemyView->setHighlighted(true);
+		}
+
+
 	}
 }
 void HelloWorld::ccTouchesCancelled(CCSet* touches, CCEvent* event)

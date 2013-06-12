@@ -40,6 +40,7 @@ public:
 	const std::vector<ICastEntity*>& getEntityList();
 	CastTargetType getType() { return m_type; }
 	
+	void clearTargetEntities();
 	void addTargetEntity( ICastEntity* target );
 	void setTargetPosition( CCPoint target );
 

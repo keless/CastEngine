@@ -18,6 +18,7 @@ class GameEntityView :
 	ZZProgressBar* m_healthBar;
 	GameEntity* m_pEntity;
 	CCLabelTTF* m_lblName;
+	CCLayerColor* m_highlight;
 
 	std::vector<GameAbilityView*> m_abilityViews;
 public:
@@ -28,6 +29,9 @@ public:
 
 	void onStatUpdate(CCObject* e);
 	void onShouldReact(CCObject* e);
+
+
+	void setHighlighted( bool highlight );
 
 	void doShake();
 	void doBurn();
