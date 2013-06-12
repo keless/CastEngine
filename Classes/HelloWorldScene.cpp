@@ -88,14 +88,18 @@ bool HelloWorld::init()
 
 void HelloWorld::spawnEnemy()
 {
+	CCLog("spawn enemy");
 	CCSize screen = boundingBox().size;
 
 	EntityPair enemy;
 	enemy.enemyModel =  new GameEntity("Giant Rat");
-	//m_enemyModel->incProperty("hp_curr", -90);
+	//enemy.enemyModel->incProperty("hp_curr", -90);
+	enemy.enemyModel->incProperty("hp_base", -90);
 	enemy.enemyView =  new GameEntityView( enemy.enemyModel );
 	enemy.enemyView->setBackground("rat.png");
-	enemy.enemyView->setPosition( screen.width, 220 );
+	
+	int offY = (rand()%100) - 50;
+	enemy.enemyView->setPosition( screen.width, 220 + offY	);
 	addChild(enemy.enemyView);
 	m_enemies.push_back(enemy);
 }
@@ -122,6 +126,9 @@ void HelloWorld::update( float dt )
 			m_enemies.erase( m_enemies.begin() + i );
 		}
 		else {
+			enemyMovementAI(i, dt);
+			
+			/*
 			//move enemy forward
 			float speed = 25.0f; //5 pixels/sec
 			float leash = 300; //100 pixels away from player
@@ -130,13 +137,118 @@ void HelloWorld::update( float dt )
 			if( dx > leash ) {
 				enemy.enemyView->setPositionX( eX - speed * dt );
 			}
+			 */
 
 		}
 	}
 
 	if( m_enemies.size()  == 0 ) {
-		spawnEnemy();
+		int randNum = rand() % 3;
+		CCLog("spawn %d enemies", randNum);
+		for( int i=0; i< randNum; i++) {
+			CCLog("spawn");
+			spawnEnemy();
+		}
 	}
+}
+
+void HelloWorld::enemyMovementAI( int enemyIdx, float dt )
+{
+	float speed = 25.0f; //5 pixels/sec
+	EntityPair& enemy = m_enemies[enemyIdx];
+	
+	std::vector<kmVec2> impulses; //x, y
+	std::vector<float> impulseWeights;
+	
+	CCSize eSize = enemy.enemyView->getContentSize();
+	CCPoint ePos = enemy.enemyView->getPosition();
+	ePos.x += eSize.width/2;
+	ePos.y += eSize.height/2; //convert to center origin
+	CCSize pSize = m_playerView->getContentSize();
+	CCPoint pPos = m_playerView->getPosition();
+	pPos.x += pSize.width/2;
+	pPos.y += pSize.height/2; //convert to center origin
+	
+	//impulse towards the player
+	kmVec2 toPlayer = { pPos.x - ePos.x, pPos.y - ePos.y };
+	kmVec2 u_toPlayer;
+	kmVec2Normalize( &u_toPlayer, &toPlayer);
+	impulses.push_back(u_toPlayer);
+	impulseWeights.push_back(1.0f);
+	
+	float playerLeash = pSize.width * 1.5f;
+	if( kmVec2LengthSq( &toPlayer ) < playerLeash*playerLeash )
+	{
+		//impulse away from player (too close)
+		kmVec2 u_fromPlayer;
+		kmVec2Scale(&u_fromPlayer, &u_toPlayer, -1); //flip the 'to player' vector
+		
+		impulses.push_back(u_fromPlayer);
+		impulseWeights.push_back(100); //vastly overweigh the impulse to the player
+	}
+	
+	//* todo
+	//add impulses away from other enemies
+	for( int i=0; i< m_enemies.size(); i++) {
+		if( i == enemyIdx ) continue;
+		
+		CCSize nSize = m_enemies[i].enemyView->getContentSize();
+		CCPoint nPos = m_enemies[i].enemyView->getPosition();
+		nPos.x += nSize.width/2;
+		nPos.y += nSize.height/2;
+		
+		kmVec2 toNeighbor = { nPos.x - ePos.x, nPos.y - ePos.y };
+
+		float neighborLeash = nSize.width;
+		if( kmVec2LengthSq(&toNeighbor) < neighborLeash * neighborLeash ) {
+			kmVec2 u_toNeighbor;
+			kmVec2Normalize(&u_toNeighbor, &toNeighbor);
+			kmVec2 u_fromNeighbor;
+			kmVec2Scale(&u_fromNeighbor, &u_toNeighbor, -1);
+			impulses.push_back(u_fromNeighbor);
+			impulseWeights.push_back(50);
+		}
+	}
+	//*/
+	
+	//blend impulses
+	kmVec2 finalImpulse = impulses[0]; //zero always valid because its the impulse to the player
+	float finalImpulseWeight = impulseWeights[0];
+	for( int i=1; i< impulses.size(); i++) {
+
+		float w1 = finalImpulseWeight;
+		float w2 = impulseWeights[i];
+		float wTot =  w1 + w2;
+		
+		kmVec2 blend;
+		blend.x = (finalImpulse.x * w1 / wTot) + (impulses[i].x * w2 / wTot);
+		blend.y = (finalImpulse.y * w1 / wTot) + (impulses[i].y * w2 / wTot);
+		
+		//run-length summation
+		finalImpulseWeight = wTot;
+		finalImpulse = blend;
+	}
+	
+	kmVec2 scaledImpulse;
+	kmVec2Scale(&scaledImpulse, &finalImpulse, speed * dt);
+	
+	//CCLog("impulse %.4f", kmVec2Length(& finalImpulse));
+	if( kmVec2Length(& finalImpulse) <  (0.5f) )
+	{
+		CCLog("ignore impulse %.4f", kmVec2Length(& finalImpulse));
+		return; //ignore very small changes to avoid leash jitter
+	}
+
+	if( scaledImpulse.x > 0 ) {
+		//moving to the right? shouldnt happen
+		CCLog("Wtf");
+	}
+	
+	ePos.x += scaledImpulse.x;
+	ePos.y += scaledImpulse.y;
+	ePos.x -= eSize.width/2;
+	ePos.y -= eSize.height/2; //back to original anchor coords
+	enemy.enemyView->setPosition(ePos);
 }
 
 void HelloWorld::initAbilities()
