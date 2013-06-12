@@ -231,7 +231,7 @@ void GameEntityView::setHighlighted( bool highlight )
 void GameEntityView::updateView()
 {
 	m_healthBar->setProgress(  (m_pEntity->getProperty("hp_curr")) / (float) (m_pEntity->getProperty("hp_base")) );
-
+	m_manaBar->setProgress(  (m_pEntity->getProperty("mana_curr")) / (float) (m_pEntity->getProperty("mana_base")) );
 }
 
 bool GameEntityView::ccTouchBegan(CCTouch* touch, CCEvent* event)
