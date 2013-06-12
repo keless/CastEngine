@@ -16,6 +16,7 @@ class GameEntityView :
 	public CCNode
 {
 	ZZProgressBar* m_healthBar;
+	ZZProgressBar* m_manaBar;
 	GameEntity* m_pEntity;
 	CCLabelTTF* m_lblName;
 	CCLayerColor* m_highlight;

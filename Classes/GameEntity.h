@@ -19,6 +19,9 @@ class GameEntity :
 	int hp_base;
 	int hp_curr;
 
+	int mana_base;
+	int mana_curr;
+
 	int int_base;
 	int int_curr;
 

@@ -8,12 +8,16 @@ GameEntity::GameEntity(std::string name)
 	m_name = name;
 	hp_base = hp_curr = 100;
 
+	mana_base = mana_curr = 100;
+
 	int_base = int_curr = 10;
 	str_base = str_curr = 10;
 	agi_base = agi_curr = 10;
 
 	m_statsMap["hp_base"] = &hp_base;
 	m_statsMap["hp_curr"] = &hp_curr;
+	m_statsMap["mana_base"] = &mana_base;
+	m_statsMap["mana_curr"] = &mana_curr;
 	m_statsMap["int_base"] = &int_base;
 	m_statsMap["int_curr"] = &int_curr;
 	m_statsMap["str_base"] = &str_base;

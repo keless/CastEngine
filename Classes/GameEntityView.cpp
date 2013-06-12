@@ -34,6 +34,14 @@ GameEntityView::GameEntityView( GameEntity* entity )
 	m_healthBar->setPositionY( 200 - m_lblName->getContentSize().height );
 	addChild(m_healthBar, 49);
 
+	m_manaBar = ZZProgressBar::create( CCRectMake( 0,0, 100, 10 ) );
+	m_manaBar->setMargin(2);
+	m_manaBar->setColor( ccc3(50,50,255), ccc3(50,50,50) );
+	m_manaBar->setProgress( (m_pEntity->getProperty("mana_curr")) / (float) (m_pEntity->getProperty("mana_base")) );
+	m_manaBar->setAnchorPoint(ccp(0,1.0f));
+	m_manaBar->setPositionY( m_healthBar->getPositionY() - (m_healthBar->getContentSize().height + 5) );
+	addChild(m_manaBar, 48);
+
 	std::vector<CastCommandState*>& abilities = m_pEntity->getAbilityList();
 	int maxPerRow = 2;
 	int row = 0;

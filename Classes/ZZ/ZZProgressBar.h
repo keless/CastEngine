@@ -15,6 +15,8 @@ public:
 	ZZProgressBar(void);
 	~ZZProgressBar(void);
 
+	void setColor( const ccColor3B& fg, const ccColor3B& bg );
+
 	virtual bool init(  const CCRect &area );
 
 	static ZZProgressBar * create( const CCRect &area );

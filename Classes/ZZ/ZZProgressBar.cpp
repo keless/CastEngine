@@ -38,6 +38,12 @@ ZZProgressBar * ZZProgressBar::create( const CCRect &area )
 	return bar;
 }
 
+void ZZProgressBar::setColor( const ccColor3B& fg, const ccColor3B& bg )
+{
+	m_bg->setColor( bg );
+	m_bar->setColor(fg);
+}
+
 void ZZProgressBar::setProgress( float pct )
 {
 	m_bar->setScaleX( pct );
