@@ -6,6 +6,7 @@
 #include "ZZProgressBar.h"
 #include "GameEntity.h"
 #include "GameEntityView.h"
+#include "PlayerView.h"
 
 #include "CastCommandState.h"
 #include "CastCommandModel.h"
@@ -19,7 +20,7 @@ struct EntityPair
 class HelloWorld : public cocos2d::CCLayer
 {
 	GameEntity* m_playerModel;
-	GameEntityView* m_playerView;
+	PlayerView* m_playerView;
 
 	std::vector<EntityPair> m_enemies;
 

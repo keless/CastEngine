@@ -9,6 +9,14 @@ GameEntityView::GameEntityView( GameEntity* entity )
 	m_pEntity->addListener("react", this, callfuncO_selector(GameEntityView::onShouldReact) );
 	m_pEntity->addListener("incProperty", this, callfuncO_selector(GameEntityView::onStatUpdate) );
 
+	initView();
+
+	scheduleUpdate();
+}
+
+//virtual 
+void GameEntityView::initView()
+{
 	setContentSize( CCSizeMake( 200, 200 ));
 
 	CCLayerColor* bg = CCLayerColor::create(ccc4(25,25,25,255), 200,200);
@@ -60,15 +68,6 @@ GameEntityView::GameEntityView( GameEntity* entity )
 		abilityView->setPositionY( row * abilityView->getContentSize().height );
 		addChild(abilityView, 51);
 	}
-
-	/*
-	CCParticleFire* fire = CCParticleFire::create();
-	fire->setPosition(ccp(0,0));
-	//fire->setAnchorPoint(ccp(0,0));
-	addChild(fire);
-	*/
-
-	scheduleUpdate();
 }
 
 

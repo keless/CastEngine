@@ -65,8 +65,9 @@ bool HelloWorld::init()
 	m_playerModel->addAbility( m_abilities["sword attack"] );
 	m_playerModel->addAbility( m_abilities["Heal"] );
 	m_playerModel->addAbility( m_abilities["Life Drain"] );
+	m_playerModel->addAbility( m_abilities["Curse of Weakness"] );
 
-	m_playerView = new GameEntityView( m_playerModel );
+	m_playerView = new PlayerView( m_playerModel, this );
 	m_playerView->setPositionX(50);
 	m_playerView->setPositionY( 250 );
 	addChild(m_playerView);
@@ -93,6 +94,7 @@ void HelloWorld::spawnEnemy()
 
 	EntityPair enemy;
 	enemy.enemyModel =  new GameEntity("Giant Rat");
+	enemy.enemyModel->addAbility( m_abilities["Bite"] );
 	//enemy.enemyModel->incProperty("hp_curr", -90);
 	enemy.enemyModel->incProperty("hp_base", -90);
 	enemy.enemyView =  new GameEntityView( enemy.enemyModel );
@@ -238,11 +240,6 @@ void HelloWorld::enemyMovementAI( int enemyIdx, float dt )
 		CCLog("ignore impulse %.4f", kmVec2Length(& finalImpulse));
 		return; //ignore very small changes to avoid leash jitter
 	}
-
-	if( scaledImpulse.x > 0 ) {
-		//moving to the right? shouldnt happen
-		CCLog("Wtf");
-	}
 	
 	ePos.x += scaledImpulse.x;
 	ePos.y += scaledImpulse.y;
@@ -274,6 +271,52 @@ void HelloWorld::initAbilities()
 		attack["effectsOnCast"].append( swordEffect );
 
 		mod = new CastCommandModel( attack );
+		mod->retain();
+		m_abilities[mod->getName()] = mod;
+	}
+
+	{
+		Json::Value bite;
+		bite["name"] = "Bite";
+		bite["castTime"] = 0.10f; //seconds
+		bite["cooldownTime"] = 1.15f; //seconds
+		bite["range"] = 1.0f; //melee range
+
+		Json::Value effect1; //debuff
+		effect1["effectType"] = "debuff";
+		effect1["targetStat"] = "str_curr";
+		effect1["valueBase"] = 2.0f;
+		effect1["react"] = "debuff";
+		bite["effectsOnCast"].append( effect1 );
+
+		Json::Value swordEffect; //direct damage
+		swordEffect["effectType"] = "damage";
+		swordEffect["damageType"] = "piercing";
+		swordEffect["targetStat"] = "hp_curr";
+		swordEffect["valueBase"] = 2.0f;
+		swordEffect["react"] = "shake";
+		bite["effectsOnCast"].append( swordEffect );
+
+		mod = new CastCommandModel( bite );
+		mod->retain();
+		m_abilities[mod->getName()] = mod;
+	}
+
+	{
+		Json::Value curse;
+		curse["name"] = "Curse of Weakness";
+		curse["castTime"] = 0.0f; //seconds
+		curse["cooldownTime"] = 0.15f; //seconds
+		curse["range"] = 3.0f; //melee range
+
+		Json::Value effect1; //direct damage
+		effect1["effectType"] = "debuff";
+		effect1["targetStat"] = "str_curr";
+		effect1["valueBase"] = 1.0f;
+		effect1["react"] = "debuff";
+		curse["effectsOnCast"].append( effect1 );
+
+		mod = new CastCommandModel( curse );
 		mod->retain();
 		m_abilities[mod->getName()] = mod;
 	}
@@ -422,6 +465,13 @@ void HelloWorld::ccTouchesEnded(CCSet* touches, CCEvent* event)
 			break;
 
 		m_playerView->ccTouchEnded(touch, event);
+		if( m_playerModel->canCast() ) {
+			std::vector<GameAbilityView*>& abilityViews = m_playerView->getAbilityViews();
+			for( int i=0; i< abilityViews.size(); i++)
+			{
+				abilityViews[i]->ccTouchEnded(touch, event);
+			}
+		}
 
 		int touchedIdx = -1;
 		for( int i=0; i< m_enemies.size(); i++) 

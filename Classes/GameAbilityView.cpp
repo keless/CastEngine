@@ -99,7 +99,7 @@ void GameAbilityView::ccTouchMoved(CCTouch* touch, CCEvent* event)
 
 void GameAbilityView::ccTouchEnded(CCTouch* touch, CCEvent* event)
 {
-	if( !boundingBox().containsPoint( touch->getLocationInView() ) ) return;
+	if( !boundingBox().containsPoint( touch->getLocation() ) ) return;
 
 	//activate ability if possible
 

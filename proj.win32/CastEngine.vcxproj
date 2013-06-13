@@ -137,6 +137,7 @@
     <ClCompile Include="..\Classes\GameEntity.cpp" />
     <ClCompile Include="..\Classes\GameEntityView.cpp" />
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
+    <ClCompile Include="..\Classes\PlayerView.cpp" />
     <ClCompile Include="..\Classes\ZZ\ZZEventBus.cpp" />
     <ClCompile Include="..\Classes\ZZ\ZZProgressBar.cpp" />
     <ClCompile Include="main.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="..\Classes\GameEntity.h" />
     <ClInclude Include="..\Classes\GameEntityView.h" />
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
+    <ClInclude Include="..\Classes\PlayerView.h" />
     <ClInclude Include="..\Classes\ZZ\ZZEventBus.h" />
     <ClInclude Include="..\Classes\ZZ\ZZProgressBar.h" />
     <ClInclude Include="main.h" />

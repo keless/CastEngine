@@ -15,6 +15,7 @@ using namespace cocos2d;
 class GameEntityView :
 	public CCNode
 {
+protected:
 	ZZProgressBar* m_healthBar;
 	ZZProgressBar* m_manaBar;
 	GameEntity* m_pEntity;
@@ -22,6 +23,10 @@ class GameEntityView :
 	CCLayerColor* m_highlight;
 
 	std::vector<GameAbilityView*> m_abilityViews;
+
+	virtual void initView();
+	GameEntityView(){}
+
 public:
 	GameEntityView( GameEntity* entity );
 	~GameEntityView(void);
