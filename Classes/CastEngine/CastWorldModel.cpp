@@ -46,6 +46,12 @@ void CastWorldModel::addEffectInTransit( ICastEntity* from, CastEffect* effect, 
 	
 	if( targetList->getType() == CTT_ENTITIES )
 	{
+		CastEffectPath path;
+		path.from = from;
+			
+		path.speed = speed;
+		path.startTime = startTime;
+
 		const std::vector<ICastEntity*>& targets = targetList->getEntityList();
 		for( int i=0; i< targets.size(); i++)
 		{
@@ -55,15 +61,14 @@ void CastWorldModel::addEffectInTransit( ICastEntity* from, CastEffect* effect, 
 			if( !CastWorldModel::get()->isValid( target ) ) continue;
 			CCLOG("add effect in transit" );
 			
-			CastEffectPath path;
-			path.from = from;
 			path.to = target;
-			path.speed = speed;
-			path.startTime = startTime;
-			path.effect = effect;
+			path.effects.push_back(effect);
 			effect->retain();
-			m_effectsInTransit.push_back(path);
+			
 		}
+
+		m_effectsInTransit.push_back(path);
+
 	}else {
 		//TODO: world position
 	}
@@ -79,6 +84,11 @@ void CastWorldModel::addEffectInstant(  ICastEntity* from, CastEffect* effect, C
 	
 	if( targetList->getType() == CTT_ENTITIES )
 	{
+		CastEffectPath path;
+		path.from = from;
+		path.speed = 0.0f;
+		path.startTime = startTime;
+
 		const std::vector<ICastEntity*>& targets = targetList->getEntityList();
 		for( int i=0; i< targets.size(); i++)
 		{
@@ -87,17 +97,18 @@ void CastWorldModel::addEffectInstant(  ICastEntity* from, CastEffect* effect, C
 			if( !CastWorldModel::get()->isValid( from ) ) continue;
 			if( !CastWorldModel::get()->isValid( target ) ) continue;
 			
-			CastEffectPath path;
-			path.from = from;
+
 			path.to = target;
-			path.speed = 0.0f;
-			path.startTime = startTime;
-			path.effect = effect;
+
+			path.effects.push_back(effect);
 			effect->retain();
 
-			applyEffectToTarget( path );
+			
 			
 		}
+
+		applyEffectToTarget( path );
+
 	}else {
 		//TODO: world position
 	}
@@ -109,29 +120,33 @@ void CastWorldModel::addEffectInstant(  ICastEntity* from, CastEffect* effect, C
 
 void CastWorldModel::applyEffectToTarget( CastEffectPath path )
 {
-	CCLOG("apply effect to target");
+	CCLOG("apply effects to target");
 	double currTime = CastCommandTime::get();
 
-	CastEffect* effect = path.effect;
-	std::vector<ICastEntity*> targets;
-	if( path.to != NULL )  {
-		if( CastWorldModel::get()->isValid( path.to ) ) {
-			targets.push_back(path.to);
-		}
-	}else {
-		//if targeted position, check physics to determine targets
-		CCLog("todo: physics check at position for effect targets");
-	}
-
-	for( int t=0; t< targets.size(); t++)
+	for( int i=0; i< path.effects.size(); i++) 
 	{
-		CastEffect* eff = effect;
-		if( t > 0 ) eff = effect->clone();  //targets might modify the effect, so give each target it's own copy
+		CastEffect* effect = path.effects[i];
 
-		eff->setTarget( targets[t] );
-		eff->m_startTime = currTime; //start the clock on effect's life time
+		std::vector<ICastEntity*> targets;
+		if( path.to != NULL )  {
+			if( CastWorldModel::get()->isValid( path.to ) ) {
+				targets.push_back(path.to);
+			}
+		}else {
+			//if targeted position, check physics to determine targets
+			CCLog("todo: physics check at position for effect targets");
+		}
 
-		targets[t]->applyEffect( eff );
+		for( int t=0; t< targets.size(); t++)
+		{
+			CastEffect* eff = effect;
+			if( t > 0 ) eff = effect->clone();  //targets might modify the effect, so give each target it's own copy
+
+			eff->setTarget( targets[t] );
+			eff->m_startTime = currTime; //start the clock on effect's life time
+
+			targets[t]->applyEffect( eff );
+		}
 	}
 
 }
@@ -161,7 +176,12 @@ void CastWorldModel::updateStep( float dt )
 	//clean up resolved paths
 	for( int i= resolvedPaths.size()-1; i>=0; i--)
 	{
-		m_effectsInTransit[i].effect->release();
+		for( int e= m_effectsInTransit[i].effects.size() -1; e>=0; e-- ) {
+			m_effectsInTransit[i].effects[e]->release();
+		}
+		m_effectsInTransit[i].effects.clear();
+
+
 		m_effectsInTransit.erase( m_effectsInTransit.begin() + i );
 	}
 }

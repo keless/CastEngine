@@ -41,7 +41,7 @@ struct CastEffectPath
 	ICastEntity* to;	//null if targeting world position
 	CCPoint toPosition; //use this if 'to' is null
 	
-	CastEffect* effect;
+	std::vector<CastEffect*> effects;
 
 	//default copy constructor should be enough
 };
