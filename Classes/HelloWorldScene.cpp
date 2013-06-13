@@ -288,6 +288,8 @@ void HelloWorld::initAbilities()
 		spell["cooldownTime"] = 0.15f;
 		spell["effectWhileTravel"] = true;
 		spell["stopOnHit"] = true;
+		spell["costStat"] = "mana_curr";
+		spell["costVal"] = 10; //10 mana
 	
 		Json::Value spellEffect1; //direct damage
 		spellEffect1["effectType"] = "damage";

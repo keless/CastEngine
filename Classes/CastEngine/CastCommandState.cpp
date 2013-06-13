@@ -17,6 +17,9 @@ CastCommandState::CastCommandState(CastCommandModel* model, ICastEntity* owner)
 	m_state = CCS_IDLE;
 	m_timeStart = 0;
 
+	m_costStat = model->descriptor.get("costStat", "").asString();
+	m_costVal = model->descriptor.get("costVal", 0).asDouble();
+
 	m_channelTicks = 0;
 }
 
@@ -177,6 +180,26 @@ void CastCommandState::onCastComplete()
 	if( m_state != CCS_CASTING ) return;
 
 	if( !CastWorldModel::get()->isValid( m_iOwner ) ) return;
+
+	//check for cost
+	if( m_costVal != 0 ) {
+		float res = m_iOwner->getProperty( m_costStat );
+
+		//checking cost>0 so that if a tricky user wants cost to be 'negative' to 'add' value
+		//  we can do that even if it is below resource (ex: cost = increased heat)
+		if( m_costVal > 0 && m_costVal > res ) {
+			//not enough of resource to cast spell, so abort
+			//todo: send aborted cast because of no resource
+			CCLog("CCS: could not pay %f of %s to cast, aborting", m_costVal, m_costStat.c_str() );
+			onCooldownStart();
+			return;
+		}
+
+		//apply cost
+		m_iOwner->incProperty( m_costStat, -1*m_costVal );
+
+	}
+
 
 	double currTime = CastCommandTime::get();
 	m_timeStart = currTime;

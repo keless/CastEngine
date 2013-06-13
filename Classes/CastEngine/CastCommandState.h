@@ -52,6 +52,10 @@ class CastCommandState :
 	CastCommandModel* m_pModel; //todo: use identifier instead of direct pointer?
 	ICastEntity* m_iOwner;
 
+	std::string m_costStat;
+	float m_costVal;
+
+
 	friend class CastEffect;
 
 	void onCastComplete();
