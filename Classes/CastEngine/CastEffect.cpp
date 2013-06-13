@@ -73,6 +73,10 @@ void CastEffect::init(  CastCommandState* originState, int effectIdx, ICastEntit
 		m_type = CET_DAMAGE_STAT;
 	}else if( type.compare("heal") == 0 ) {
 		m_type = CET_HEAL_STAT;
+	}else if( type.compare("buff") == 0 ) {
+		m_type = CET_BUFF_STAT;
+	}else if( type.compare("debuff") == 0 ) {
+		m_type = CET_SUPPRESS_STAT;
 	}
 
 	m_pOrigin = from;
@@ -175,6 +179,13 @@ void CastEffect::doEffect()
 	case CET_HEAL_STAT:
 		m_pTarget->incProperty( m_targetStat,  m_value );
 		break;
+			
+	case CET_BUFF_STAT:
+			//TODO
+			break;
+	case CET_SUPPRESS_STAT:
+			//TODO
+			break;
 
 	default:
 		CCLOG("TODO: handle effect type");

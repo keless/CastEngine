@@ -185,6 +185,7 @@
 		33BDC054175FBCF700BE734B /* json_writer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33BDC04B175FBCF700BE734B /* json_writer.cpp */; };
 		33BDC098175FCE6800BE734B /* CastWorldModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33BDC096175FCE6600BE734B /* CastWorldModel.cpp */; };
 		33BDC0A71767B22400BE734B /* rat.png in Resources */ = {isa = PBXBuildFile; fileRef = 33BDC0A61767B22400BE734B /* rat.png */; };
+		33BDC0BD176A50B200BE734B /* PlayerView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33BDC0BB176A50B200BE734B /* PlayerView.cpp */; };
 		7855E0E1153FEF240059DD9A /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7855E0DF153FEF240059DD9A /* Default.png */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712461292920000B8313A /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB212928DE900B8313A /* libxml2.dylib */; };
@@ -580,6 +581,8 @@
 		33BDC096175FCE6600BE734B /* CastWorldModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CastWorldModel.cpp; sourceTree = "<group>"; };
 		33BDC097175FCE6700BE734B /* CastWorldModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CastWorldModel.h; sourceTree = "<group>"; };
 		33BDC0A61767B22400BE734B /* rat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rat.png; sourceTree = "<group>"; };
+		33BDC0BB176A50B200BE734B /* PlayerView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PlayerView.cpp; path = ../Classes/PlayerView.cpp; sourceTree = "<group>"; };
+		33BDC0BC176A50B200BE734B /* PlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayerView.h; path = ../Classes/PlayerView.h; sourceTree = "<group>"; };
 		7855E0DF153FEF240059DD9A /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = SOURCE_ROOT; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB212928DE900B8313A /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
@@ -1213,6 +1216,8 @@
 		33BDC001175FBC8700BE734B /* Game */ = {
 			isa = PBXGroup;
 			children = (
+				33BDC0BB176A50B200BE734B /* PlayerView.cpp */,
+				33BDC0BC176A50B200BE734B /* PlayerView.h */,
 				33BDC035175FBCD500BE734B /* GameAbilityView.cpp */,
 				33BDC036175FBCD500BE734B /* GameAbilityView.h */,
 				33BDC037175FBCD500BE734B /* GameEntity.cpp */,
@@ -1568,6 +1573,7 @@
 				33BDC052175FBCF700BE734B /* json_value.cpp in Sources */,
 				33BDC054175FBCF700BE734B /* json_writer.cpp in Sources */,
 				33BDC098175FCE6800BE734B /* CastWorldModel.cpp in Sources */,
+				33BDC0BD176A50B200BE734B /* PlayerView.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
