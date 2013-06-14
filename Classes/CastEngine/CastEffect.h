@@ -75,6 +75,8 @@ public:
 
 	void startTicks();
 
+	CastEffectType getType() { return m_type; }
+
 	ICastEntity* getTarget() { return m_pTarget; }
 	ICastEntity* getOrigin() { return m_pOrigin; }
 

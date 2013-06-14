@@ -135,21 +135,38 @@ void CastEffect::onTick( float dt )
 	double currTime = CastCommandTime::get();
 	float delta = currTime - m_startTime;
 	if( delta > m_lifeTime ) delta = m_lifeTime;
-	int numTicksPassed = delta / m_tickFreq;
 
-	int ticksToDo = numTicksPassed - m_numTicksCompleted;
-	for( int i=0; i< ticksToDo; i++) {
-		doEffect();
-		m_numTicksCompleted++;
+	if( m_type == CET_SUPPRESS_STAT || m_type == CET_BUFF_STAT ) {
+		//handle buff/debuff end
+		if( delta == m_lifeTime ) {
+			CastCommandScheduler::get()->unscheduleSelector( schedule_selector(CastEffect::onTick), this );
+			if( m_type == CET_BUFF_STAT ) {
+				m_pTarget->endBuffProperty( m_targetStat, m_value, this );
+			}else {
+				m_pTarget->endBuffProperty( m_targetStat, -1 * m_value, this );
+			}
+		}
+		
+	}else {
+		//handle dmg/heal over time ticks
+		int numTicksPassed = delta / m_tickFreq;
+
+		int ticksToDo = numTicksPassed - m_numTicksCompleted;
+		for( int i=0; i< ticksToDo; i++) {
+			doEffect();
+			m_numTicksCompleted++;
+		}
+
+		if( delta >= m_lifeTime ) 
+		{
+			//NOTE: scheduleSelectors add references to objects, so we have to 
+			// cancel our ticks before the object will be cleaned up by autopool
+			cancelTicks(); 
+			m_pTarget->removeEffect(this);
+		}
 	}
 
-	if( delta >= m_lifeTime ) 
-	{
-		//NOTE: scheduleSelectors add references to objects, so we have to 
-		// cancel our ticks before the object will be cleaned up by autopool
-		cancelTicks(); 
-		m_pTarget->removeEffect(this);
-	}
+
 }
 
 void CastEffect::cancelTicks()
@@ -162,6 +179,8 @@ void CastEffect::doEffect()
 	CastWorldModel* world = CastWorldModel::get();
 
 	if( ! world->isValid( m_pTarget ) ) return;
+
+	if( m_startTime == 0 ) m_startTime = CastCommandTime::get();
 
 	Json::Value json = getDescriptor();
 
@@ -179,12 +198,15 @@ void CastEffect::doEffect()
 	case CET_HEAL_STAT:
 		m_pTarget->incProperty( m_targetStat,  m_value );
 		break;
-			
-	case CET_BUFF_STAT:
-			//TODO
-			break;
+
 	case CET_SUPPRESS_STAT:
-			//TODO
+			m_pTarget->startBuffProperty( m_targetStat, -1* m_value, this );
+			CastCommandScheduler::get()->scheduleSelector( schedule_selector(CastEffect::onTick), this, m_lifeTime, 0, 0.0f, false);
+			break;
+				
+	case CET_BUFF_STAT:
+			m_pTarget->startBuffProperty( m_targetStat, m_value, this );
+			CastCommandScheduler::get()->scheduleSelector( schedule_selector(CastEffect::onTick), this, m_lifeTime, 0, 0.0f, false);
 			break;
 
 	default:

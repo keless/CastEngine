@@ -16,6 +16,8 @@ public:
 
 	//send negative values to 'decrement'
 	virtual void  incProperty( std::string propName, float value ) {}
+	virtual void  startBuffProperty( std::string propName, float value, CastEffect* buff) {}
+	virtual void  endBuffProperty( std::string propName, float value, CastEffect* buff) {}
 	virtual float getProperty( std::string propName ) { return 0; }
 
 	virtual CastTarget* getTarget() { return NULL; }

@@ -42,6 +42,9 @@ class GameEntity :
 	std::vector<CastEffect*> m_negativeEffects;
 	std::vector<CastEffect*> m_positiveEffects;
 
+	std::map<CastEffect*, CastEffect*> m_buffs;
+	std::map<CastEffect*, CastEffect*> m_debuffs;
+
 public:
 	GameEntity( std::string name );
 	~GameEntity(void);
@@ -57,6 +60,8 @@ public:
 	//ICastEntity methods
 	virtual void incProperty( std::string propName, float value );
 	virtual float getProperty( std::string propName );
+	virtual void  startBuffProperty( std::string propName, float value, CastEffect* buff);
+	virtual void  endBuffProperty( std::string propName, float value, CastEffect* buff);
 
 	virtual void handleEffectReaction( Json::Value& reaction, CastEffect* source );
 

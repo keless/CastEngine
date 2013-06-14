@@ -91,6 +91,48 @@ void GameEntity::incProperty( std::string propName, float value )
 
 	//TODO -- if HP <= 0 do logic (set dirty flag and check in update loop)
 }
+
+void GameEntity::startBuffProperty( std::string propName, float value, CastEffect* buff)
+{
+	if( m_statsMap.count(propName) == 0 ) return;
+	(*m_statsMap[propName]) += value;
+	
+	CCLOG("start buff %s", propName.c_str() );
+	if( buff->getType() == CET_BUFF_STAT ) {
+		m_buffs[ buff ] = buff;
+		buff->retain();
+	}else {
+		m_debuffs[ buff ] = buff;
+		buff->retain();
+	}
+
+	if( propName.compare("hp_base") ) {
+		if( hp_base < 0 ) hp_base = 0;
+		if( hp_curr < hp_base ) hp_curr = hp_base;
+	}
+
+}
+void GameEntity::endBuffProperty( std::string propName, float value, CastEffect* buff)
+{
+	if( m_statsMap.count(propName) == 0 ) return;
+	(*m_statsMap[propName]) += value;
+
+	CCLOG("end buff %s", propName.c_str() );
+
+	if( buff->getType() == CET_BUFF_STAT ) {
+		m_buffs.erase( buff );
+		CC_SAFE_RELEASE( buff );
+	}else {
+		m_debuffs.erase( buff );
+		CC_SAFE_RELEASE( buff );
+	}
+
+	if( propName.compare("hp_base") ) {
+		if( hp_base < 0 ) hp_base = 0;
+		if( hp_curr < hp_base ) hp_curr = hp_base;
+	}
+}
+
 float GameEntity::getProperty( std::string propName )
 {
 	if( m_statsMap.count(propName) == 0 ) return 0;
