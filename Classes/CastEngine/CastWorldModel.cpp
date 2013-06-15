@@ -109,6 +109,8 @@ void CastWorldModel::addEffectInstant(  ICastEntity* from, CastEffect* effect, C
 
 		applyEffectToTarget( path );
 
+		effect->release(); //we dont hold onto the path, so dont hold onto the effect
+
 	}else {
 		//TODO: world position
 	}

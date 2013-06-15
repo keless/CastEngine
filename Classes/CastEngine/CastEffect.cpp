@@ -123,9 +123,14 @@ void CastEffect::setTarget( ICastEntity* target )
 
 void CastEffect::startTicks()
 {
-	m_numTicksCompleted = 0;
-	int numTicks = (m_lifeTime / m_tickFreq) + 1;
-	CastCommandScheduler::get()->scheduleSelector( schedule_selector(CastEffect::onTick), this, m_tickFreq, numTicks, 0.0f, false);
+	if( m_type == CET_BUFF_STAT || m_type == CET_SUPPRESS_STAT ) {
+		doEffect();
+	}else {
+		m_numTicksCompleted = 0;
+		int numTicks = (m_lifeTime / m_tickFreq) + 1;
+		CastCommandScheduler::get()->scheduleSelector( schedule_selector(CastEffect::onTick), this, m_tickFreq, numTicks, 0.0f, false);
+	}
+
 }
 
 void CastEffect::onTick( float dt )
@@ -145,6 +150,8 @@ void CastEffect::onTick( float dt )
 			}else {
 				m_pTarget->endBuffProperty( m_targetStat, -1 * m_value, this );
 			}
+
+			m_pTarget->removeEffect(this);
 		}
 		
 	}else {
@@ -200,14 +207,15 @@ void CastEffect::doEffect()
 		break;
 
 	case CET_SUPPRESS_STAT:
-			m_pTarget->startBuffProperty( m_targetStat, -1* m_value, this );
-			CastCommandScheduler::get()->scheduleSelector( schedule_selector(CastEffect::onTick), this, m_lifeTime, 0, 0.0f, false);
-			break;
+		m_pTarget->startBuffProperty( m_targetStat, -1* m_value, this );
+		CCLog("cast at %f - lifetime %f", CastCommandTime::get(), m_lifeTime );
+		CastCommandScheduler::get()->scheduleSelector( schedule_selector(CastEffect::onTick), this, m_lifeTime, 0, 0.0f, false);
+		break;
 				
 	case CET_BUFF_STAT:
-			m_pTarget->startBuffProperty( m_targetStat, m_value, this );
-			CastCommandScheduler::get()->scheduleSelector( schedule_selector(CastEffect::onTick), this, m_lifeTime, 0, 0.0f, false);
-			break;
+		m_pTarget->startBuffProperty( m_targetStat, m_value, this );
+		CastCommandScheduler::get()->scheduleSelector( schedule_selector(CastEffect::onTick), this, m_lifeTime, 0, 0.0f, false);
+		break;
 
 	default:
 		CCLOG("TODO: handle effect type");

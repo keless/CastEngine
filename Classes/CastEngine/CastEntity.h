@@ -26,7 +26,7 @@ public:
 
 	//effect is LEAVING this entity, towards somewhere else
 	//speed == 0.0f means no travel time, instant effect
-	virtual void sendEffectToTarget( CastEffect* effect ) = 0;
+	//DEPRECIATE virtual void sendEffectToTarget( CastEffect* effect ) = 0;
 
 	//effect is ARRIVING at this entity
 	virtual void applyEffect( CastEffect* effect ) = 0;

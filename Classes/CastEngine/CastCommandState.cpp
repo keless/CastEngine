@@ -171,7 +171,9 @@ void CastCommandState::spawnChannelEffects()
 		effect->init(this, i, m_iOwner, true );
 		
 		//TODO: send all effects as one array so only one "packet" has to travel
-		m_iOwner->sendEffectToTarget( effect );
+
+		CastWorldModel* world = CastWorldModel::get();
+		world->addEffectInTransit(m_iOwner, effect, m_iOwner->getTarget(), CastCommandTime::get());
 	}
 }
 
@@ -214,7 +216,10 @@ void CastCommandState::onCastComplete()
 		effect->init(this, i, m_iOwner, false );
 		
 		//TODO: send all effects as one array so only one "packet" has to travel?
-		m_iOwner->sendEffectToTarget( effect );
+
+		CastWorldModel* world = CastWorldModel::get();
+		world->addEffectInTransit(m_iOwner, effect, m_iOwner->getTarget(), CastCommandTime::get());
+
 		
 	}
 

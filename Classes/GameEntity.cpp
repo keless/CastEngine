@@ -97,14 +97,7 @@ void GameEntity::startBuffProperty( std::string propName, float value, CastEffec
 	if( m_statsMap.count(propName) == 0 ) return;
 	(*m_statsMap[propName]) += value;
 	
-	CCLOG("start buff %s", propName.c_str() );
-	if( buff->getType() == CET_BUFF_STAT ) {
-		m_buffs[ buff ] = buff;
-		buff->retain();
-	}else {
-		m_debuffs[ buff ] = buff;
-		buff->retain();
-	}
+	CCLOG("start buff %s - %f", propName.c_str(), CastCommandTime::get() );
 
 	if( propName.compare("hp_base") ) {
 		if( hp_base < 0 ) hp_base = 0;
@@ -117,15 +110,7 @@ void GameEntity::endBuffProperty( std::string propName, float value, CastEffect*
 	if( m_statsMap.count(propName) == 0 ) return;
 	(*m_statsMap[propName]) += value;
 
-	CCLOG("end buff %s", propName.c_str() );
-
-	if( buff->getType() == CET_BUFF_STAT ) {
-		m_buffs.erase( buff );
-		CC_SAFE_RELEASE( buff );
-	}else {
-		m_debuffs.erase( buff );
-		CC_SAFE_RELEASE( buff );
-	}
+	CCLOG("end buff %s - %f", propName.c_str(), CastCommandTime::get() );
 
 	if( propName.compare("hp_base") ) {
 		if( hp_base < 0 ) hp_base = 0;
@@ -150,17 +135,6 @@ CastTarget* GameEntity::getTarget()
 	return m_abilityTargets;
 }
 
-void GameEntity::sendEffectToTarget( CastEffect* effect )
-{
-	CastWorldModel* world = CastWorldModel::get();
-	
-	//TODO: handle ammo/mana cost?
-	
-	world->addEffectInTransit(this, effect, m_abilityTargets, CastCommandTime::get());
-	
-	
-}
-
 void GameEntity::applyEffect( CastEffect* effect )
 {
 	
@@ -174,7 +148,21 @@ void GameEntity::applyEffect( CastEffect* effect )
 	else {
 		CCLog("todo: apply effect over time");
 
-		m_negativeEffects.push_back(effect);
+		if( effect->getType() == CET_BUFF_STAT ) 
+		{
+			m_buffs[effect] = effect;
+		}else if( effect->getType() == CET_SUPPRESS_STAT )
+		{
+			m_debuffs[effect] = effect;
+		}
+		else if( effect->getType() == CET_DAMAGE_STAT )
+		{
+			m_negativeEffects.push_back(effect);
+		}else {
+			m_positiveEffects.push_back(effect);
+		}
+
+		
 		effect->retain();
 		effect->startTicks();
 	}
@@ -184,21 +172,38 @@ void GameEntity::applyEffect( CastEffect* effect )
 
 void GameEntity::removeEffect( CastEffect* effect )
 {
-	for( int i=0; i< m_negativeEffects.size(); i++ )
+	
+	if( effect->getType() == CET_BUFF_STAT ) 
 	{
-		if( m_negativeEffects[i] == effect ) {
-			m_negativeEffects[i]->release();
-			m_negativeEffects.erase( m_negativeEffects.begin() + i );
-			return;
+		m_debuffs.erase( effect );
+	}
+	else if( effect->getType() == CET_SUPPRESS_STAT )
+	{
+		m_debuffs.erase( effect );
+	}
+	else if( effect->getType() == CET_DAMAGE_STAT )
+	{
+		for( int i=0; i< m_negativeEffects.size(); i++ )
+		{
+			if( m_negativeEffects[i] == effect ) {
+				m_negativeEffects.erase( m_negativeEffects.begin() + i );
+				return;
+			}
+		}
+	}else {
+		for( int i=0; i< m_positiveEffects.size(); i++ )
+		{
+			if( m_positiveEffects[i] == effect ) {
+				m_positiveEffects.erase( m_positiveEffects.begin() + i );
+				return;
+			}
 		}
 	}
 
-	for( int i=0; i< m_positiveEffects.size(); i++ )
-	{
-		if( m_positiveEffects[i] == effect ) {
-			m_positiveEffects[i]->release();
-			m_positiveEffects.erase( m_positiveEffects.begin() + i );
-			return;
-		}
-	}
+	CC_SAFE_RELEASE( effect );
+
+
+
+
+
 }

@@ -285,7 +285,7 @@ void HelloWorld::initAbilities()
 		Json::Value effect1; //debuff
 		effect1["effectType"] = "debuff";
 		effect1["targetStat"] = "str_curr";
-		effect1["lifeTime"] = 3.0f; //seconds
+		effect1["effectLifetime"] = 3.0f; //seconds
 		effect1["valueBase"] = 2.0f;
 		effect1["react"] = "debuff";
 		bite["effectsOnCast"].append( effect1 );
@@ -313,7 +313,7 @@ void HelloWorld::initAbilities()
 		Json::Value effect1; //direct damage
 		effect1["effectType"] = "debuff";
 		effect1["targetStat"] = "str_curr";
-		effect1["lifeTime"] = 7.0f; //seconds
+		effect1["effectLifetime"] = 7.0f; //seconds
 		effect1["valueBase"] = 1.0f;
 		effect1["react"] = "debuff";
 		curse["effectsOnCast"].append( effect1 );
