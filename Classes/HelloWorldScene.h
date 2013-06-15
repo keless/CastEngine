@@ -39,6 +39,8 @@ public:
 	void PerformEnemyAI( GameEntity* enemy );
 	void PerformPlayerAi( GameEntity* player );
 
+	void setCardDeath( GameEntityView* view );
+
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
     static cocos2d::CCScene* scene();
     

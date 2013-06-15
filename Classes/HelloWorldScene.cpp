@@ -126,7 +126,8 @@ void HelloWorld::update( float dt )
 		EntityPair& enemy = m_enemies[i];
 
 		if( enemy.enemyModel->getProperty("hp_curr") <= 0 ) {
-			removeChild(enemy.enemyView);
+			setCardDeath(enemy.enemyView);
+			//removeChild(enemy.enemyView);
 			CC_SAFE_RELEASE_NULL(enemy.enemyModel);
 			CC_SAFE_RELEASE_NULL(enemy.enemyView);
 
@@ -200,6 +201,17 @@ void HelloWorld::PerformPlayerAi( GameEntity* player )
 	}
 
 
+}
+
+void HelloWorld::setCardDeath( GameEntityView* view )
+{
+	CCSequence* seq = CCSequence::create(
+		CCScaleTo::create(1.f, 1.2f, 0.1f),
+		CCCallFunc::create(view, callfunc_selector( GameEntityView::removeFromParent ) ),
+		NULL
+		);
+
+	view->runAction( seq );
 }
 
 void HelloWorld::enemyMovementAI( int enemyIdx, float dt )
