@@ -2,7 +2,7 @@
 
 USING_NS_CC;
 
-
+#include "CastWorldModel.h"
 
 CCScene* HelloWorld::scene()
 {
@@ -58,6 +58,8 @@ bool HelloWorld::init()
 	test->setPosition(50, 100);
 	addChild(test);
 	*/
+
+	CastWorldModel::get()->setPhysicsInterface(this);
 
 	m_playerModel = new GameEntity("Leeroy");
 	m_playerModel->incProperty("hp_curr", -90);
@@ -353,6 +355,7 @@ void HelloWorld::initAbilities()
 		spellEffect2["valueBase"] = 1.0f;
 		spellEffect2["valueStat"] = "int";
 		spellEffect2["valueMultiplier"] = 0.1f;
+		spellEffect2["aoeRadius"] = 1.0f;
 
 		spellEffect2["tickFreq"] = 0.5f; //every half second
 		spellEffect2["effectLifetime"] = 3.5f;  //so 7 ticks
@@ -425,6 +428,128 @@ void HelloWorld::initAbilities()
 
 
 
+}
+
+#define GAME_UNIT_CONVERSION (1.0f/100.0f)
+
+bool HelloWorld::GetVecBetween( ICastEntity* from, ICastEntity* to, kmVec2& distVec )
+{
+	CastWorldModel* world = CastWorldModel::get();
+
+	if( !world->isValid(from) || !world->isValid(to) ) return false;
+
+	kmVec2 pFrom;
+	if( from == m_playerModel ) {
+		pFrom.x = m_playerView->getPositionX();
+		pFrom.y = m_playerView->getPositionY();
+	}else {
+		for( int i=0; i< m_enemies.size(); i++ )
+		{
+			if( from == m_enemies[i].enemyModel )
+			{
+				pFrom.x = m_enemies[i].enemyView->getPositionX();
+				pFrom.y = m_enemies[i].enemyView->getPositionY();
+				break;
+			}
+		}
+	}
+
+	kmVec2 pTo;
+	if( to == m_playerModel ) {
+		pTo.x = m_playerView->getPositionX();
+		pTo.y = m_playerView->getPositionY();
+	}else {
+		for( int i=0; i< m_enemies.size(); i++ )
+		{
+			if( from == m_enemies[i].enemyModel )
+			{
+				pTo.x = m_enemies[i].enemyView->getPositionX();
+				pTo.y = m_enemies[i].enemyView->getPositionY();
+				break;
+			}
+		}
+	}
+
+	
+
+	kmVec2Subtract( &distVec, &pFrom, &pTo );
+	kmVec2Scale(&distVec, &distVec, GAME_UNIT_CONVERSION ); //safe to operate on same vector
+
+	return true;
+}
+
+bool HelloWorld::GetEntityPosition( ICastEntity* entity, kmVec2& pos )
+{
+	bool found = false;
+	if( entity == m_playerModel ) 
+	{
+		pos.x = m_playerView->getPositionX();
+		pos.y = m_playerView->getPositionY();
+
+		found = true;
+	}else {
+		for( int i=0; i< m_enemies.size(); i++ )
+		{
+			if( entity == m_enemies[i].enemyModel )
+			{
+				pos.x = m_enemies[i].enemyView->getPositionX();
+				pos.y = m_enemies[i].enemyView->getPositionY();
+				found = true;
+				break;
+			}
+		}
+	}
+
+	if( found ) {
+		kmVec2Scale(&pos, &pos, GAME_UNIT_CONVERSION);
+	}
+
+	return found;
+}
+
+bool HelloWorld::GetEntitiesInRadius( kmVec2 p, float r, std::vector<ICastEntity*>& entities )
+{
+
+	bool found = false;
+
+	r /= GAME_UNIT_CONVERSION; //convert to pixels
+
+	float rSq = r*r;
+	for( int i=0; i< m_enemies.size(); i++)
+	{
+		kmVec2 ePos;
+		ePos.x = m_enemies[i].enemyView->getPositionX();
+		ePos.y = m_enemies[i].enemyView->getPositionY();
+
+
+		kmVec2 dist;
+		kmVec2Subtract( &dist, &p, &ePos );
+		kmVec2Scale( &dist, &dist, GAME_UNIT_CONVERSION ); //safe to operate on same vector
+
+		if( kmVec2LengthSq(&dist) <= rSq ) {
+			entities.push_back( m_enemies[i].enemyModel );
+			found = true;
+		}
+	}
+
+	//check player
+	{
+		kmVec2 ePos;
+		ePos.x = m_playerView->getPositionX();
+		ePos.y = m_playerView->getPositionY();
+
+
+		kmVec2 dist;
+		kmVec2Subtract( &dist, &p, &ePos );
+		kmVec2Scale( &dist, &dist, GAME_UNIT_CONVERSION ); //safe to operate on same vector
+
+		if( kmVec2LengthSq(&dist) <= rSq ) {
+			entities.push_back( m_playerModel );
+			found = true;
+		}
+	}
+
+	return found;
 }
 
 inline CCPoint locationInGLFromTouch(CCTouch& touch)

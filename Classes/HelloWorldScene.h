@@ -2,6 +2,7 @@
 #define __HELLOWORLD_SCENE_H__
 
 #include "cocos2d.h"
+#include "CastPhysics.h"
 
 #include "ZZProgressBar.h"
 #include "GameEntity.h"
@@ -17,7 +18,7 @@ struct EntityPair
 	GameEntityView* enemyView;
 };
 
-class HelloWorld : public cocos2d::CCLayer
+class HelloWorld : public cocos2d::CCLayer, public ICastPhysics
 {
 	GameEntity* m_playerModel;
 	PlayerView* m_playerView;
@@ -38,6 +39,12 @@ public:
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
     static cocos2d::CCScene* scene();
     
+
+	virtual bool GetVecBetween( ICastEntity* from, ICastEntity* to, kmVec2& distVec );
+	virtual bool GetEntityPosition( ICastEntity* entity, kmVec2& pos );
+	virtual bool GetEntitiesInRadius( kmVec2 p, float r, std::vector<ICastEntity*>& entities );
+
+
     // a selector callback
     void menuCloseCallback(CCObject* pSender);
 

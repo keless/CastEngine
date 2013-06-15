@@ -46,6 +46,7 @@ class CastEffect : public CCObject
 
 	bool m_isChannelEffect; //look for json under effectsOnChannel instead of effectsOnCast
 	bool m_isReturnEffect;
+	bool m_isAoeEffect;
 
 	std::string m_damageType;
 	std::string m_targetStat;
@@ -86,7 +87,7 @@ public:
 
 	void initReturn();
 	bool hasReturnEffect();
-	
+	bool isAoe();
 	float getTravelSpeed();
 
 	void onTick( float dt );

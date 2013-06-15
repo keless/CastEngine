@@ -35,6 +35,7 @@ CastWorldModel::~CastWorldModel()
 	
 }
 
+//TODO: batch effect to group in path
 void CastWorldModel::addEffectInTransit( ICastEntity* from, CastEffect* effect, CastTarget* targetList, double startTime  )
 {
 	float speed = effect->getTravelSpeed();
@@ -48,7 +49,7 @@ void CastWorldModel::addEffectInTransit( ICastEntity* from, CastEffect* effect, 
 	{
 		CastEffectPath path;
 		path.from = from;
-			
+		path.radius = 0.0f;
 		path.speed = speed;
 		path.startTime = startTime;
 
@@ -71,12 +72,11 @@ void CastWorldModel::addEffectInTransit( ICastEntity* from, CastEffect* effect, 
 
 	}else {
 		//TODO: world position
+		//TODO: physics
 	}
 	
-	//CC_SAFE_RELEASE(effect); 
+	//CC_SAFE_RELEASE(effect);  //dont release
 	
-
-	//TODO: scheduler?
 }
 
 void CastWorldModel::addEffectInstant(  ICastEntity* from, CastEffect* effect, CastTarget* targetList, double startTime  )
@@ -86,6 +86,7 @@ void CastWorldModel::addEffectInstant(  ICastEntity* from, CastEffect* effect, C
 	{
 		CastEffectPath path;
 		path.from = from;
+		path.radius = 0.0f;
 		path.speed = 0.0f;
 		path.startTime = startTime;
 
@@ -133,21 +134,38 @@ void CastWorldModel::applyEffectToTarget( CastEffectPath path )
 		if( path.to != NULL )  {
 			if( CastWorldModel::get()->isValid( path.to ) ) {
 				targets.push_back(path.to);
+
+				//if effect is aoe
+				if( effect->isAoe() )  {
+					float radius = effect->getDescriptor("aoeRadius").asDouble();
+
+					kmVec2 p;
+					if( m_pPhysics->GetEntityPosition(path.to, p) ) {
+						m_pPhysics->GetEntitiesInRadius(p, radius, targets);
+					}
+				}
 			}
 		}else {
 			//if targeted position, check physics to determine targets
 			CCLog("todo: physics check at position for effect targets");
+
+			m_pPhysics->GetEntitiesInRadius( path.toPosition, path.radius, targets );
 		}
 
+		std::map<ICastEntity*, ICastEntity*> uniques;
 		for( int t=0; t< targets.size(); t++)
 		{
+			ICastEntity* target = targets[t];
+			if( uniques.count( target ) > 0 ) continue; //already counted
+			uniques[target] = target;
+
 			CastEffect* eff = effect;
 			if( t > 0 ) eff = effect->clone();  //targets might modify the effect, so give each target it's own copy
 
-			eff->setTarget( targets[t] );
+			eff->setTarget( target );
 			eff->m_startTime = currTime; //start the clock on effect's life time
 
-			targets[t]->applyEffect( eff );
+			target->applyEffect( eff );
 		}
 	}
 
@@ -165,6 +183,8 @@ void CastWorldModel::updateStep( float dt )
 
 		float distToTargetFromOrigin = 1.0f; //TODO: add physics checks
 		float timeToTargetFromOrigin = distToTargetFromOrigin / path.speed;
+
+		//TODO: if path is physics and can hit before stopping, check physics
 
 		if( currTime - path.startTime >= timeToTargetFromOrigin )
 		{

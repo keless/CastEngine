@@ -81,6 +81,7 @@ void CastEffect::init(  CastCommandState* originState, int effectIdx, ICastEntit
 
 	m_pOrigin = from;
 
+	m_isAoeEffect = json.isMember("aoeRadius");
 	m_damageType = json.get("damageType", "").asString(); //ex: fire
 	m_targetStat = json.get("targetStat", "").asString(); //ex: hp_curr
 
@@ -114,6 +115,12 @@ bool CastEffect::hasReturnEffect()
 	return json.isMember("returnEffect");
 
 }
+
+bool CastEffect::isAoe()
+{
+	return m_isAoeEffect;
+}
+
 
 void CastEffect::setTarget( ICastEntity* target )
 {

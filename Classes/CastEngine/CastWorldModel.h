@@ -15,6 +15,7 @@ using namespace cocos2d;
 #include "CastTarget.h"
 #include "CastEntity.h"
 #include "CastEffect.h"
+#include "CastPhysics.h"
 
 /*
  CastWorldModel
@@ -39,7 +40,8 @@ struct CastEffectPath
 	ICastEntity* from;	
 	
 	ICastEntity* to;	//null if targeting world position
-	CCPoint toPosition; //use this if 'to' is null
+	kmVec2 toPosition; //use this if 'to' is null
+	float radius;
 	
 	std::vector<CastEffect*> effects;
 
@@ -61,9 +63,12 @@ protected:
 	std::map<ICastEntity*, ICastEntity*> m_allEntities;
 	friend class ICastEntity;
 	
+	ICastPhysics* m_pPhysics;
 public:
 	CastWorldModel();
 	~CastWorldModel();
+
+	void setPhysicsInterface( ICastPhysics* physics ) { m_pPhysics = physics; }
 	
 	void addEffectInTransit( ICastEntity* from, CastEffect* effect, CastTarget* targetList, double startTime );
 	void addEffectInstant( ICastEntity* from, CastEffect* effect, CastTarget* targetList, double startTime );
