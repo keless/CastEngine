@@ -25,6 +25,8 @@ void CastTarget::clearTargetEntities()
 
 void CastTarget::addTargetEntity( ICastEntity* target )
 {
+	if( target == NULL ) return;
+
 	m_type = CTT_ENTITIES;
 	m_entityList.push_back(target);
 }

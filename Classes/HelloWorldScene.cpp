@@ -62,14 +62,14 @@ bool HelloWorld::init()
 	CastWorldModel::get()->setPhysicsInterface(this);
 
 	m_playerModel = new GameEntity("Leeroy");
-	m_playerModel->incProperty("hp_curr", -90);
+	//m_playerModel->incProperty("hp_curr", -90);
 	m_playerModel->addAbility( m_abilities["fireball"] );
 	m_playerModel->addAbility( m_abilities["sword attack"] );
 	m_playerModel->addAbility( m_abilities["Heal"] );
 	m_playerModel->addAbility( m_abilities["Life Drain"] );
 	m_playerModel->addAbility( m_abilities["Curse of Weakness"] );
 
-	m_playerView = new PlayerView( m_playerModel, this );
+	m_playerView = new GameEntityView( m_playerModel );
 	m_playerView->setPositionX(50);
 	m_playerView->setPositionY( 250 );
 	addChild(m_playerView);
@@ -109,12 +109,15 @@ void HelloWorld::spawnEnemy()
 }
 
 
+#define MAX_STEP 1.0f
 #include "CastCommandTime.h"
 #include "CastCommandScheduler.h"
 #include "CastWorldModel.h"
 //virtual 
 void HelloWorld::update( float dt )
 {
+	if( dt > MAX_STEP ) dt = MAX_STEP;
+
 	CastCommandTime::updateDelta(dt);
 	CastCommandScheduler::get()->update(dt);
 	CastWorldModel::get()->updateStep(dt);
@@ -131,18 +134,8 @@ void HelloWorld::update( float dt )
 		}
 		else {
 			enemyMovementAI(i, dt);
-			
-			/*
-			//move enemy forward
-			float speed = 25.0f; //5 pixels/sec
-			float leash = 300; //100 pixels away from player
-			float eX = enemy.enemyView->getPositionX();
-			float dx = eX - m_playerView->getPositionX();
-			if( dx > leash ) {
-				enemy.enemyView->setPositionX( eX - speed * dt );
-			}
-			 */
 
+			PerformEnemyAI(enemy.enemyModel);
 		}
 	}
 
@@ -154,6 +147,59 @@ void HelloWorld::update( float dt )
 			spawnEnemy();
 		}
 	}
+	
+	PerformPlayerAi(m_playerModel);
+}
+
+void HelloWorld::PerformEnemyAI( GameEntity* enemy )
+{
+	//select ability
+	std::vector<CastCommandState*> abilities;
+	abilities = enemy->getAbilityList();
+
+	CastCommandState* cast = abilities[ rand() % abilities.size() ];
+
+
+		//select target
+	//TODO: if beneficial, select friendly
+	//TODO: handle selection from multiple 'players'
+	enemy->getTarget()->clearTargetEntities();
+	enemy->getTarget()->addTargetEntity(m_playerModel);
+
+	if( enemy->canCast() ) {
+
+		cast->startCast();
+
+	}
+}
+
+void HelloWorld::PerformPlayerAi( GameEntity* player )
+{
+	//select ability
+	std::vector<CastCommandState*> abilities;
+	abilities = player->getAbilityList();
+
+	CastCommandState* cast = abilities[ rand() % abilities.size() ];
+
+	ICastEntity* target = NULL;
+	if( player->getTarget()->getEntityList().size() > 0 )
+		target = player->getTarget()->getEntityList()[0];
+	if( !CastWorldModel::get()->isValid( target ) )
+	{
+		player->getTarget()->clearTargetEntities();
+
+		if( m_enemies.size() > 0 ) {
+			target = m_enemies[0].enemyModel;
+			player->getTarget()->addTargetEntity(target);
+		}
+	}
+
+	if( target != NULL && player->canCast() ) {
+
+		cast->startCast();
+	}
+
+
 }
 
 void HelloWorld::enemyMovementAI( int enemyIdx, float dt )
@@ -281,7 +327,7 @@ void HelloWorld::initAbilities()
 		Json::Value bite;
 		bite["name"] = "Bite";
 		bite["castTime"] = 0.10f; //seconds
-		bite["cooldownTime"] = 1.15f; //seconds
+		bite["cooldownTime"] = 1.75f; //seconds
 		bite["range"] = 1.0f; //melee range
 
 		Json::Value effect1; //debuff
@@ -430,7 +476,7 @@ void HelloWorld::initAbilities()
 
 }
 
-#define GAME_UNIT_CONVERSION (1.0f/100.0f)
+#define GAME_UNIT_CONVERSION (1.0f/210.0f)
 
 bool HelloWorld::GetVecBetween( ICastEntity* from, ICastEntity* to, kmVec2& distVec )
 {
@@ -470,7 +516,6 @@ bool HelloWorld::GetVecBetween( ICastEntity* from, ICastEntity* to, kmVec2& dist
 		}
 	}
 
-	
 
 	kmVec2Subtract( &distVec, &pFrom, &pTo );
 	kmVec2Scale(&distVec, &distVec, GAME_UNIT_CONVERSION ); //safe to operate on same vector
@@ -512,6 +557,7 @@ bool HelloWorld::GetEntitiesInRadius( kmVec2 p, float r, std::vector<ICastEntity
 
 	bool found = false;
 
+	kmVec2Scale( &p, &p, 1.0f/GAME_UNIT_CONVERSION );
 	r /= GAME_UNIT_CONVERSION; //convert to pixels
 
 	float rSq = r*r;
@@ -524,7 +570,9 @@ bool HelloWorld::GetEntitiesInRadius( kmVec2 p, float r, std::vector<ICastEntity
 
 		kmVec2 dist;
 		kmVec2Subtract( &dist, &p, &ePos );
-		kmVec2Scale( &dist, &dist, GAME_UNIT_CONVERSION ); //safe to operate on same vector
+		//kmVec2Scale( &dist, &dist, GAME_UNIT_CONVERSION ); //safe to operate on same vector
+
+		CCLog("dist %f", kmVec2LengthSq(&dist));
 
 		if( kmVec2LengthSq(&dist) <= rSq ) {
 			entities.push_back( m_enemies[i].enemyModel );
@@ -541,7 +589,7 @@ bool HelloWorld::GetEntitiesInRadius( kmVec2 p, float r, std::vector<ICastEntity
 
 		kmVec2 dist;
 		kmVec2Subtract( &dist, &p, &ePos );
-		kmVec2Scale( &dist, &dist, GAME_UNIT_CONVERSION ); //safe to operate on same vector
+		//kmVec2Scale( &dist, &dist, GAME_UNIT_CONVERSION ); //safe to operate on same vector
 
 		if( kmVec2LengthSq(&dist) <= rSq ) {
 			entities.push_back( m_playerModel );
@@ -567,7 +615,7 @@ void HelloWorld::ccTouchesBegan(CCSet* touches, CCEvent* event)
 		if(touch == NULL)
 			break;
 
-		m_playerView->ccTouchBegan(touch, event);
+		//m_playerView->ccTouchBegan(touch, event);
 	}
 }
 
@@ -579,7 +627,7 @@ void HelloWorld::ccTouchesMoved(CCSet* touches, CCEvent* event)
 		if(touch == NULL)
 			break;
 
-		m_playerView->ccTouchMoved(touch, event);
+		//m_playerView->ccTouchMoved(touch, event);
 	}
 }
 
@@ -590,7 +638,7 @@ void HelloWorld::ccTouchesEnded(CCSet* touches, CCEvent* event)
 		auto touch = dynamic_cast<CCTouch*>(*it);
 		if(touch == NULL)
 			break;
-
+		/*
 		m_playerView->ccTouchEnded(touch, event);
 		if( m_playerModel->canCast() ) {
 			std::vector<GameAbilityView*>& abilityViews = m_playerView->getAbilityViews();
@@ -635,8 +683,9 @@ void HelloWorld::ccTouchesEnded(CCSet* touches, CCEvent* event)
 				
 			pTarget->addTargetEntity( m_enemies[touchedIdx].enemyModel);
 			m_enemies[touchedIdx].enemyView->setHighlighted(true);
+			
 		}
-
+		*/
 
 	}
 }
@@ -648,7 +697,7 @@ void HelloWorld::ccTouchesCancelled(CCSet* touches, CCEvent* event)
 		if(touch == NULL)
 			break;
 
-		m_playerView->ccTouchCancelled(touch, event);
+		//m_playerView->ccTouchCancelled(touch, event);
 	}
 }
 

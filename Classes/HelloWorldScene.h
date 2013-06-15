@@ -21,7 +21,7 @@ struct EntityPair
 class HelloWorld : public cocos2d::CCLayer, public ICastPhysics
 {
 	GameEntity* m_playerModel;
-	PlayerView* m_playerView;
+	GameEntityView* m_playerView;
 
 	std::vector<EntityPair> m_enemies;
 
@@ -35,6 +35,9 @@ public:
     virtual bool init();  
 
 	virtual void update( float dt );
+
+	void PerformEnemyAI( GameEntity* enemy );
+	void PerformPlayerAi( GameEntity* player );
 
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
     static cocos2d::CCScene* scene();
