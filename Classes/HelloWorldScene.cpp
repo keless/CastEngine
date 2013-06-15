@@ -152,6 +152,8 @@ void HelloWorld::update( float dt )
 	PerformPlayerAi(m_playerModel);
 }
 
+#define DISABLE_ATTACKS
+
 void HelloWorld::PerformEnemyAI( GameEntity* enemy )
 {
 	//select ability
@@ -169,7 +171,9 @@ void HelloWorld::PerformEnemyAI( GameEntity* enemy )
 
 	if( enemy->canCast() ) {
 
+#ifndef DISABLE_ATTACKS
 		cast->startCast();
+#endif
 
 	}
 }
@@ -197,7 +201,10 @@ void HelloWorld::PerformPlayerAi( GameEntity* player )
 
 	if( target != NULL && player->canCast() ) {
 
+#ifndef DISABLE_ATTACKS
 		cast->startCast();
+#endif
+
 	}
 
 
@@ -216,11 +223,13 @@ void HelloWorld::setCardDeath( GameEntityView* view )
 
 void HelloWorld::enemyMovementAI( int enemyIdx, float dt )
 {
-	float speed = 25.0f; //5 pixels/sec
+	float speed = 75.0f; //5 pixels/sec
 	EntityPair& enemy = m_enemies[enemyIdx];
 	
 	std::vector<kmVec2> impulses; //x, y
 	std::vector<float> impulseWeights;
+
+	//TODO: select from closest player
 	
 	CCSize eSize = enemy.enemyView->getContentSize();
 	CCPoint ePos = enemy.enemyView->getPosition();
@@ -231,25 +240,35 @@ void HelloWorld::enemyMovementAI( int enemyIdx, float dt )
 	pPos.x += pSize.width/2;
 	pPos.y += pSize.height/2; //convert to center origin
 	
+	float playerLeash = pSize.width * 1.5f;
+	float playerLeashSq = playerLeash*playerLeash;
+
 	//impulse towards the player
 	kmVec2 toPlayer = { pPos.x - ePos.x, pPos.y - ePos.y };
 	kmVec2 u_toPlayer;
 	kmVec2Normalize( &u_toPlayer, &toPlayer);
-	impulses.push_back(u_toPlayer);
-	impulseWeights.push_back(1.0f);
 	
-	float playerLeash = pSize.width * 1.5f;
-	if( kmVec2LengthSq( &toPlayer ) < playerLeash*playerLeash )
+	
+	if( kmVec2LengthSq( &toPlayer ) < (playerLeashSq * 0.95f) )
 	{
 		//impulse away from player (too close)
 		kmVec2 u_fromPlayer;
-		kmVec2Scale(&u_fromPlayer, &u_toPlayer, -1); //flip the 'to player' vector
+		kmVec2Scale(&u_fromPlayer, &u_toPlayer, -1*0.75f); //flip the 'to player' vector
 		
 		impulses.push_back(u_fromPlayer);
 		impulseWeights.push_back(100); //vastly overweigh the impulse to the player
+	}else {
+
+		if( kmVec2LengthSq(&toPlayer) > playerLeashSq )
+		{
+			//kmVec2Scale(&u_toPlayer, &u_toPlayer, 0.51f);
+					
+			impulses.push_back(u_toPlayer);
+			impulseWeights.push_back(100);
+
+		}
 	}
 	
-	//* todo
 	//add impulses away from other enemies
 	for( int i=0; i< m_enemies.size(); i++) {
 		if( i == enemyIdx ) continue;
@@ -271,8 +290,9 @@ void HelloWorld::enemyMovementAI( int enemyIdx, float dt )
 			impulseWeights.push_back(50);
 		}
 	}
-	//*/
 	
+	if( impulses.size() == 0 ) return;
+
 	//blend impulses
 	kmVec2 finalImpulse = impulses[0]; //zero always valid because its the impulse to the player
 	float finalImpulseWeight = impulseWeights[0];
