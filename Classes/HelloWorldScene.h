@@ -14,15 +14,16 @@
 
 struct EntityPair
 {
-	GameEntity* enemyModel;
-	GameEntityView* enemyView;
+	GameEntity* model;
+	GameEntityView* view;
 };
 
 class HelloWorld : public cocos2d::CCLayer, public ICastPhysics
 {
-	GameEntity* m_playerModel;
-	GameEntityView* m_playerView;
+	//GameEntity* m_playerModel;
+	//GameEntityView* m_playerView;
 
+	std::vector<EntityPair> m_players;
 	std::vector<EntityPair> m_enemies;
 
 	std::map<std::string, CastCommandModel*> m_abilities;

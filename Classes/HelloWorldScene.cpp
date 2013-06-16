@@ -61,18 +61,38 @@ bool HelloWorld::init()
 
 	CastWorldModel::get()->setPhysicsInterface(this);
 
-	m_playerModel = new GameEntity("Leeroy");
-	//m_playerModel->incProperty("hp_curr", -90);
-	m_playerModel->addAbility( m_abilities["fireball"] );
-	m_playerModel->addAbility( m_abilities["sword attack"] );
-	m_playerModel->addAbility( m_abilities["Heal"] );
-	m_playerModel->addAbility( m_abilities["Life Drain"] );
-	m_playerModel->addAbility( m_abilities["Curse of Weakness"] );
+	EntityPair player;
 
-	m_playerView = new GameEntityView( m_playerModel );
-	m_playerView->setPositionX(50);
-	m_playerView->setPositionY( 250 );
-	addChild(m_playerView);
+	player.model = new GameEntity("Leeroy");
+	//m_playerModel->incProperty("hp_curr", -90);
+	player.model->addAbility( m_abilities["fireball"] );
+	//player.model->addAbility( m_abilities["sword attack"] );
+	//player.model->addAbility( m_abilities["Heal"] );
+	player.model->addAbility( m_abilities["Life Drain"] );
+	player.model->addAbility( m_abilities["Curse of Weakness"] );
+
+	player.view = new GameEntityView( player.model );
+	player.view->setPositionX(50);
+	player.view->setPositionY( 350 );
+	addChild(player.view);
+
+	m_players.push_back(player);
+
+
+	player.model = new GameEntity("Derpsan");
+	//m_playerModel->incProperty("hp_curr", -90);
+	//player.model->addAbility( m_abilities["fireball"] );
+	player.model->addAbility( m_abilities["sword attack"] );
+	player.model->addAbility( m_abilities["Heal"] );
+	//player.model->addAbility( m_abilities["Life Drain"] );
+	//player.model->addAbility( m_abilities["Curse of Weakness"] );
+
+	player.view = new GameEntityView( player.model );
+	player.view->setPositionX(50);
+	player.view->setPositionY( 150 );
+	addChild(player.view);
+
+	m_players.push_back(player);
 
 	spawnEnemy();
 
@@ -95,16 +115,16 @@ void HelloWorld::spawnEnemy()
 	CCSize screen = boundingBox().size;
 
 	EntityPair enemy;
-	enemy.enemyModel =  new GameEntity("Giant Rat");
-	enemy.enemyModel->addAbility( m_abilities["Bite"] );
+	enemy.model =  new GameEntity("Giant Rat");
+	enemy.model->addAbility( m_abilities["Bite"] );
 	//enemy.enemyModel->incProperty("hp_curr", -90);
-	enemy.enemyModel->incProperty("hp_base", -90);
-	enemy.enemyView =  new GameEntityView( enemy.enemyModel );
-	enemy.enemyView->setBackground("rat.png");
+	enemy.model->incProperty("hp_base", -90);
+	enemy.view =  new GameEntityView( enemy.model );
+	enemy.view->setBackground("rat.png");
 	
 	int offY = (rand()%100) - 50;
-	enemy.enemyView->setPosition( screen.width, 220 + offY	);
-	addChild(enemy.enemyView);
+	enemy.view->setPosition( screen.width, 220 + offY	);
+	addChild(enemy.view);
 	m_enemies.push_back(enemy);
 }
 
@@ -125,18 +145,18 @@ void HelloWorld::update( float dt )
 	for( int i=m_enemies.size()-1; i >= 0; i--) {
 		EntityPair& enemy = m_enemies[i];
 
-		if( enemy.enemyModel->getProperty("hp_curr") <= 0 ) {
-			setCardDeath(enemy.enemyView);
+		if( enemy.model->getProperty("hp_curr") <= 0 ) {
+			setCardDeath(enemy.view);
 			//removeChild(enemy.enemyView);
-			CC_SAFE_RELEASE_NULL(enemy.enemyModel);
-			CC_SAFE_RELEASE_NULL(enemy.enemyView);
+			CC_SAFE_RELEASE_NULL(enemy.model);
+			CC_SAFE_RELEASE_NULL(enemy.view);
 
 			m_enemies.erase( m_enemies.begin() + i );
 		}
 		else {
 			enemyMovementAI(i, dt);
 
-			PerformEnemyAI(enemy.enemyModel);
+			PerformEnemyAI(enemy.model);
 		}
 	}
 
@@ -149,10 +169,16 @@ void HelloWorld::update( float dt )
 		}
 	}
 	
-	PerformPlayerAi(m_playerModel);
+	
+	for( int i=0; i< m_players.size(); i++)
+	{
+		PerformPlayerAi(m_players[i].model);
+	}
+
+	
 }
 
-#define DISABLE_ATTACKS
+//#define DISABLE_ATTACKS
 
 void HelloWorld::PerformEnemyAI( GameEntity* enemy )
 {
@@ -162,12 +188,13 @@ void HelloWorld::PerformEnemyAI( GameEntity* enemy )
 
 	CastCommandState* cast = abilities[ rand() % abilities.size() ];
 
+	EntityPair& player = m_players[0];
 
 		//select target
 	//TODO: if beneficial, select friendly
 	//TODO: handle selection from multiple 'players'
 	enemy->getTarget()->clearTargetEntities();
-	enemy->getTarget()->addTargetEntity(m_playerModel);
+	enemy->getTarget()->addTargetEntity(player.model);
 
 	if( enemy->canCast() ) {
 
@@ -194,7 +221,7 @@ void HelloWorld::PerformPlayerAi( GameEntity* player )
 		player->getTarget()->clearTargetEntities();
 
 		if( m_enemies.size() > 0 ) {
-			target = m_enemies[0].enemyModel;
+			target = m_enemies[0].model;
 			player->getTarget()->addTargetEntity(target);
 		}
 	}
@@ -230,13 +257,14 @@ void HelloWorld::enemyMovementAI( int enemyIdx, float dt )
 	std::vector<float> impulseWeights;
 
 	//TODO: select from closest player
+	EntityPair& player =  m_players[0];
 	
-	CCSize eSize = enemy.enemyView->getContentSize();
-	CCPoint ePos = enemy.enemyView->getPosition();
+	CCSize eSize = enemy.view->getContentSize();
+	CCPoint ePos = enemy.view->getPosition();
 	ePos.x += eSize.width/2;
 	ePos.y += eSize.height/2; //convert to center origin
-	CCSize pSize = m_playerView->getContentSize();
-	CCPoint pPos = m_playerView->getPosition();
+	CCSize pSize = player.view->getContentSize();
+	CCPoint pPos = player.view->getPosition();
 	pPos.x += pSize.width/2;
 	pPos.y += pSize.height/2; //convert to center origin
 	
@@ -273,8 +301,8 @@ void HelloWorld::enemyMovementAI( int enemyIdx, float dt )
 	for( int i=0; i< m_enemies.size(); i++) {
 		if( i == enemyIdx ) continue;
 		
-		CCSize nSize = m_enemies[i].enemyView->getContentSize();
-		CCPoint nPos = m_enemies[i].enemyView->getPosition();
+		CCSize nSize = m_enemies[i].view->getContentSize();
+		CCPoint nPos = m_enemies[i].view->getPosition();
 		nPos.x += nSize.width/2;
 		nPos.y += nSize.height/2;
 		
@@ -325,7 +353,7 @@ void HelloWorld::enemyMovementAI( int enemyIdx, float dt )
 	ePos.y += scaledImpulse.y;
 	ePos.x -= eSize.width/2;
 	ePos.y -= eSize.height/2; //back to original anchor coords
-	enemy.enemyView->setPosition(ePos);
+	enemy.view->setPosition(ePos);
 }
 
 void HelloWorld::initAbilities()
@@ -517,34 +545,48 @@ bool HelloWorld::GetVecBetween( ICastEntity* from, ICastEntity* to, kmVec2& dist
 	if( !world->isValid(from) || !world->isValid(to) ) return false;
 
 	kmVec2 pFrom;
-	if( from == m_playerModel ) {
-		pFrom.x = m_playerView->getPositionX();
-		pFrom.y = m_playerView->getPositionY();
-	}else {
-		for( int i=0; i< m_enemies.size(); i++ )
+	bool found = false;
+	for( int i=0; i< m_enemies.size()  && !found; i++ )
+	{
+		if( from == m_enemies[i].model )
 		{
-			if( from == m_enemies[i].enemyModel )
-			{
-				pFrom.x = m_enemies[i].enemyView->getPositionX();
-				pFrom.y = m_enemies[i].enemyView->getPositionY();
-				break;
-			}
+			pFrom.x = m_enemies[i].view->getPositionX();
+			pFrom.y = m_enemies[i].view->getPositionY();
+			found = true;
+			break;
 		}
 	}
+	for( int i=0; i< m_players.size() && !found; i++) {
+		if( from == m_players[i].model )
+		{
+			pFrom.x = m_players[i].view->getPositionX();
+			pFrom.y = m_players[i].view->getPositionY();
+			found = true;
+			break;
+		}
+	}
+	
 
 	kmVec2 pTo;
-	if( to == m_playerModel ) {
-		pTo.x = m_playerView->getPositionX();
-		pTo.y = m_playerView->getPositionY();
-	}else {
-		for( int i=0; i< m_enemies.size(); i++ )
+	found = false;
+	for( int i=0; i< m_enemies.size() && !found; i++ )
+	{
+		if( from == m_enemies[i].model )
 		{
-			if( from == m_enemies[i].enemyModel )
-			{
-				pTo.x = m_enemies[i].enemyView->getPositionX();
-				pTo.y = m_enemies[i].enemyView->getPositionY();
-				break;
-			}
+			pTo.x = m_enemies[i].view->getPositionX();
+			pTo.y = m_enemies[i].view->getPositionY();
+			found = true;
+			break;
+		}
+	}
+	for( int i=0; i< m_players.size() && !found; i++ )
+	{
+		if( from == m_players[i].model )
+		{
+			pTo.x = m_players[i].view->getPositionX();
+			pTo.y = m_players[i].view->getPositionY();
+			found = true;
+			break;
 		}
 	}
 
@@ -558,22 +600,24 @@ bool HelloWorld::GetVecBetween( ICastEntity* from, ICastEntity* to, kmVec2& dist
 bool HelloWorld::GetEntityPosition( ICastEntity* entity, kmVec2& pos )
 {
 	bool found = false;
-	if( entity == m_playerModel ) 
+	for( int i=0; i< m_enemies.size() && !found; i++ )
 	{
-		pos.x = m_playerView->getPositionX();
-		pos.y = m_playerView->getPositionY();
-
-		found = true;
-	}else {
-		for( int i=0; i< m_enemies.size(); i++ )
+		if( entity == m_enemies[i].model )
 		{
-			if( entity == m_enemies[i].enemyModel )
-			{
-				pos.x = m_enemies[i].enemyView->getPositionX();
-				pos.y = m_enemies[i].enemyView->getPositionY();
-				found = true;
-				break;
-			}
+			pos.x = m_enemies[i].view->getPositionX();
+			pos.y = m_enemies[i].view->getPositionY();
+			found = true;
+			break;
+		}
+	}
+	for( int i=0; i< m_players.size() && !found; i++ )
+	{
+		if( entity == m_players[i].model )
+		{
+			pos.x = m_players[i].view->getPositionX();
+			pos.y = m_players[i].view->getPositionY();
+			found = true;
+			break;
 		}
 	}
 
@@ -596,8 +640,8 @@ bool HelloWorld::GetEntitiesInRadius( kmVec2 p, float r, std::vector<ICastEntity
 	for( int i=0; i< m_enemies.size(); i++)
 	{
 		kmVec2 ePos;
-		ePos.x = m_enemies[i].enemyView->getPositionX();
-		ePos.y = m_enemies[i].enemyView->getPositionY();
+		ePos.x = m_enemies[i].view->getPositionX();
+		ePos.y = m_enemies[i].view->getPositionY();
 
 
 		kmVec2 dist;
@@ -607,16 +651,17 @@ bool HelloWorld::GetEntitiesInRadius( kmVec2 p, float r, std::vector<ICastEntity
 		CCLog("dist %f", kmVec2LengthSq(&dist));
 
 		if( kmVec2LengthSq(&dist) <= rSq ) {
-			entities.push_back( m_enemies[i].enemyModel );
+			entities.push_back( m_enemies[i].model );
 			found = true;
 		}
 	}
 
 	//check player
+	for( int i=0; i< m_players.size(); i++)
 	{
 		kmVec2 ePos;
-		ePos.x = m_playerView->getPositionX();
-		ePos.y = m_playerView->getPositionY();
+		ePos.x = m_players[i].view->getPositionX();
+		ePos.y = m_players[i].view->getPositionY();
 
 
 		kmVec2 dist;
@@ -624,7 +669,7 @@ bool HelloWorld::GetEntitiesInRadius( kmVec2 p, float r, std::vector<ICastEntity
 		//kmVec2Scale( &dist, &dist, GAME_UNIT_CONVERSION ); //safe to operate on same vector
 
 		if( kmVec2LengthSq(&dist) <= rSq ) {
-			entities.push_back( m_playerModel );
+			entities.push_back( m_players[i].model );
 			found = true;
 		}
 	}
