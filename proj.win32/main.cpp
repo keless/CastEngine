@@ -16,6 +16,6 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
     AppDelegate app;
     CCEGLView* eglView = CCEGLView::sharedOpenGLView();
     eglView->setViewName("Leeroy and the Giant Rat");
-    eglView->setFrameSize(1280, 800);
+    eglView->setFrameSize(960, 640);
     return CCApplication::sharedApplication()->run();
 }

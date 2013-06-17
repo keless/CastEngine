@@ -31,6 +31,7 @@ GameEntity::GameEntity(std::string name)
 	m_statsMap["xp_curr"] = &xp_curr;
 	m_statsMap["xp_next"] = &xp_next;
 	m_statsMap["xp_level"] = &xp_level;
+	m_statsMap["xp_worth"] = &xp_curr;
 
 	m_abilityTargets = new CastTarget();
 }
@@ -48,7 +49,7 @@ GameEntity::~GameEntity(void)
 std::string GameEntity::getLevelStr()
 {
 	char buff[128];
-	snprintf(buff, 128, "%.0f", xp_level);
+	snprintf(buff, 128, "%d", xp_level);
 	return buff;
 }
 
@@ -79,7 +80,7 @@ bool GameEntity::canCast()
 	return true;
 }
 
-void GameEntity::incProperty( std::string propName, float value )
+void GameEntity::incProperty( std::string propName, float value, CastEffect* effect )
 {
 	if( m_statsMap.count(propName) == 0 ) return;
 	(*m_statsMap[propName]) += value;
@@ -93,12 +94,20 @@ void GameEntity::incProperty( std::string propName, float value )
 	
 	//bounds check hp_curr
 	if( propName.compare("hp_curr") == 0 ) {
-		if( value > 0 && m_name.compare("Leeroy") != 0 ) {
-			CCLog("heal");
-		}
-
 		if( hp_curr < 0 ) hp_curr = 0;
 		if( hp_curr > hp_base ) hp_curr = hp_base;
+
+		if( hp_curr == 0 ) {
+			
+			GameEntity* killer = NULL;
+			if( CastWorldModel::get()->isValid( effect->getOrigin() ) ) {
+				killer = dynamic_cast<GameEntity*>( effect->getOrigin() );
+			}
+			CCLog("%s: I am slain, by %s!", m_name.c_str(), killer?killer->getName().c_str():"a ghost");
+
+			GameEntityDeathEvt* evt = new GameEntityDeathEvt(killer, this);
+			ZZEventBus::game()->dispatch("GameEntityDeathEvt", evt);
+		}
 	}
 
 	CCLog("stat %s delta %0.2f", propName.c_str(), value);
@@ -115,7 +124,7 @@ void GameEntity::startBuffProperty( std::string propName, float value, CastEffec
 	if( m_statsMap.count(propName) == 0 ) return;
 	(*m_statsMap[propName]) += value;
 	
-	CCLOG("start buff %s - %f", propName.c_str(), CastCommandTime::get() );
+	//CCLOG("start buff %s - %f", propName.c_str(), CastCommandTime::get() );
 
 	if( propName.compare("hp_base") == 0 ) {
 		if( hp_base < 0 ) hp_base = 0;
@@ -130,7 +139,7 @@ void GameEntity::endBuffProperty( std::string propName, float value, CastEffect*
 
 	(*m_statsMap[propName]) += value;
 
-	CCLOG("end buff %s - %f", propName.c_str(), CastCommandTime::get() );
+	//CCLOG("end buff %s - %f", propName.c_str(), CastCommandTime::get() );
 
 	if( propName.compare("hp_base") == 0 ) {
 
@@ -170,13 +179,13 @@ void GameEntity::applyEffect( CastEffect* effect )
 	
 	if( effect->getLifeTime() == 0 ) 
 	{
-		CCLog("apply instant effect");
+		//CCLog("apply instant effect");
 
 		effect->doEffect();
 
 	}
 	else {
-		CCLog("todo: apply effect over time");
+		//CCLog("apply effect over time");
 
 		if( effect->getType() == CET_BUFF_STAT ) 
 		{

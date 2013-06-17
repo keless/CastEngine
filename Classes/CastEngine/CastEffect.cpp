@@ -42,7 +42,7 @@ CastEffect::~CastEffect()
 	//unschedule any callbacks
 	cancelTicks();
 
-	CCLOG("~CastEffect");
+	//CCLOG("~CastEffect");
 }
 
 void CastEffect::initReturnEffect( CastEffect* parent )
@@ -202,20 +202,20 @@ void CastEffect::doEffect()
 		m_pTarget->handleEffectReaction( json["react"], this );
 	}
 	
-	CCLog("on tick %d", m_numTicksCompleted);
+	//CCLog("on tick %d", m_numTicksCompleted);
 	switch( m_type ) 
 	{
 	case CET_DAMAGE_STAT:
-		m_pTarget->incProperty( m_targetStat, -1* m_value );
+		m_pTarget->incProperty( m_targetStat, -1* m_value, this );
 		break;
 
 	case CET_HEAL_STAT:
-		m_pTarget->incProperty( m_targetStat,  m_value );
+		m_pTarget->incProperty( m_targetStat,  m_value, this );
 		break;
 
 	case CET_SUPPRESS_STAT:
 		m_pTarget->startBuffProperty( m_targetStat, -1* m_value, this );
-		CCLog("cast at %f - lifetime %f", CastCommandTime::get(), m_lifeTime );
+		//CCLog("cast at %f - lifetime %f", CastCommandTime::get(), m_lifeTime );
 		CastCommandScheduler::get()->scheduleSelector( schedule_selector(CastEffect::onTick), this, m_lifeTime, 0, 0.0f, false);
 		break;
 				

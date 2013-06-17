@@ -63,7 +63,7 @@ public:
 	bool canCast();
 
 	//ICastEntity methods
-	virtual void incProperty( std::string propName, float value );
+	virtual void incProperty( std::string propName, float value, CastEffect* effect );
 	virtual float getProperty( std::string propName );
 	virtual void  startBuffProperty( std::string propName, float value, CastEffect* buff);
 	virtual void  endBuffProperty( std::string propName, float value, CastEffect* buff);
@@ -77,6 +77,7 @@ public:
 
 };
 
+//dispatches from the game entity
 class GameEntityPropertyChangeEvt  : public CCObject
 {
 public:
@@ -86,6 +87,7 @@ public:
 	GameEntityPropertyChangeEvt(std::string propertyName, float valueChange ) : prop(propertyName), delta(valueChange) { this->autorelease(); }
 };
 
+//dispatches from the game entity
 class GameEntityReactEvt : public CCObject 
 {
 public:
@@ -94,5 +96,17 @@ public:
 
 	GameEntityReactEvt( Json::Value reaction, CastEffect* src ) : react(reaction), source(src) { this->autorelease(); }
 };
+
+
+//NOTE: dispatches on global game bus, not the GameEntity
+class GameEntityDeathEvt : public CCObject
+{
+public:
+	ICastEntity* killer;
+	ICastEntity* killed;
+
+	GameEntityDeathEvt( ICastEntity* kill_origin, ICastEntity* dead_entity ) : killer(kill_origin), killed(dead_entity) { this->autorelease(); }
+};
+
 
 #endif

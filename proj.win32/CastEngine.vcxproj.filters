@@ -40,9 +40,6 @@
     <ClCompile Include="..\Classes\ext\json\json_writer.cpp">
       <Filter>ext\jsoncpp</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\HelloWorldScene.cpp">
-      <Filter>Application</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Application</Filter>
     </ClCompile>
@@ -63,6 +60,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\CastEngine\CastPhysics.cpp">
       <Filter>CastEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\BattleScene.cpp">
+      <Filter>Application</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -123,9 +123,6 @@
     <ClInclude Include="..\Classes\ext\json\value.h">
       <Filter>ext\jsoncpp</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\HelloWorldScene.h">
-      <Filter>Application</Filter>
-    </ClInclude>
     <ClInclude Include="main.h">
       <Filter>Application</Filter>
     </ClInclude>
@@ -146,6 +143,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\CastEngine\CastPhysics.h">
       <Filter>CastEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\BattleScene.h">
+      <Filter>Application</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -18,7 +18,7 @@ struct EntityPair
 	GameEntityView* view;
 };
 
-class HelloWorld : public cocos2d::CCLayer, public ICastPhysics
+class BattleScene : public cocos2d::CCLayer, public ICastPhysics
 {
 	//GameEntity* m_playerModel;
 	//GameEntityView* m_playerView;
@@ -40,6 +40,8 @@ public:
 	void PerformEnemyAI( GameEntity* enemy );
 	void PerformPlayerAi( GameEntity* player );
 
+
+	void onEntityDeath( CCObject* e );
 	void setCardDeath( GameEntityView* view );
 
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
@@ -60,7 +62,7 @@ public:
     virtual void ccTouchesCancelled(CCSet* touches, CCEvent* event);
     
     // implement the "static node()" method manually
-    CREATE_FUNC(HelloWorld);
+    CREATE_FUNC(BattleScene);
 };
 
 #endif // __HELLOWORLD_SCENE_H__

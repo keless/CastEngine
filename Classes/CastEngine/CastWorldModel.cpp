@@ -123,7 +123,7 @@ void CastWorldModel::addEffectInstant(  ICastEntity* from, CastEffect* effect, C
 
 void CastWorldModel::applyEffectToTarget( CastEffectPath path )
 {
-	CCLOG("apply effects to target");
+	//CCLOG("apply effects to target");
 	double currTime = CastCommandTime::get();
 
 	for( int i=0; i< path.effects.size(); i++) 

@@ -198,7 +198,7 @@ void CastCommandState::onCastComplete()
 		}
 
 		//apply cost
-		m_iOwner->incProperty( m_costStat, -1*m_costVal );
+		m_iOwner->incProperty( m_costStat, -1*m_costVal, NULL );
 
 	}
 

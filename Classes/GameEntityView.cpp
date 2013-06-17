@@ -129,7 +129,7 @@ void GameEntityView::onStatUpdate(CCObject* e)
 
 void GameEntityView::doShake()
 {
-	CCLog("shake entity view ");
+	//CCLog("shake entity view ");
 #define SHAKE_TAG 0xDEADBEEF
 	if( getActionByTag(SHAKE_TAG) == NULL ) {
 		CCSequence* shake = CCSequence::create(
@@ -145,7 +145,7 @@ void GameEntityView::doShake()
 
 void GameEntityView::doBurn()
 {
-	CCLog("todo: particle system burn");
+	//CCLog("particle system burn");
 
 	CCParticleFire* fire = CCParticleFire::createWithTotalParticles(150);
 	CCPoint point = CCPointMake(  m_healthBar->getContentSize().width/2, 0 );
@@ -173,7 +173,7 @@ void GameEntityView::doBurn()
 
 void GameEntityView::doLifedrain( ICastEntity* to )
 {
-	CCParticleFire* life = CCParticleFire::createWithTotalParticles(50);
+	CCParticleFire* life = CCParticleFire::createWithTotalParticles(25);
 	CCPoint point =  m_healthBar->boundingBox().origin;
 
 	life->setStartColor( ccc4f(0,1.0f,0,1.0f) );
@@ -182,7 +182,7 @@ void GameEntityView::doLifedrain( ICastEntity* to )
 
 	//TODO: use physics interface to get position of 'to' entity and direct stream
 
-	life->setGravity( CCPointMake( -90, 0 ) );
+	life->setGravity( CCPointMake( -30, 0 ) );
 	life->setStartSize(25);
 	life->setPosVar( CCPointMake( 10,10 ));
 
@@ -201,14 +201,14 @@ void GameEntityView::doLifedrain( ICastEntity* to )
 
 void GameEntityView::doHeal()
 {
-	CCParticleFire* heal = CCParticleFire::createWithTotalParticles(150);
+	CCParticleFire* heal = CCParticleFire::createWithTotalParticles(25);
 	CCPoint point = CCPointMake(  m_healthBar->getContentSize().width/2, 0 );
 
 	heal->setStartColor( ccc4f(1,1,1,1.0f) );
 	heal->setEndColor( ccc4f(1,1,1,1.0f) );
 
-	heal->setSpeed(20);
-	heal->setStartSize(25);
+	heal->setSpeed(10);
+	heal->setStartSize(15);
 	CCPoint posVar = heal->getPosVar();
 	posVar.y /= 2;
 	heal->setPosVar( posVar );
@@ -219,7 +219,7 @@ void GameEntityView::doHeal()
 	CCSequence* seq = CCSequence::create(
 					CCDelayTime::create(0.5f),
 					CCCallFunc::create(heal, callfunc_selector(CCParticleFire::stopSystem)),
-					CCDelayTime::create(2.5f),
+					CCDelayTime::create(1.5f),
 					CCRemoveSelf::create(true),
 					NULL
 				);
@@ -233,7 +233,7 @@ void GameEntityView::onShouldReact(CCObject* e)
 	GameEntityReactEvt* evt = dynamic_cast<GameEntityReactEvt*>(e);
 	if( evt == NULL ) return;
 
-	CCLog("todo: react to effect");
+	//react to effect
 
 	if( evt->react.isString() ) {
 		std::string react = evt->react.asString();

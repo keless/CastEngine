@@ -1,16 +1,16 @@
-#include "HelloWorldScene.h"
+#include "BattleScene.h"
 
 USING_NS_CC;
 
 #include "CastWorldModel.h"
 
-CCScene* HelloWorld::scene()
+CCScene* BattleScene::scene()
 {
     // 'scene' is an autorelease object
     CCScene *scene = CCScene::create();
     
     // 'layer' is an autorelease object
-    HelloWorld *layer = HelloWorld::create();
+    BattleScene *layer = BattleScene::create();
 
     // add layer as a child to scene
     scene->addChild(layer);
@@ -20,7 +20,7 @@ CCScene* HelloWorld::scene()
 }
 
 // on "init" you need to initialize your instance
-bool HelloWorld::init()
+bool BattleScene::init()
 {
     //////////////////////////////
     // 1. super init first
@@ -37,7 +37,7 @@ bool HelloWorld::init()
                                         "CloseNormal.png",
                                         "CloseSelected.png",
                                         this,
-                                        menu_selector(HelloWorld::menuCloseCallback));
+                                        menu_selector(BattleScene::menuCloseCallback));
     
 	pCloseItem->setPosition(ccp(origin.x + visibleSize.width - pCloseItem->getContentSize().width/2 ,
                                 origin.y + pCloseItem->getContentSize().height/2));
@@ -52,6 +52,9 @@ bool HelloWorld::init()
 
 	initAbilities();
 
+	//todo: remove listener on destructor
+	ZZEventBus::game()->addListener("GameEntityDeathEvt", this, callfuncO_selector(BattleScene::onEntityDeath));
+
 	/*
 	CastCommandState* state = new CastCommandState(  m_abilities["fireball"] );
 	GameAbilityView* test = new GameAbilityView( state );
@@ -65,7 +68,7 @@ bool HelloWorld::init()
 
 	player.model = new GameEntity("Leeroy");
 	//m_playerModel->incProperty("hp_curr", -90);
-	player.model->incProperty("xp_next", 100);
+	player.model->incProperty("xp_next", 100, NULL);
 	player.model->addAbility( m_abilities["fireball"] );
 	//player.model->addAbility( m_abilities["sword attack"] );
 	//player.model->addAbility( m_abilities["Heal"] );
@@ -82,7 +85,7 @@ bool HelloWorld::init()
 
 	player.model = new GameEntity("Derpsan");
 	//m_playerModel->incProperty("hp_curr", -90);
-	player.model->incProperty("xp_next", 100);
+	player.model->incProperty("xp_next", 100, NULL);
 	//player.model->addAbility( m_abilities["fireball"] );
 	player.model->addAbility( m_abilities["sword attack"] );
 	//player.model->addAbility( m_abilities["Heal"] );
@@ -111,16 +114,15 @@ bool HelloWorld::init()
     return true;
 }
 
-void HelloWorld::spawnEnemy()
+void BattleScene::spawnEnemy()
 {
-	CCLog("spawn enemy");
 	CCSize screen = boundingBox().size;
 
 	EntityPair enemy;
 	enemy.model =  new GameEntity("Giant Rat");
 	enemy.model->addAbility( m_abilities["Bite"] );
 	//enemy.enemyModel->incProperty("hp_curr", -90);
-	enemy.model->incProperty("hp_base", -50);
+	enemy.model->incProperty("hp_base", -50, NULL);
 	enemy.view =  new GameEntityView( enemy.model );
 	enemy.view->setBackground("rat.png");
 	
@@ -137,7 +139,7 @@ void HelloWorld::spawnEnemy()
 #include "CastCommandScheduler.h"
 #include "CastWorldModel.h"
 //virtual 
-void HelloWorld::update( float dt )
+void BattleScene::update( float dt )
 {
 	if( dt > MAX_STEP ) dt = MAX_STEP;
 
@@ -166,10 +168,9 @@ void HelloWorld::update( float dt )
 	}
 
 	if( m_enemies.size()  == 0 ) {
-		int randNum = rand() % 3;
+		int randNum = 1 + (rand() % 3);
 		CCLog("spawn %d enemies", randNum);
 		for( int i=0; i< randNum; i++) {
-			CCLog("spawn");
 			spawnEnemy();
 		}
 	}
@@ -185,7 +186,7 @@ void HelloWorld::update( float dt )
 
 //#define DISABLE_ATTACKS
 
-void HelloWorld::PerformEnemyAI( GameEntity* enemy )
+void BattleScene::PerformEnemyAI( GameEntity* enemy )
 {
 	//select ability
 	std::vector<CastCommandState*> abilities;
@@ -210,7 +211,7 @@ void HelloWorld::PerformEnemyAI( GameEntity* enemy )
 	}
 }
 
-void HelloWorld::PerformPlayerAi( GameEntity* player )
+void BattleScene::PerformPlayerAi( GameEntity* player )
 {
 	//select ability
 	std::vector<CastCommandState*> abilities;
@@ -242,7 +243,30 @@ void HelloWorld::PerformPlayerAi( GameEntity* player )
 
 }
 
-void HelloWorld::setCardDeath( GameEntityView* view )
+void BattleScene::onEntityDeath( CCObject* e )
+{
+	GameEntityDeathEvt* evt = dynamic_cast<GameEntityDeathEvt*>(e);
+	if(!evt) return;
+
+	bool killerIsPlayer = false;
+	for( int i=0; i< m_players.size(); i++)
+	{
+		if( m_players[i].model == evt->killer ) 
+		{
+			killerIsPlayer = true;
+			break;
+		}
+	}
+
+	if( killerIsPlayer ) {
+		CCLOG("TODO: reward XP");
+	}
+
+	
+
+}
+
+void BattleScene::setCardDeath( GameEntityView* view )
 {
 	CCSequence* seq = CCSequence::create(
 		CCScaleTo::create(1.f, 1.2f, 0.1f),
@@ -253,7 +277,7 @@ void HelloWorld::setCardDeath( GameEntityView* view )
 	view->runAction( seq );
 }
 
-void HelloWorld::enemyMovementAI( int enemyIdx, float dt )
+void BattleScene::enemyMovementAI( int enemyIdx, float dt )
 {
 	float speed = 75.0f; //5 pixels/sec
 	EntityPair& enemy = m_enemies[enemyIdx];
@@ -361,7 +385,7 @@ void HelloWorld::enemyMovementAI( int enemyIdx, float dt )
 	enemy.view->setPosition(ePos);
 }
 
-void HelloWorld::initAbilities()
+void BattleScene::initAbilities()
 {
 	CastCommandModel* mod = NULL;
 
@@ -543,7 +567,7 @@ void HelloWorld::initAbilities()
 
 #define GAME_UNIT_CONVERSION (1.0f/210.0f)
 
-bool HelloWorld::GetVecBetween( ICastEntity* from, ICastEntity* to, kmVec2& distVec )
+bool BattleScene::GetVecBetween( ICastEntity* from, ICastEntity* to, kmVec2& distVec )
 {
 	CastWorldModel* world = CastWorldModel::get();
 
@@ -602,7 +626,7 @@ bool HelloWorld::GetVecBetween( ICastEntity* from, ICastEntity* to, kmVec2& dist
 	return true;
 }
 
-bool HelloWorld::GetEntityPosition( ICastEntity* entity, kmVec2& pos )
+bool BattleScene::GetEntityPosition( ICastEntity* entity, kmVec2& pos )
 {
 	bool found = false;
 	for( int i=0; i< m_enemies.size() && !found; i++ )
@@ -633,7 +657,7 @@ bool HelloWorld::GetEntityPosition( ICastEntity* entity, kmVec2& pos )
 	return found;
 }
 
-bool HelloWorld::GetEntitiesInRadius( kmVec2 p, float r, std::vector<ICastEntity*>& entities )
+bool BattleScene::GetEntitiesInRadius( kmVec2 p, float r, std::vector<ICastEntity*>& entities )
 {
 
 	bool found = false;
@@ -689,7 +713,7 @@ inline CCPoint locationInGLFromTouch(CCTouch& touch)
 }
 
 
-void HelloWorld::ccTouchesBegan(CCSet* touches, CCEvent* event)
+void BattleScene::ccTouchesBegan(CCSet* touches, CCEvent* event)
 {
 	for(auto it = touches->begin(); it != touches->end(); it++) 
 	{
@@ -701,7 +725,7 @@ void HelloWorld::ccTouchesBegan(CCSet* touches, CCEvent* event)
 	}
 }
 
-void HelloWorld::ccTouchesMoved(CCSet* touches, CCEvent* event)
+void BattleScene::ccTouchesMoved(CCSet* touches, CCEvent* event)
 {
 	for(auto it = touches->begin(); it != touches->end(); it++) 
 	{
@@ -713,7 +737,7 @@ void HelloWorld::ccTouchesMoved(CCSet* touches, CCEvent* event)
 	}
 }
 
-void HelloWorld::ccTouchesEnded(CCSet* touches, CCEvent* event)
+void BattleScene::ccTouchesEnded(CCSet* touches, CCEvent* event)
 {
 	for(auto it = touches->begin(); it != touches->end(); it++) 
 	{
@@ -771,7 +795,7 @@ void HelloWorld::ccTouchesEnded(CCSet* touches, CCEvent* event)
 
 	}
 }
-void HelloWorld::ccTouchesCancelled(CCSet* touches, CCEvent* event)
+void BattleScene::ccTouchesCancelled(CCSet* touches, CCEvent* event)
 {
 	for(auto it = touches->begin(); it != touches->end(); it++) 
 	{
@@ -784,7 +808,7 @@ void HelloWorld::ccTouchesCancelled(CCSet* touches, CCEvent* event)
 }
 
 
-void HelloWorld::menuCloseCallback(CCObject* pSender)
+void BattleScene::menuCloseCallback(CCObject* pSender)
 {
     CCDirector::sharedDirector()->end();
 
