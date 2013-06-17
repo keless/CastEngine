@@ -2,7 +2,7 @@
 #define _CASTPHYSICS_H_
 
 #include "CastEntity.h"
-#include "kazmath\kazmath.h"
+#include <kazmath/kazmath.h>
 
 class ICastPhysics
 {

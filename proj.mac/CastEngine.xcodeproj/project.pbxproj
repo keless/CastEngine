@@ -165,7 +165,6 @@
 		1AFAF8C416D3884900DB1158 /* CloseSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AFAF8C116D3884900DB1158 /* CloseSelected.png */; };
 		1AFAF8C516D3884900DB1158 /* HelloWorld.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AFAF8C216D3884900DB1158 /* HelloWorld.png */; };
 		1AFAF8CA16D3886000DB1158 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AFAF8C616D3886000DB1158 /* AppDelegate.cpp */; };
-		1AFAF8CB16D3886000DB1158 /* HelloWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AFAF8C816D3886000DB1158 /* HelloWorldScene.cpp */; };
 		33BDC068175FC13100BE734B /* CastCommandModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33BDC05A175FC13100BE734B /* CastCommandModel.cpp */; };
 		33BDC069175FC13100BE734B /* CastCommandScheduler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33BDC05C175FC13100BE734B /* CastCommandScheduler.cpp */; };
 		33BDC06A175FC13100BE734B /* CastCommandState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33BDC05E175FC13100BE734B /* CastCommandState.cpp */; };
@@ -187,6 +186,8 @@
 		33BDC0A1176269B300BE734B /* CastWorldModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33BDC09F176269B300BE734B /* CastWorldModel.cpp */; };
 		33BDC0A41767AFF500BE734B /* rat.png in Resources */ = {isa = PBXBuildFile; fileRef = 33BDC0A31767AFF500BE734B /* rat.png */; };
 		33BDC0C2176A59F700BE734B /* PlayerView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33BDC0C0176A59F700BE734B /* PlayerView.cpp */; };
+		33EA40F8176F767300ABF61A /* CastPhysics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33EA40F6176F767300ABF61A /* CastPhysics.cpp */; };
+		33EA40FB176F768600ABF61A /* BattleScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33EA40F9176F768600ABF61A /* BattleScene.cpp */; };
 		41BC70E415BF81A5006A0A6C /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 41BC70DA15BF81A5006A0A6C /* AppController.mm */; };
 		41BC70E515BF81A5006A0A6C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 41BC70DC15BF81A5006A0A6C /* InfoPlist.strings */; };
 		41BC70E615BF81A5006A0A6C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41BC70DE15BF81A5006A0A6C /* MainMenu.xib */; };
@@ -525,8 +526,6 @@
 		1AFAF8C216D3884900DB1158 /* HelloWorld.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HelloWorld.png; sourceTree = "<group>"; };
 		1AFAF8C616D3886000DB1158 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AppDelegate.cpp; path = ../Classes/AppDelegate.cpp; sourceTree = "<group>"; };
 		1AFAF8C716D3886000DB1158 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ../Classes/AppDelegate.h; sourceTree = "<group>"; };
-		1AFAF8C816D3886000DB1158 /* HelloWorldScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HelloWorldScene.cpp; path = ../Classes/HelloWorldScene.cpp; sourceTree = "<group>"; };
-		1AFAF8C916D3886000DB1158 /* HelloWorldScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HelloWorldScene.h; path = ../Classes/HelloWorldScene.h; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Test.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33BDC05A175FC13100BE734B /* CastCommandModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CastCommandModel.cpp; sourceTree = "<group>"; };
 		33BDC05B175FC13100BE734B /* CastCommandModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CastCommandModel.h; sourceTree = "<group>"; };
@@ -572,6 +571,10 @@
 		33BDC0A31767AFF500BE734B /* rat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rat.png; sourceTree = "<group>"; };
 		33BDC0C0176A59F700BE734B /* PlayerView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PlayerView.cpp; path = ../Classes/PlayerView.cpp; sourceTree = "<group>"; };
 		33BDC0C1176A59F700BE734B /* PlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayerView.h; path = ../Classes/PlayerView.h; sourceTree = "<group>"; };
+		33EA40F6176F767300ABF61A /* CastPhysics.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CastPhysics.cpp; sourceTree = "<group>"; };
+		33EA40F7176F767300ABF61A /* CastPhysics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CastPhysics.h; sourceTree = "<group>"; };
+		33EA40F9176F768600ABF61A /* BattleScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BattleScene.cpp; path = ../Classes/BattleScene.cpp; sourceTree = "<group>"; };
+		33EA40FA176F768600ABF61A /* BattleScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BattleScene.h; path = ../Classes/BattleScene.h; sourceTree = "<group>"; };
 		41BC70D915BF81A5006A0A6C /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = SOURCE_ROOT; };
 		41BC70DA15BF81A5006A0A6C /* AppController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppController.mm; sourceTree = SOURCE_ROOT; };
 		41BC70DD15BF81A5006A0A6C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
@@ -618,8 +621,8 @@
 				33BDC057175FC11900BE734B /* ext */,
 				1AFAF8C616D3886000DB1158 /* AppDelegate.cpp */,
 				1AFAF8C716D3886000DB1158 /* AppDelegate.h */,
-				1AFAF8C816D3886000DB1158 /* HelloWorldScene.cpp */,
-				1AFAF8C916D3886000DB1158 /* HelloWorldScene.h */,
+				33EA40F9176F768600ABF61A /* BattleScene.cpp */,
+				33EA40FA176F768600ABF61A /* BattleScene.h */,
 			);
 			name = Classes;
 			path = ../classes;
@@ -1209,6 +1212,8 @@
 				33BDC063175FC13100BE734B /* CastEffect.h */,
 				33BDC064175FC13100BE734B /* CastEntity.cpp */,
 				33BDC065175FC13100BE734B /* CastEntity.h */,
+				33EA40F6176F767300ABF61A /* CastPhysics.cpp */,
+				33EA40F7176F767300ABF61A /* CastPhysics.h */,
 				33BDC066175FC13100BE734B /* CastTarget.cpp */,
 				33BDC067175FC13100BE734B /* CastTarget.h */,
 				33BDC09F176269B300BE734B /* CastWorldModel.cpp */,
@@ -1520,7 +1525,6 @@
 				8C583FAD169DB6D500F63A10 /* CCEditBox.cpp in Sources */,
 				8C583FAE169DB6D500F63A10 /* CCEditBoxImplMac.mm in Sources */,
 				1AFAF8CA16D3886000DB1158 /* AppDelegate.cpp in Sources */,
-				1AFAF8CB16D3886000DB1158 /* HelloWorldScene.cpp in Sources */,
 				1A40E75B1727BFC6006D4861 /* Animation.cpp in Sources */,
 				1A40E75C1727BFC6006D4861 /* AnimationState.cpp in Sources */,
 				1A40E75D1727BFC6006D4861 /* AnimationStateData.cpp in Sources */,
@@ -1557,6 +1561,8 @@
 				33BDC094175FC15200BE734B /* json_writer.cpp in Sources */,
 				33BDC0A1176269B300BE734B /* CastWorldModel.cpp in Sources */,
 				33BDC0C2176A59F700BE734B /* PlayerView.cpp in Sources */,
+				33EA40F8176F767300ABF61A /* CastPhysics.cpp in Sources */,
+				33EA40FB176F768600ABF61A /* BattleScene.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
