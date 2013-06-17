@@ -31,6 +31,10 @@ class GameEntity :
 	int agi_base;
 	int agi_curr;
 
+	int xp_level;
+	int xp_curr;
+	int xp_next;
+
 	std::map<std::string, int*> m_statsMap;
 
 	std::string m_name;
@@ -50,6 +54,7 @@ public:
 	~GameEntity(void);
 	
 	std::string getName() { return m_name; }
+	std::string getLevelStr();
 
 	virtual void addAbility( CastCommandModel* ability );
 	std::vector<CastCommandState*>& getAbilityList();

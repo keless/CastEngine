@@ -65,6 +65,7 @@ bool HelloWorld::init()
 
 	player.model = new GameEntity("Leeroy");
 	//m_playerModel->incProperty("hp_curr", -90);
+	player.model->incProperty("xp_next", 100);
 	player.model->addAbility( m_abilities["fireball"] );
 	//player.model->addAbility( m_abilities["sword attack"] );
 	//player.model->addAbility( m_abilities["Heal"] );
@@ -81,9 +82,10 @@ bool HelloWorld::init()
 
 	player.model = new GameEntity("Derpsan");
 	//m_playerModel->incProperty("hp_curr", -90);
+	player.model->incProperty("xp_next", 100);
 	//player.model->addAbility( m_abilities["fireball"] );
 	player.model->addAbility( m_abilities["sword attack"] );
-	player.model->addAbility( m_abilities["Heal"] );
+	//player.model->addAbility( m_abilities["Heal"] );
 	//player.model->addAbility( m_abilities["Life Drain"] );
 	//player.model->addAbility( m_abilities["Curse of Weakness"] );
 
@@ -118,7 +120,7 @@ void HelloWorld::spawnEnemy()
 	enemy.model =  new GameEntity("Giant Rat");
 	enemy.model->addAbility( m_abilities["Bite"] );
 	//enemy.enemyModel->incProperty("hp_curr", -90);
-	enemy.model->incProperty("hp_base", -90);
+	enemy.model->incProperty("hp_base", -50);
 	enemy.view =  new GameEntityView( enemy.model );
 	enemy.view->setBackground("rat.png");
 	
@@ -130,6 +132,7 @@ void HelloWorld::spawnEnemy()
 
 
 #define MAX_STEP 1.0f
+#define TIME_SCALE 0.5f
 #include "CastCommandTime.h"
 #include "CastCommandScheduler.h"
 #include "CastWorldModel.h"
@@ -137,6 +140,8 @@ void HelloWorld::spawnEnemy()
 void HelloWorld::update( float dt )
 {
 	if( dt > MAX_STEP ) dt = MAX_STEP;
+
+	dt *= TIME_SCALE;
 
 	CastCommandTime::updateDelta(dt);
 	CastCommandScheduler::get()->update(dt);

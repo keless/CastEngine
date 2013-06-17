@@ -153,9 +153,9 @@ void CastEffect::onTick( float dt )
 		if( delta == m_lifeTime ) {
 			CastCommandScheduler::get()->unscheduleSelector( schedule_selector(CastEffect::onTick), this );
 			if( m_type == CET_BUFF_STAT ) {
-				m_pTarget->endBuffProperty( m_targetStat, m_value, this );
+				m_pTarget->endBuffProperty( m_targetStat, -1* m_value, this );
 			}else {
-				m_pTarget->endBuffProperty( m_targetStat, -1 * m_value, this );
+				m_pTarget->endBuffProperty( m_targetStat, m_value, this );
 			}
 
 			m_pTarget->removeEffect(this);

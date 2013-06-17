@@ -17,38 +17,65 @@ GameEntityView::GameEntityView( GameEntity* entity )
 //virtual 
 void GameEntityView::initView()
 {
-	setContentSize( CCSizeMake( 200, 200 ));
+	int cardW = 200;
+	int cardH = 200;
+	setContentSize( CCSizeMake( cardW, cardH ));
 
-	CCLayerColor* bg = CCLayerColor::create(ccc4(25,25,25,255), 200,200);
+	CCLayerColor* bg = CCLayerColor::create(ccc4(25,25,25,255), cardW,cardH);
 	bg->setAnchorPoint(ccp(0,0));
-	addChild(bg);
+	addChild(bg, 1);
 
-	m_highlight = CCLayerColor::create(ccc4(200,200,20,255), 204,204);
-	m_highlight->setPosition(ccp(-2,-2));
+	int margin = 2;
+	m_highlight = CCLayerColor::create(ccc4(200,200,20,255), cardW+margin*2,cardH+margin*2);
+	m_highlight->setPosition(ccp(-margin,-margin));
 	m_highlight->setAnchorPoint(ccp(0,0));
-	addChild(m_highlight);
+	addChild(m_highlight, 0);
 	setHighlighted(false);
 
 	m_lblName = CCLabelTTF::create();
 	m_lblName->initWithString( m_pEntity->getName().c_str(), "Arial", 24.0f  );
 	m_lblName->setAnchorPoint(ccp(0.0f, 1.0f ) );
-	m_lblName->setPositionY(200);
+	m_lblName->setPositionY(cardH);
 	addChild(m_lblName, 50);
 
-	m_healthBar = ZZProgressBar::create( CCRectMake(0,0, 100, 30) );
-	m_healthBar->setMargin(2);
-	m_healthBar->setProgress(  (m_pEntity->getProperty("hp_curr")) / (float) (m_pEntity->getProperty("hp_base")) );
+	int healthBarH = 30;
+	m_healthBar = ZZProgressBar::create( CCRectMake(0,0, cardW/2, healthBarH) );
+	m_healthBar->setMargin(margin);
+	m_healthBar->setProgress(  m_pEntity->getProperty("hp_curr") / (m_pEntity->getProperty("hp_base")) );
 	m_healthBar->setAnchorPoint(ccp(0.0f, 1.0f) );
 	m_healthBar->setPositionY( 200 - m_lblName->getContentSize().height );
 	addChild(m_healthBar, 49);
 
-	m_manaBar = ZZProgressBar::create( CCRectMake( 0,0, 100, 10 ) );
-	m_manaBar->setMargin(2);
+	int manaBarH = 10;
+	m_manaBar = ZZProgressBar::create( CCRectMake( 0,0, cardW/2, manaBarH ) );
+	m_manaBar->setMargin(margin);
 	m_manaBar->setColor( ccc3(50,50,255), ccc3(50,50,50) );
-	m_manaBar->setProgress( (m_pEntity->getProperty("mana_curr")) / (float) (m_pEntity->getProperty("mana_base")) );
+	m_manaBar->setProgress( m_pEntity->getProperty("mana_curr") / (m_pEntity->getProperty("mana_base")) );
 	m_manaBar->setAnchorPoint(ccp(0,1.0f));
-	m_manaBar->setPositionY( m_healthBar->getPositionY() - (m_healthBar->getContentSize().height + 5) );
+	m_manaBar->setPositionY( m_healthBar->getPositionY() - (m_healthBar->getContentSize().height + margin*2) );
 	addChild(m_manaBar, 48);
+
+	int xpBarH = 10;
+	m_xpBar = ZZProgressBar::create( CCRectMake( 0,0, cardW, xpBarH ) );
+	m_xpBar->setMargin(margin);
+	m_xpBar->setColor( ccc3(150,150,150), ccc3(20,20,20) );
+
+	if(  m_pEntity->getProperty("xp_next") > 0 ) {
+		m_xpBar->setProgress( m_pEntity->getProperty("xp_curr") / m_pEntity->getProperty("xp_next") );
+	}else {
+		m_xpBar->setVisible(false);
+	}
+	m_xpBar->setAnchorPoint( ccp(0, 1.0f) );
+	m_xpBar->setPositionY( m_manaBar->getPositionY() - (m_manaBar->getContentSize().height + margin*2) );
+	addChild(m_xpBar, 48);
+
+
+	m_lblLevel = CCLabelTTF::create();
+	m_lblLevel->initWithString( m_pEntity->getLevelStr().c_str(), "Arial", 10.0f );
+	m_lblLevel->setAnchorPoint( ccp(0.0f, 1.0f ) );
+	m_lblLevel->setPositionY( m_xpBar->getPositionY() + xpBarH/2 );
+	addChild(m_lblLevel, 49);
+	
 
 	std::vector<CastCommandState*>& abilities = m_pEntity->getAbilityList();
 	int maxPerRow = 2;
@@ -92,7 +119,7 @@ void GameEntityView::setBackground( std::string imgName )
 	spriteBG->setScaleX( size.width / spriteBG->getContentSize().width );
 	spriteBG->setScaleY( size.height / spriteBG->getContentSize().height );
 	spriteBG->setAnchorPoint(ccp(0,0));
-	addChild(spriteBG);
+	addChild(spriteBG, 5);
 }
 
 void GameEntityView::onStatUpdate(CCObject* e)

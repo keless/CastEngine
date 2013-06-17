@@ -18,9 +18,13 @@ class GameEntityView :
 protected:
 	ZZProgressBar* m_healthBar;
 	ZZProgressBar* m_manaBar;
+	ZZProgressBar* m_xpBar;
 	GameEntity* m_pEntity;
 	CCLabelTTF* m_lblName;
+	CCLabelTTF* m_lblLevel;
 	CCLayerColor* m_highlight;
+	CCLayerColor* m_debuffIndicator;
+	CCLayerColor* m_buffIndicator;
 
 	std::vector<GameAbilityView*> m_abilityViews;
 

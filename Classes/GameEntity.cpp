@@ -10,6 +10,10 @@ GameEntity::GameEntity(std::string name)
 
 	mana_base = mana_curr = 100;
 
+	xp_level = 1;
+	xp_next = 0;
+	xp_curr = 0;
+
 	int_base = int_curr = 10;
 	str_base = str_curr = 10;
 	agi_base = agi_curr = 10;
@@ -24,6 +28,9 @@ GameEntity::GameEntity(std::string name)
 	m_statsMap["str_curr"] = &str_curr;
 	m_statsMap["agi_base"] = &agi_base;
 	m_statsMap["agi_curr"] = &agi_curr;
+	m_statsMap["xp_curr"] = &xp_curr;
+	m_statsMap["xp_next"] = &xp_next;
+	m_statsMap["xp_level"] = &xp_level;
 
 	m_abilityTargets = new CastTarget();
 }
@@ -36,6 +43,13 @@ GameEntity::~GameEntity(void)
 	{
 		m_abilities[i]->release();
 	}
+}
+
+std::string GameEntity::getLevelStr()
+{
+	char buff[128];
+	snprintf(buff, 128, "%.0f", xp_level);
+	return buff;
 }
 
 void GameEntity::addAbility( CastCommandModel* ability )
@@ -79,6 +93,10 @@ void GameEntity::incProperty( std::string propName, float value )
 	
 	//bounds check hp_curr
 	if( propName.compare("hp_curr") == 0 ) {
+		if( value > 0 && m_name.compare("Leeroy") != 0 ) {
+			CCLog("heal");
+		}
+
 		if( hp_curr < 0 ) hp_curr = 0;
 		if( hp_curr > hp_base ) hp_curr = hp_base;
 	}
@@ -99,7 +117,7 @@ void GameEntity::startBuffProperty( std::string propName, float value, CastEffec
 	
 	CCLOG("start buff %s - %f", propName.c_str(), CastCommandTime::get() );
 
-	if( propName.compare("hp_base") ) {
+	if( propName.compare("hp_base") == 0 ) {
 		if( hp_base < 0 ) hp_base = 0;
 		if( hp_curr < hp_base ) hp_curr = hp_base;
 	}
@@ -108,13 +126,25 @@ void GameEntity::startBuffProperty( std::string propName, float value, CastEffec
 void GameEntity::endBuffProperty( std::string propName, float value, CastEffect* buff)
 {
 	if( m_statsMap.count(propName) == 0 ) return;
+
+
 	(*m_statsMap[propName]) += value;
 
 	CCLOG("end buff %s - %f", propName.c_str(), CastCommandTime::get() );
 
-	if( propName.compare("hp_base") ) {
-		if( hp_base < 0 ) hp_base = 0;
-		if( hp_curr < hp_base ) hp_curr = hp_base;
+	if( propName.compare("hp_base") == 0 ) {
+
+		if( value > 0 ) {
+			//returning max health
+
+		}else {
+			//losing max health
+			if( hp_base < 0 ) hp_base = 0;
+			if( hp_curr < hp_base ) hp_curr = hp_base;
+		}
+
+		
+		
 	}
 }
 
