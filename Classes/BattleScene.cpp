@@ -54,6 +54,7 @@ bool BattleScene::init()
 
 	//todo: remove listener on destructor
 	ZZEventBus::game()->addListener("GameEntityDeathEvt", this, callfuncO_selector(BattleScene::onEntityDeath));
+	ZZEventBus::game()->addListener("GameEntityLevelupEvt", this, callfuncO_selector(BattleScene::onEntityLevelup));
 
 	/*
 	CastCommandState* state = new CastCommandState(  m_abilities["fireball"] );
@@ -123,6 +124,7 @@ void BattleScene::spawnEnemy()
 	enemy.model->addAbility( m_abilities["Bite"] );
 	//enemy.enemyModel->incProperty("hp_curr", -90);
 	enemy.model->incProperty("hp_base", -50, NULL);
+	enemy.model->incProperty("xp_curr", 10, NULL);
 	enemy.view =  new GameEntityView( enemy.model );
 	enemy.view->setBackground("rat.png");
 	
@@ -259,11 +261,37 @@ void BattleScene::onEntityDeath( CCObject* e )
 	}
 
 	if( killerIsPlayer ) {
-		CCLOG("TODO: reward XP");
+		CCLOG("reward XP");
+
+		float rawXP = evt->killed->getProperty("xp_curr");
+		int numPlayers = m_players.size();
+
+		int xpPer = ceilf( rawXP / numPlayers );
+
+		for( int i=0; i< m_players.size(); i++)
+		{
+			m_players[i].model->incProperty("xp_curr", xpPer, NULL);
+		}
+
 	}
 
 	
 
+}
+
+void BattleScene::onEntityLevelup( CCObject* e )
+{
+	GameEntityLevelupEvt* evt = dynamic_cast<GameEntityLevelupEvt*>(e);
+	if(!evt) return;
+
+	GameEntity* entity = dynamic_cast<GameEntity*>( evt->target );
+
+	if( !CastWorldModel::get()->isValid( entity )  ) return;
+
+	//award full health/mana
+	entity->setProperty("hp_curr", entity->getProperty("hp_base"), NULL );
+	entity->setProperty("mana_curr", entity->getProperty("mana_base"), NULL );
+	
 }
 
 void BattleScene::setCardDeath( GameEntityView* view )

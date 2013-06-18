@@ -258,6 +258,10 @@ void GameEntityView::updateView()
 {
 	m_healthBar->setProgress(  (m_pEntity->getProperty("hp_curr")) / (float) (m_pEntity->getProperty("hp_base")) );
 	m_manaBar->setProgress(  (m_pEntity->getProperty("mana_curr")) / (float) (m_pEntity->getProperty("mana_base")) );
+	if(  m_pEntity->getProperty("xp_next") > 0 ) {
+		m_xpBar->setProgress( m_pEntity->getProperty("xp_curr") / m_pEntity->getProperty("xp_next") );
+	}
+	m_lblLevel->setString( m_pEntity->getLevelStr().c_str() );
 }
 
 bool GameEntityView::ccTouchBegan(CCTouch* touch, CCEvent* event)

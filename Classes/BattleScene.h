@@ -42,6 +42,7 @@ public:
 
 
 	void onEntityDeath( CCObject* e );
+	void onEntityLevelup( CCObject* e );
 	void setCardDeath( GameEntityView* view );
 
     // there's no 'id' in cpp, so we recommend returning the class instance pointer

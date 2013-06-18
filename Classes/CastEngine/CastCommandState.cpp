@@ -158,7 +158,7 @@ void CastCommandState::onCooldownStart()
 
 void CastCommandState::spawnChannelEffects()
 {
-	CCLog("todo: spawn channel tick effect");
+	//CCLog("spawn channel tick effect");
 
 		//spawn effects
 	CastTarget* target = m_iOwner->getTarget();

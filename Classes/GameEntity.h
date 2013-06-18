@@ -63,6 +63,7 @@ public:
 	bool canCast();
 
 	//ICastEntity methods
+	virtual void setProperty( std::string propName, float value, CastEffect* effect );
 	virtual void incProperty( std::string propName, float value, CastEffect* effect );
 	virtual float getProperty( std::string propName );
 	virtual void  startBuffProperty( std::string propName, float value, CastEffect* buff);
@@ -108,5 +109,12 @@ public:
 	GameEntityDeathEvt( ICastEntity* kill_origin, ICastEntity* dead_entity ) : killer(kill_origin), killed(dead_entity) { this->autorelease(); }
 };
 
+class GameEntityLevelupEvt : public CCObject 
+{
+public:
+	ICastEntity* target;
+
+	GameEntityLevelupEvt( ICastEntity* levelee ) : target(levelee) { this->autorelease(); }
+};
 
 #endif

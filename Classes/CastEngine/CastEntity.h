@@ -15,6 +15,7 @@ public:
 	virtual ~ICastEntity();
 
 	//send negative values to 'decrement'
+	virtual void  setProperty( std::string propName, float value, CastEffect* effect ) {}
 	virtual void  incProperty( std::string propName, float value, CastEffect* effect ) {}
 	virtual void  startBuffProperty( std::string propName, float value, CastEffect* buff) {}
 	virtual void  endBuffProperty( std::string propName, float value, CastEffect* buff) {}

@@ -80,6 +80,14 @@ bool GameEntity::canCast()
 	return true;
 }
 
+void GameEntity::setProperty( std::string propName, float value, CastEffect* effect )
+{
+	if( m_statsMap.count(propName) == 0 ) return;
+	(*m_statsMap[propName]) = value;
+
+	dispatch("incProperty", new GameEntityPropertyChangeEvt(propName, value ));
+}
+
 void GameEntity::incProperty( std::string propName, float value, CastEffect* effect )
 {
 	if( m_statsMap.count(propName) == 0 ) return;
@@ -107,6 +115,20 @@ void GameEntity::incProperty( std::string propName, float value, CastEffect* eff
 
 			GameEntityDeathEvt* evt = new GameEntityDeathEvt(killer, this);
 			ZZEventBus::game()->dispatch("GameEntityDeathEvt", evt);
+		}
+	}else if( xp_next != 0 &&  propName.compare("xp_curr") == 0  ) {
+		if( xp_curr >= xp_next ) {
+			CCLOG("player level up " );
+
+			xp_curr -= xp_next;
+			//TODO: figure out what the xp_next value should change to
+			xp_next *= 2;
+			xp_level++;
+
+			GameEntityLevelupEvt* evt = new GameEntityLevelupEvt(this);
+			ZZEventBus::game()->dispatch("GameEntityLevelupEvt", evt);
+
+
 		}
 	}
 
