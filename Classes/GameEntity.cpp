@@ -90,6 +90,13 @@ void GameEntity::setProperty( std::string propName, float value, CastEffect* eff
 
 void GameEntity::incProperty( std::string propName, float value, CastEffect* effect )
 {
+	if( hp_curr == 0 ) {
+		if( propName.compare("hp_curr") == 0 && value < 0 ) {
+			//dont beat a dead entity
+			return;
+		}
+	}
+
 	if( m_statsMap.count(propName) == 0 ) return;
 	(*m_statsMap[propName]) += value;
 
@@ -132,7 +139,7 @@ void GameEntity::incProperty( std::string propName, float value, CastEffect* eff
 		}
 	}
 
-	CCLog("stat %s delta %0.2f", propName.c_str(), value);
+	//CCLog("stat %s delta %0.2f", propName.c_str(), value);
 
 	
 	dispatch("incProperty", new GameEntityPropertyChangeEvt(propName, value ));
