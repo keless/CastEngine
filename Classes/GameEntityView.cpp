@@ -76,7 +76,23 @@ void GameEntityView::initView()
 	m_lblLevel->setPositionY( m_xpBar->getPositionY() + xpBarH/2 );
 	addChild(m_lblLevel, 49);
 	
+	int bufIndSize = cardW/6;
+	m_buffIndicator = CCLayerColor::create(ccc4(25,200,25,255), bufIndSize,bufIndSize);
+	//m_buffIndicator->setAnchorPoint(ccp(0.0f,0.0f));
+	m_buffIndicator->setPositionX(cardW - bufIndSize);
+	m_buffIndicator->setPositionY(cardH - bufIndSize);
+	m_buffIndicator->setVisible(false);
+	addChild(m_buffIndicator, 10);
+	
 
+	m_debuffIndicator = CCLayerColor::create(ccc4(200,25,25,255), bufIndSize,bufIndSize);
+	//m_debuffIndicator->setAnchorPoint(ccp(0,0));
+	m_debuffIndicator->setPositionX(cardW - (bufIndSize*2 + margin));
+	m_debuffIndicator->setPositionY(cardH - bufIndSize);
+	m_debuffIndicator->setVisible(false);
+	addChild(m_debuffIndicator, 10);
+	
+	 
 	std::vector<CastCommandState*>& abilities = m_pEntity->getAbilityList();
 	int maxPerRow = 2;
 	int row = 0;
@@ -262,6 +278,9 @@ void GameEntityView::updateView()
 		m_xpBar->setProgress( m_pEntity->getProperty("xp_curr") / m_pEntity->getProperty("xp_next") );
 	}
 	m_lblLevel->setString( m_pEntity->getLevelStr().c_str() );
+	
+	m_buffIndicator->setVisible( m_pEntity->numBuffs() > 0 );
+	m_debuffIndicator->setVisible( m_pEntity->numDebuffs() > 0 );
 }
 
 bool GameEntityView::ccTouchBegan(CCTouch* touch, CCEvent* event)

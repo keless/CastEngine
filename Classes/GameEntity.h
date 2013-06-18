@@ -58,6 +58,9 @@ public:
 
 	virtual void addAbility( CastCommandModel* ability );
 	std::vector<CastCommandState*>& getAbilityList();
+	
+	int numDebuffs() { return m_debuffs.size(); }
+	int numBuffs() { return m_buffs.size(); }
 
 	//true if not casting any abilities and has valid target
 	bool canCast();
