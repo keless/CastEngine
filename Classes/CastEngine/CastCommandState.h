@@ -73,6 +73,7 @@ public:
 	std::string getName() { return m_pModel->getName(); }
 
 	
+	bool canAfford();
 	bool isCasting() { return m_state == CCS_CASTING; }
 	float getCastPct(); //0 means 'not casting', 1.0 means 'cast complete'
 	bool isChanneling() { return m_state == CCS_CHANNELING; }

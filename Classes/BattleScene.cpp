@@ -234,8 +234,8 @@ void BattleScene::PerformPlayerAi( GameEntity* player )
 		}
 	}
 
-	if( target != NULL && player->canCast() ) {
-
+	if( target != NULL && player->canCast() && cast->canAfford() ) {
+		
 #ifndef DISABLE_ATTACKS
 		cast->startCast();
 #endif

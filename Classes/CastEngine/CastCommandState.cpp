@@ -29,6 +29,14 @@ CastCommandState::~CastCommandState(void)
 	m_pModel->release();
 }
 
+bool CastCommandState::canAfford()
+{
+	if( m_costVal == 0 ) return true;
+
+	float val = m_iOwner->getProperty(m_costStat);
+	return (val >= m_costVal);
+}
+
 float CastCommandState::getCastPct()
 {
 	if( m_state == CCS_CASTING ) {
