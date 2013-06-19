@@ -46,6 +46,7 @@ public:
 
 	//will purge pointers to entities that are invalid
 	void validateTargets();
+	bool hasTargetsAtRangeFromEntity( float range, ICastEntity* from);
 
 	bool hasValidTarget();
 	

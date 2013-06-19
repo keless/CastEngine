@@ -15,6 +15,7 @@ enum CastEffectType
 	CET_SUPPRESS_STAT,	//temporarily decrements stats while in effect (str, agi, etc)
 	CET_HEAL_STAT,		//increments stats that can be incremented
 	CET_BUFF_STAT,		//temporarily increases stats while in effect
+	CET_SEND_EVENT,		//causes an event to be sent to the game bus
 };
 
 /*
@@ -48,6 +49,7 @@ class CastEffect : public CCObject
 	bool m_isReturnEffect;
 	bool m_isAoeEffect;
 
+	std::string m_name;
 	std::string m_damageType;
 	std::string m_targetStat;
 	std::string m_stackFlag; //helper for stacking multiple effects
@@ -62,7 +64,7 @@ class CastEffect : public CCObject
 
 	CastCommandModel* m_pModel;
 	CastCommandState* m_pParent;
-	int m_modelEffectIndex;
+	int m_modelEffectIndex; //index into list of effects held by CastCommandModel
 
 	void initReturnEffect( CastEffect* parent );
 
@@ -76,6 +78,7 @@ public:
 
 	void startTicks();
 
+	std::string getName() { return m_name; }
 	CastEffectType getType() { return m_type; }
 
 	ICastEntity* getTarget() { return m_pTarget; }

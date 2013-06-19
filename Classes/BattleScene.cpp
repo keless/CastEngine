@@ -332,7 +332,7 @@ void BattleScene::enemyMovementAI( int enemyIdx, float dt )
 	pPos.x += pSize.width/2;
 	pPos.y += pSize.height/2; //convert to center origin
 	
-	float playerLeash = pSize.width * 1.5f;
+	float playerLeash = pSize.width * 1.1f;
 	float playerLeashSq = playerLeash*playerLeash;
 
 	//impulse towards the player
@@ -354,7 +354,7 @@ void BattleScene::enemyMovementAI( int enemyIdx, float dt )
 		if( kmVec2LengthSq(&toPlayer) > playerLeashSq )
 		{
 			//kmVec2Scale(&u_toPlayer, &u_toPlayer, 0.51f);
-					
+			//impulse towards player
 			impulses.push_back(u_toPlayer);
 			impulseWeights.push_back(100);
 
@@ -443,6 +443,25 @@ void BattleScene::initAbilities()
 		attack["effectsOnCast"].append( swordEffect );
 
 		mod = new CastCommandModel( attack );
+		mod->retain();
+		m_abilities[mod->getName()] = mod;
+	}
+
+	{
+		Json::Value grip;
+
+		grip["name"] = "Death Grip";
+		grip["castTime"] = 0.0f; //seconds
+		grip["cooldownTime"] = 3.0f; //seconds
+		grip["range"] = 3.0f; //melee range
+
+		Json::Value effect1; //debuff
+		effect1["effectType"] = "event";
+		effect1["valueBase"] = 2.0f;
+		effect1["react"] = "debuff";
+		grip["effectsOnCast"].append( effect1 );
+
+		mod = new CastCommandModel( grip );
 		mod->retain();
 		m_abilities[mod->getName()] = mod;
 	}

@@ -198,6 +198,12 @@ void GameEntity::handleEffectReaction( Json::Value& reaction, CastEffect* source
 	dispatch("react", evt);
 }
 
+void GameEntity::handleEffectEvent( std::string effectEventName, CastEffect* source )
+{
+	GameEntityEffectEvt* evt = new GameEntityEffectEvt( effectEventName, source->getOrigin(), this );
+	dispatch("GameEntityEffectEvt", evt);
+}
+
 CastTarget* GameEntity::getTarget()
 {
 	return m_abilityTargets;

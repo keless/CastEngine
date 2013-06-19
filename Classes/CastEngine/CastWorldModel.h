@@ -69,6 +69,7 @@ public:
 	~CastWorldModel();
 
 	void setPhysicsInterface( ICastPhysics* physics ) { m_pPhysics = physics; }
+	ICastPhysics* getPhysicsInterface() { return m_pPhysics; }
 	
 	void addEffectInTransit( ICastEntity* from, CastEffect* effect, CastTarget* targetList, double startTime );
 	void addEffectInstant( ICastEntity* from, CastEffect* effect, CastTarget* targetList, double startTime );

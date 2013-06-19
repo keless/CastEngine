@@ -64,9 +64,14 @@ void CastEffect::init(  CastCommandState* originState, int effectIdx, ICastEntit
 	m_pModel->retain();
 	m_modelEffectIndex = effectIdx;
 	m_isChannelEffect = isChannelEffect;
-
 	
 	Json::Value json = getDescriptor();
+
+
+	if( json.isMember("name") )
+		m_name = json["name"].asString();
+	else
+		m_name = m_pModel->getName();
 
 	String type = json.get("effectType", "damage").asString();
 	if( type.compare("damage") == 0 ){
@@ -77,6 +82,8 @@ void CastEffect::init(  CastCommandState* originState, int effectIdx, ICastEntit
 		m_type = CET_BUFF_STAT;
 	}else if( type.compare("debuff") == 0 ) {
 		m_type = CET_SUPPRESS_STAT;
+	}else if( type.compare("event") == 0 ) {
+		m_type = CET_SEND_EVENT;
 	}
 
 	m_pOrigin = from;
@@ -130,7 +137,7 @@ void CastEffect::setTarget( ICastEntity* target )
 
 void CastEffect::startTicks()
 {
-	if( m_type == CET_BUFF_STAT || m_type == CET_SUPPRESS_STAT ) {
+	if( m_type == CET_BUFF_STAT || m_type == CET_SUPPRESS_STAT || m_type == CET_SEND_EVENT ) {
 		doEffect();
 	}else {
 		m_numTicksCompleted = 0;
@@ -224,6 +231,10 @@ void CastEffect::doEffect()
 		CastCommandScheduler::get()->scheduleSelector( schedule_selector(CastEffect::onTick), this, m_lifeTime, 0, 0.0f, false);
 		break;
 
+	case CET_SEND_EVENT:
+		m_pTarget->handleEffectEvent( m_name, this);
+		break;
+
 	default:
 		CCLOG("TODO: handle effect type");
 	}
@@ -302,6 +313,7 @@ CastEffect* CastEffect::clone()
 	effect->m_modelEffectIndex = m_modelEffectIndex;
 	effect->m_isChannelEffect = m_isChannelEffect;
 	effect->m_isReturnEffect = m_isReturnEffect;
+	effect->m_name = m_name;
 
 	return effect;
 }

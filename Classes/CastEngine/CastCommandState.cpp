@@ -189,9 +189,10 @@ void CastCommandState::onCastComplete()
 {
 	if( m_state != CCS_CASTING ) return;
 
-	if( !CastWorldModel::get()->isValid( m_iOwner ) ) return;
+	CastWorldModel* world = CastWorldModel::get();
+	if( !world->isValid( m_iOwner ) ) return;
 
-	//check for cost
+	//check for cost (but dont apply it yet)
 	if( m_costVal != 0 ) {
 		float res = m_iOwner->getProperty( m_costStat );
 
@@ -205,30 +206,48 @@ void CastCommandState::onCastComplete()
 			return;
 		}
 
-		//apply cost
-		m_iOwner->incProperty( m_costStat, -1*m_costVal, NULL );
-
 	}
-
 
 	double currTime = CastCommandTime::get();
 	m_timeStart = currTime;
 	
 	//spawn effects
 	CastTarget* target = m_iOwner->getTarget();
-	target->validateTargets();
+	//target->validateTargets();
+	bool hasTargetInRange = target->hasTargetsAtRangeFromEntity(m_pModel->getRange(), m_iOwner);
+	if(!hasTargetInRange) {
+		CCLOG("CCS: no targets in range on cast of %s", m_pModel->getName().c_str() );
+		onCooldownStart();
+		return;
+	}
+
+
+	bool foundTarget = false; //ensure we actually reach at least one target
+
+
 
 	for( int i=0; i< m_pModel->getNumEffectsOnCast(); i++ )
 	{
+		//TODO: check for range
+		//world->getPhysicsInterface()->GetVecBetween( m_iOwner, 
+
+		
+
 		CastEffect* effect = new CastEffect( );
 		effect->init(this, i, m_iOwner, false );
-		
-		//TODO: send all effects as one array so only one "packet" has to travel?
 
-		CastWorldModel* world = CastWorldModel::get();
+		
+		
+		//TODO: send all effects as one array so only one "packet" has to travel? //[Optimisation]
+
 		world->addEffectInTransit(m_iOwner, effect, m_iOwner->getTarget(), CastCommandTime::get());
 
-		
+		foundTarget = true;
+	}
+
+	if( foundTarget && m_costVal != 0 ) {
+		//apply cost
+		m_iOwner->incProperty( m_costStat, -1*m_costVal, NULL );
 	}
 
 	if( m_pModel->channelTime > 0.0f ) {

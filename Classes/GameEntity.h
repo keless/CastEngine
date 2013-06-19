@@ -73,6 +73,7 @@ public:
 	virtual void  endBuffProperty( std::string propName, float value, CastEffect* buff);
 
 	virtual void handleEffectReaction( Json::Value& reaction, CastEffect* source );
+	virtual void handleEffectEvent( std::string effectEventName, CastEffect* source );
 
 	virtual CastTarget* getTarget();
 	virtual void applyEffect( CastEffect* effect );						//effect ARRIVING at this entity
@@ -112,6 +113,7 @@ public:
 	GameEntityDeathEvt( ICastEntity* kill_origin, ICastEntity* dead_entity ) : killer(kill_origin), killed(dead_entity) { this->autorelease(); }
 };
 
+//NOTE: dispatches on global game bus, not the GameEntity
 class GameEntityLevelupEvt : public CCObject 
 {
 public:
@@ -120,4 +122,14 @@ public:
 	GameEntityLevelupEvt( ICastEntity* levelee ) : target(levelee) { this->autorelease(); }
 };
 
+//NOTE: dispatches on global game bus, not the GameEntity
+class GameEntityEffectEvt : public CCObject
+{
+public:
+	ICastEntity* target;
+	ICastEntity* origin;
+	std::string name;
+
+	GameEntityEffectEvt( std::string effect, ICastEntity* from, ICastEntity* to ) : name(effect), target(to), origin(from) { this->autorelease(); }
+};
 #endif

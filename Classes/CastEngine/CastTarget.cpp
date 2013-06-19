@@ -48,6 +48,42 @@ void CastTarget::validateTargets()
 	}
 }
 
+bool CastTarget::hasTargetsAtRangeFromEntity( float range, ICastEntity* from)
+{
+	float rangeSq = range*range;
+	if( m_type == CTT_ENTITIES ) 
+	{
+		bool foundTarget = false;
+
+		CastWorldModel* world = CastWorldModel::get();
+		for( int i = m_entityList.size()-1; i>= 0; i--)
+		{
+			if( !world->isValid( m_entityList[i] ) )
+			{
+				m_entityList.erase( m_entityList.begin() + i );
+			}else {
+				if(!foundTarget ) {
+					ICastEntity* to = m_entityList[i];
+					kmVec2 distVec;
+					world->getPhysicsInterface()->GetVecBetween( from, to, distVec);
+
+					float distSq = kmVec2LengthSq( &distVec );
+					if( distSq <= range*range )
+					{
+						foundTarget = true;
+						//note: dont break here, we still want to perform world->isValid on the rest of the elements
+					}
+				}
+
+			}
+		}
+
+		return foundTarget;
+	}else {
+		return true; //TODO: physics targeting //[Skill Shot]
+	}
+}
+
 bool CastTarget::hasValidTarget()
 {
 	if( m_type == CTT_ENTITIES ) 
@@ -55,7 +91,7 @@ bool CastTarget::hasValidTarget()
 		validateTargets();
 		return m_entityList.size() > 0;
 	}else {
-		return true;
+		return true; //TODO: physics targeting //[Skill Shot]
 	}
 	
 
