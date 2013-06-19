@@ -81,6 +81,7 @@ public:
 	bool isOnCooldown() { return m_state == CCS_COOLDOWN; }
 	float getCooldownPct(); //0 means 'on cooldown', 1.0 means 'off cooldown'
 	bool isIdle() { return m_state == CCS_IDLE; }
+	float getRange() { return m_pModel->getRange(); }
 
 	Json::Value getDescriptor( std::string dataName = "" );
 

@@ -53,6 +53,8 @@ public:
 	int getNumEffectsOnCast();
 	Json::Value getEffectOnCast( int idx );
 
+	float getRange() { return range; }
+
 	std::string getName() { return name; }
 
 	friend class CastCommandState;

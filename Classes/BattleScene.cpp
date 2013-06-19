@@ -234,11 +234,18 @@ void BattleScene::PerformPlayerAi( GameEntity* player )
 		}
 	}
 
-	if( target != NULL && player->canCast() && cast->canAfford() ) {
+	kmVec2 toTarget;
+	if( GetVecBetween(player, target, toTarget) && player->canCast() && cast->canAfford() ) {
+		
+		float dTargetSq = kmVec2LengthSq( &toTarget );
+		float range = cast->getRange();
+
+		if( range*range >= dTargetSq ) {
 		
 #ifndef DISABLE_ATTACKS
 		cast->startCast();
 #endif
+		}
 
 	}
 
@@ -628,7 +635,7 @@ bool BattleScene::GetVecBetween( ICastEntity* from, ICastEntity* to, kmVec2& dis
 	found = false;
 	for( int i=0; i< m_enemies.size() && !found; i++ )
 	{
-		if( from == m_enemies[i].model )
+		if( to == m_enemies[i].model )
 		{
 			pTo.x = m_enemies[i].view->getPositionX();
 			pTo.y = m_enemies[i].view->getPositionY();
@@ -638,7 +645,7 @@ bool BattleScene::GetVecBetween( ICastEntity* from, ICastEntity* to, kmVec2& dis
 	}
 	for( int i=0; i< m_players.size() && !found; i++ )
 	{
-		if( from == m_players[i].model )
+		if( to == m_players[i].model )
 		{
 			pTo.x = m_players[i].view->getPositionX();
 			pTo.y = m_players[i].view->getPositionY();
