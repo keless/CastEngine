@@ -80,7 +80,6 @@ public:
 
 	std::string getName() { return m_name; }
 	CastEffectType getType() { return m_type; }
-	double getStartTime() { return m_startTime; }
 
 	ICastEntity* getTarget() { return m_pTarget; }
 	ICastEntity* getOrigin() { return m_pOrigin; }

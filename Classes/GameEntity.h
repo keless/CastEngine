@@ -46,8 +46,8 @@ class GameEntity :
 	std::vector<CastEffect*> m_negativeEffects;
 	std::vector<CastEffect*> m_positiveEffects;
 
-	std::map< std::string , CastEffect*> m_buffs;
-	std::map< std::string , CastEffect*> m_debuffs;
+	std::map<CastEffect*, CastEffect*> m_buffs;
+	std::map<CastEffect*, CastEffect*> m_debuffs;
 
 public:
 	GameEntity( std::string name );
@@ -59,7 +59,6 @@ public:
 	virtual void addAbility( CastCommandModel* ability );
 	std::vector<CastCommandState*>& getAbilityList();
 	
-	float getDebuffTimeLeft( std::string debufName );
 	int numDebuffs() { return m_debuffs.size(); }
 	int numBuffs() { return m_buffs.size(); }
 

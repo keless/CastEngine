@@ -259,12 +259,7 @@ void BattleScene::PerformPlayerAi( GameEntity* player )
 			}
 			else if( cast->getName().compare("Curse of Weakness") == 0 ) {
 				//abort if already has curse of weakness and time left greater than 2s
-				GameEntity* geTarget = dynamic_cast<GameEntity*>(target);
-				if( geTarget != NULL ) {
-					float lt = geTarget->getDebuffTimeLeft("Curse of Weakness");
-					if( lt > 2 ) 
-						dontCast = true;
-				}
+
 			}
 
 #ifndef DISABLE_ATTACKS

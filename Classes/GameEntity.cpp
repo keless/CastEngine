@@ -53,20 +53,6 @@ std::string GameEntity::getLevelStr()
 	return buff;
 }
 
-float GameEntity::getDebuffTimeLeft( std::string debufName )
-{
-	if( m_debuffs.count(debufName) <= 0 ) return 0.0f;
-
-	CastEffect* debuff = m_debuffs[debufName];
-
-	double start = debuff->getStartTime();
-    float period =	debuff->getLifeTime();
-	double curr = CastCommandTime::get();
-	float dt = curr - start;
-
-	return MAX(period - dt, 0.0f);
-}
-
 void GameEntity::addAbility( CastCommandModel* ability )
 {
 	CastCommandState* state = new CastCommandState(ability, this);
@@ -238,10 +224,10 @@ void GameEntity::applyEffect( CastEffect* effect )
 
 		if( effect->getType() == CET_BUFF_STAT ) 
 		{
-			m_buffs[effect->getName()] = effect;
+			m_buffs[effect] = effect;
 		}else if( effect->getType() == CET_SUPPRESS_STAT )
 		{
-			m_debuffs[effect->getName()] = effect;
+			m_debuffs[effect] = effect;
 		}
 		else if( effect->getType() == CET_DAMAGE_STAT )
 		{
@@ -263,11 +249,11 @@ void GameEntity::removeEffect( CastEffect* effect )
 	
 	if( effect->getType() == CET_BUFF_STAT ) 
 	{
-		m_debuffs.erase( effect->getName() );
+		m_debuffs.erase( effect );
 	}
 	else if( effect->getType() == CET_SUPPRESS_STAT )
 	{
-		m_debuffs.erase( effect->getName() );
+		m_debuffs.erase( effect );
 	}
 	else if( effect->getType() == CET_DAMAGE_STAT )
 	{
