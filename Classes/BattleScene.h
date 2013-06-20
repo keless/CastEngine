@@ -40,7 +40,7 @@ public:
 	void PerformEnemyAI( GameEntity* enemy );
 	void PerformPlayerAi( GameEntity* player );
 
-
+	void onEntityEffectEvent( CCObject* e );
 	void onEntityDeath( CCObject* e );
 	void onEntityLevelup( CCObject* e );
 	void setCardDeath( GameEntityView* view );
@@ -53,6 +53,7 @@ public:
 	virtual bool GetEntityPosition( ICastEntity* entity, kmVec2& pos );
 	virtual bool GetEntitiesInRadius( kmVec2 p, float r, std::vector<ICastEntity*>& entities );
 
+	GameEntityView* getViewForEntity( ICastEntity* entity );
 
     // a selector callback
     void menuCloseCallback(CCObject* pSender);

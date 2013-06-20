@@ -201,7 +201,7 @@ void GameEntity::handleEffectReaction( Json::Value& reaction, CastEffect* source
 void GameEntity::handleEffectEvent( std::string effectEventName, CastEffect* source )
 {
 	GameEntityEffectEvt* evt = new GameEntityEffectEvt( effectEventName, source->getOrigin(), this );
-	dispatch("GameEntityEffectEvt", evt);
+	ZZEventBus::game()->dispatch("GameEntityEffectEvt", evt);
 }
 
 CastTarget* GameEntity::getTarget()

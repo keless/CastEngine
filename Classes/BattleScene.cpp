@@ -4,6 +4,8 @@ USING_NS_CC;
 
 #include "CastWorldModel.h"
 
+#define GAME_UNIT_CONVERSION (1.0f/210.0f)
+
 CCScene* BattleScene::scene()
 {
     // 'scene' is an autorelease object
@@ -55,6 +57,8 @@ bool BattleScene::init()
 	//todo: remove listener on destructor
 	ZZEventBus::game()->addListener("GameEntityDeathEvt", this, callfuncO_selector(BattleScene::onEntityDeath));
 	ZZEventBus::game()->addListener("GameEntityLevelupEvt", this, callfuncO_selector(BattleScene::onEntityLevelup));
+	ZZEventBus::game()->addListener("GameEntityEffectEvt", this, callfuncO_selector(BattleScene::onEntityEffectEvent));
+	
 
 	/*
 	CastCommandState* state = new CastCommandState(  m_abilities["fireball"] );
@@ -89,7 +93,7 @@ bool BattleScene::init()
 	player.model->incProperty("xp_next", 100, NULL);
 	//player.model->addAbility( m_abilities["fireball"] );
 	player.model->addAbility( m_abilities["sword attack"] );
-	//player.model->addAbility( m_abilities["Heal"] );
+	player.model->addAbility( m_abilities["Death Grip"] );
 	//player.model->addAbility( m_abilities["Life Drain"] );
 	//player.model->addAbility( m_abilities["Curse of Weakness"] );
 
@@ -240,15 +244,71 @@ void BattleScene::PerformPlayerAi( GameEntity* player )
 		float dTargetSq = kmVec2LengthSq( &toTarget );
 		float range = cast->getRange();
 
+		float meleeRange = 1.0f;
+
 		if( range*range >= dTargetSq ) {
 		
+			bool dontCast = false;
+			if( cast->getName().compare("Death Grip") == 0 )
+			{
+				//abort if in melee range already
+				if( dTargetSq <= meleeRange*meleeRange ) {
+					dontCast = true;
+					//CCLog("target in melee range, abort death grip");
+				}
+			}
+			else if( cast->getName().compare("Curse of Weakness") == 0 ) {
+				//abort if already has curse of weakness and time left greater than 2s
+
+			}
+
 #ifndef DISABLE_ATTACKS
-		cast->startCast();
+			if( !dontCast ) {
+				cast->startCast();
+			}
 #endif
 		}
 
 	}
 
+
+}
+
+void BattleScene::onEntityEffectEvent( CCObject* e )
+{
+	GameEntityEffectEvt* evt = dynamic_cast<GameEntityEffectEvt*>(e);
+	if(!evt) return;
+
+	if( evt->name.compare("Death Grip") == 0 ) {
+		CCLog("death grip");
+
+		kmVec2 pOrigin;
+		kmVec2 pTarget;
+		if( !GetEntityPosition(evt->origin, pOrigin) ||  !GetEntityPosition(evt->target, pTarget) )
+		{
+			CCLog("aborting death grip evt due to invalid target(s)");
+		}
+		
+		kmVec2 toTarget;
+		kmVec2Subtract(&toTarget, &pTarget, &pOrigin);
+
+		kmVec2 u_toTarget;
+		kmVec2Normalize(&u_toTarget, &toTarget);
+
+		float leashDistance = 100.0f * GAME_UNIT_CONVERSION;
+
+		kmVec2 dv;
+		kmVec2Scale(&dv, &u_toTarget, leashDistance );
+
+		kmVec2 posEnd;
+		kmVec2Add(&posEnd, &pOrigin, &dv);
+
+		//convert back to screen coordinates
+		kmVec2Scale(&posEnd, &posEnd, 1.0f/GAME_UNIT_CONVERSION);
+
+		GameEntityView* tView =	getViewForEntity(evt->target);
+		tView->setPosition(posEnd.x, posEnd.y);
+	}
 
 }
 
@@ -619,8 +679,6 @@ void BattleScene::initAbilities()
 
 }
 
-#define GAME_UNIT_CONVERSION (1.0f/210.0f)
-
 bool BattleScene::GetVecBetween( ICastEntity* from, ICastEntity* to, kmVec2& distVec )
 {
 	CastWorldModel* world = CastWorldModel::get();
@@ -628,51 +686,20 @@ bool BattleScene::GetVecBetween( ICastEntity* from, ICastEntity* to, kmVec2& dis
 	if( !world->isValid(from) || !world->isValid(to) ) return false;
 
 	kmVec2 pFrom;
-	bool found = false;
-	for( int i=0; i< m_enemies.size()  && !found; i++ )
+	GameEntityView* fromView = getViewForEntity(from);
+	if( fromView != NULL ) 
 	{
-		if( from == m_enemies[i].model )
-		{
-			pFrom.x = m_enemies[i].view->getPositionX();
-			pFrom.y = m_enemies[i].view->getPositionY();
-			found = true;
-			break;
-		}
-	}
-	for( int i=0; i< m_players.size() && !found; i++) {
-		if( from == m_players[i].model )
-		{
-			pFrom.x = m_players[i].view->getPositionX();
-			pFrom.y = m_players[i].view->getPositionY();
-			found = true;
-			break;
-		}
+		pFrom.x = fromView->getPositionX();
+		pFrom.y = fromView->getPositionY();
 	}
 	
-
 	kmVec2 pTo;
-	found = false;
-	for( int i=0; i< m_enemies.size() && !found; i++ )
+	GameEntityView* toView = getViewForEntity(to);
+	if( toView != NULL ) 
 	{
-		if( to == m_enemies[i].model )
-		{
-			pTo.x = m_enemies[i].view->getPositionX();
-			pTo.y = m_enemies[i].view->getPositionY();
-			found = true;
-			break;
-		}
+		pTo.x = toView->getPositionX();
+		pTo.y = toView->getPositionY();
 	}
-	for( int i=0; i< m_players.size() && !found; i++ )
-	{
-		if( to == m_players[i].model )
-		{
-			pTo.x = m_players[i].view->getPositionX();
-			pTo.y = m_players[i].view->getPositionY();
-			found = true;
-			break;
-		}
-	}
-
 
 	kmVec2Subtract( &distVec, &pFrom, &pTo );
 	kmVec2Scale(&distVec, &distVec, GAME_UNIT_CONVERSION ); //safe to operate on same vector
@@ -680,35 +707,39 @@ bool BattleScene::GetVecBetween( ICastEntity* from, ICastEntity* to, kmVec2& dis
 	return true;
 }
 
-bool BattleScene::GetEntityPosition( ICastEntity* entity, kmVec2& pos )
+GameEntityView* BattleScene::getViewForEntity( ICastEntity* entity )
 {
-	bool found = false;
-	for( int i=0; i< m_enemies.size() && !found; i++ )
+
+	for( int i=0; i< m_enemies.size() ; i++ )
 	{
 		if( entity == m_enemies[i].model )
 		{
-			pos.x = m_enemies[i].view->getPositionX();
-			pos.y = m_enemies[i].view->getPositionY();
-			found = true;
-			break;
+			return m_enemies[i].view;
 		}
 	}
-	for( int i=0; i< m_players.size() && !found; i++ )
+	for( int i=0; i< m_players.size(); i++ )
 	{
 		if( entity == m_players[i].model )
 		{
-			pos.x = m_players[i].view->getPositionX();
-			pos.y = m_players[i].view->getPositionY();
-			found = true;
-			break;
+			return m_players[i].view;
 		}
 	}
 
-	if( found ) {
+	return NULL;
+}
+
+bool BattleScene::GetEntityPosition( ICastEntity* entity, kmVec2& pos )
+{
+	GameEntityView* view = getViewForEntity( entity );
+
+	if( view != NULL ) {
+		pos.x = view->getPositionX();
+		pos.y = view->getPositionY();
 		kmVec2Scale(&pos, &pos, GAME_UNIT_CONVERSION);
+		return true;
 	}
 
-	return found;
+	return false;
 }
 
 bool BattleScene::GetEntitiesInRadius( kmVec2 p, float r, std::vector<ICastEntity*>& entities )
@@ -716,7 +747,8 @@ bool BattleScene::GetEntitiesInRadius( kmVec2 p, float r, std::vector<ICastEntit
 
 	bool found = false;
 
-	kmVec2Scale( &p, &p, 1.0f/GAME_UNIT_CONVERSION );
+	auto upscale = (1.0f/GAME_UNIT_CONVERSION);
+	kmVec2Scale( &p, &p, upscale );
 	r /= GAME_UNIT_CONVERSION; //convert to pixels
 
 	float rSq = r*r;
@@ -731,7 +763,7 @@ bool BattleScene::GetEntitiesInRadius( kmVec2 p, float r, std::vector<ICastEntit
 		kmVec2Subtract( &dist, &p, &ePos );
 		//kmVec2Scale( &dist, &dist, GAME_UNIT_CONVERSION ); //safe to operate on same vector
 
-		CCLog("dist %f", kmVec2LengthSq(&dist));
+		CCLog("ent %d in radius dist %f", i, kmVec2Length(&dist));
 
 		if( kmVec2LengthSq(&dist) <= rSq ) {
 			entities.push_back( m_enemies[i].model );
