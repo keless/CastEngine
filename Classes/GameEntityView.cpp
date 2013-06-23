@@ -20,6 +20,7 @@ void GameEntityView::initView()
 	int cardW = 200;
 	int cardH = 200;
 	setContentSize( CCSizeMake( cardW, cardH ));
+	setAnchorPoint(ccp(0.5f,0.5f));
 
 	CCLayerColor* bg = CCLayerColor::create(ccc4(25,25,25,255), cardW,cardH);
 	bg->setAnchorPoint(ccp(0,0));

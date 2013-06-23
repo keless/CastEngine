@@ -5,6 +5,7 @@ USING_NS_CC;
 #include "CastWorldModel.h"
 
 #define GAME_UNIT_CONVERSION (1.0f/210.0f)
+#define VIEW_UNIT_CONVERSION (210.0f)
 
 CCScene* BattleScene::scene()
 {
@@ -81,8 +82,8 @@ bool BattleScene::init()
 	player.model->addAbility( m_abilities["Curse of Weakness"] );
 
 	player.view = new GameEntityView( player.model );
-	player.view->setPositionX(50);
-	player.view->setPositionY( 350 );
+	player.view->setPositionX(150);
+	player.view->setPositionY(350);
 	addChild(player.view);
 
 	m_players.push_back(player);
@@ -98,8 +99,8 @@ bool BattleScene::init()
 	//player.model->addAbility( m_abilities["Curse of Weakness"] );
 
 	player.view = new GameEntityView( player.model );
-	player.view->setPositionX(50);
-	player.view->setPositionY( 150 );
+	player.view->setPositionX(150);
+	player.view->setPositionY(150);
 	addChild(player.view);
 
 	m_players.push_back(player);
@@ -300,7 +301,7 @@ void BattleScene::onEntityEffectEvent( CCObject* e )
 		kmVec2 u_toTarget;
 		kmVec2Normalize(&u_toTarget, &toTarget);
 
-		float leashDistance = 100.0f * GAME_UNIT_CONVERSION;
+		float leashDistance = 1;  //one game unit
 
 		kmVec2 dv;
 		kmVec2Scale(&dv, &u_toTarget, leashDistance );
@@ -309,7 +310,7 @@ void BattleScene::onEntityEffectEvent( CCObject* e )
 		kmVec2Add(&posEnd, &pOrigin, &dv);
 
 		//convert back to screen coordinates
-		kmVec2Scale(&posEnd, &posEnd, 1.0f/GAME_UNIT_CONVERSION);
+		kmVec2Scale(&posEnd, &posEnd, VIEW_UNIT_CONVERSION);
 
 		GameEntityView* tView =	getViewForEntity(evt->target);
 		tView->setPosition(posEnd.x, posEnd.y);
@@ -656,7 +657,7 @@ void BattleScene::initAbilities()
 		lifedrain["channelTime"] = 0.90f; //seconds
 		lifedrain["channelFreq"] = 0.90f / 4; //seconds
 		lifedrain["cooldownTime"] = 0.10f; //seconds
-		lifedrain["range"] = 0.0f; //self target range
+		lifedrain["range"] = 1.5f; //self target range
 
 		Json::Value returnEffect;
 		returnEffect["effectType"] = "heal";
@@ -752,9 +753,9 @@ bool BattleScene::GetEntitiesInRadius( kmVec2 p, float r, std::vector<ICastEntit
 
 	bool found = false;
 
-	auto upscale = (1.0f/GAME_UNIT_CONVERSION);
+	auto upscale = VIEW_UNIT_CONVERSION;
 	kmVec2Scale( &p, &p, upscale );
-	r /= GAME_UNIT_CONVERSION; //convert to pixels
+	r *= VIEW_UNIT_CONVERSION; //convert to pixels
 
 	float rSq = r*r;
 	for( int i=0; i< m_enemies.size(); i++)
