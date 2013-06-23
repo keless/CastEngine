@@ -128,8 +128,8 @@ void BattleScene::spawnEnemy()
 	enemy.model =  new GameEntity("Giant Rat");
 	enemy.model->addAbility( m_abilities["Bite"] );
 	//enemy.enemyModel->incProperty("hp_curr", -90);
-	enemy.model->incProperty("hp_base", -50, NULL);
-	enemy.model->incProperty("xp_curr", 10, NULL);
+	enemy.model->setProperty("hp_base", 50, NULL);
+	enemy.model->setProperty("xp_curr", 10, NULL);
 	enemy.view =  new GameEntityView( enemy.model );
 	enemy.view->setBackground("rat.png");
 	
@@ -664,7 +664,7 @@ void BattleScene::initAbilities()
 		returnEffect["targetStat"] = "hp_curr";
 		returnEffect["react"] = "heal";
 
-		Json::Value effect1; //direct heal
+		Json::Value effect1; //direct damage
 		effect1["effectType"] = "damage";
 		effect1["targetStat"] = "hp_curr";
 		effect1["valueBase"] = 2.0f;

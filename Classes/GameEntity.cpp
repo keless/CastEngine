@@ -81,9 +81,8 @@ std::vector<CastCommandState*>& GameEntity::getAbilityList()
 
 bool GameEntity::canCast()
 {
-	//dont send touch to abilities if any ability is casting
 	for( int i=0; i< m_abilities.size(); i++) {
-		if( m_abilities[i]->isCasting() ) {
+		if( m_abilities[i]->isCasting() || m_abilities[i]->isChanneling() ) {
 			//abort touch
 			return false;
 		}
