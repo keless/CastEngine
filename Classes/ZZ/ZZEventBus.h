@@ -8,8 +8,21 @@ class ZZEventBus
 {
 protected:
 	static ZZEventBus* s_gameBus;
+	static std::map<std::string, ZZEventBus*> s_busHash;
+
 public:
 	static ZZEventBus* game();
+
+	static ZZEventBus* get( char* busName );
+
+	class BaseEvent : public CCObject
+	{
+	public:
+		std::string type;
+
+		BaseEvent( std::string evtType ) : type(evtType) { this->autorelease(); }
+	};
+
 
 protected:
 	struct callbackPair {

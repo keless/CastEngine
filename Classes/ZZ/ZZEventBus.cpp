@@ -3,6 +3,8 @@
 
 //static 
 ZZEventBus* ZZEventBus::s_gameBus = NULL;
+//static 
+std::map<std::string, ZZEventBus*> ZZEventBus::s_busHash;
 
 //static 
 ZZEventBus* ZZEventBus::game()
@@ -11,6 +13,17 @@ ZZEventBus* ZZEventBus::game()
 		s_gameBus = new ZZEventBus();
 	}
 	return s_gameBus;
+}
+
+//static 
+ZZEventBus* ZZEventBus::get( char* busName )
+{
+	if( s_busHash.count(busName) < 1 ) 
+	{
+		s_busHash[busName] = new ZZEventBus();
+	}
+
+	return s_busHash[busName];
 }
 
 ZZEventBus::ZZEventBus(void)
@@ -63,4 +76,6 @@ void ZZEventBus::dispatch(std::string evtName, CCObject* evtObject )
 		CC_SAFE_RELEASE_NULL(cfunc);
 
 	}
+
+	CCLog("dispatch %s complete", evtName.c_str());
 }

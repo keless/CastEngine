@@ -9,7 +9,9 @@
 
 class BattleScene : public cocos2d::CCLayer
 {
-	BattleManager* m_battleMgr;
+
+	CCLayer* m_activeLayer;
+	BattleScene() : m_activeLayer(NULL) { }
 
 public:
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
@@ -21,6 +23,7 @@ public:
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
     static cocos2d::CCScene* scene();
     
+	void doStateChange( CCObject* e ); 
 
     // a selector callback
     void menuCloseCallback(CCObject* pSender);

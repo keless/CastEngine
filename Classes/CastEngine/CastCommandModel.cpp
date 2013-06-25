@@ -18,7 +18,9 @@ CastCommandModel::CastCommandModel(Json::Value castData)
 
 	if( ! descriptor.isMember("effectsOnCast") || !descriptor["effectsOnCast"].isArray() ) 
 	{
-		CCLOGERROR("CastCommandModel %s is missing effectsOnCast array", name.c_str());
+		if(! descriptor.isMember("effectsOnChannel") ) {
+			CCLOGERROR("CastCommandModel %s is missing effectsOnCast array", name.c_str());
+		}
 	}
 	
 	//effectsOnCast = castData.get("effectsOnCast", Json::Value());

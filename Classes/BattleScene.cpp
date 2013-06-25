@@ -2,11 +2,6 @@
 
 USING_NS_CC;
 
-#include "CastWorldModel.h"
-
-#define GAME_UNIT_CONVERSION (1.0f/210.0f)
-#define VIEW_UNIT_CONVERSION (210.0f)
-
 CCScene* BattleScene::scene()
 {
     // 'scene' is an autorelease object
@@ -53,8 +48,10 @@ bool BattleScene::init()
     pSprite->setPosition(ccp(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
     this->addChild(pSprite, 0);
 
-	m_battleMgr = BattleManager::create();
-	addChild(m_battleMgr);
+	//todo: remove listener when this state goes out of scope (doesnt happen?)
+	ZZEventBus::get("state")->addListener("switchTo", this, callfuncO_selector(BattleScene::doStateChange));
+
+	doStateChange( new ZZEventBus::BaseEvent("mainMenu") );
 
 	setTouchEnabled(true);
 	//registerWithTouchDispatcher();
@@ -85,8 +82,6 @@ void BattleScene::ccTouchesBegan(CCSet* touches, CCEvent* event)
 		auto touch = dynamic_cast<CCTouch*>(*it);
 		if(touch == NULL)
 			break;
-
-		//m_playerView->ccTouchBegan(touch, event);
 	}
 }
 
@@ -97,8 +92,6 @@ void BattleScene::ccTouchesMoved(CCSet* touches, CCEvent* event)
 		auto touch = dynamic_cast<CCTouch*>(*it);
 		if(touch == NULL)
 			break;
-
-		//m_playerView->ccTouchMoved(touch, event);
 	}
 }
 
@@ -109,55 +102,6 @@ void BattleScene::ccTouchesEnded(CCSet* touches, CCEvent* event)
 		auto touch = dynamic_cast<CCTouch*>(*it);
 		if(touch == NULL)
 			break;
-		/*
-		m_playerView->ccTouchEnded(touch, event);
-		if( m_playerModel->canCast() ) {
-			std::vector<GameAbilityView*>& abilityViews = m_playerView->getAbilityViews();
-			for( int i=0; i< abilityViews.size(); i++)
-			{
-				abilityViews[i]->ccTouchEnded(touch, event);
-			}
-		}
-
-		int touchedIdx = -1;
-		for( int i=0; i< m_enemies.size(); i++) 
-		{
-			if( m_enemies[i].enemyView->boundingBox().containsPoint( touch->getLocation() ) )
-			{
-				touchedIdx = i;
-				break;
-			}
-		}
-
-		if( touchedIdx != -1 ) {
-			//dehighlight previous targets
-			CastTarget* pTarget = m_playerModel->getTarget();
-			for( int tIdx =0 ; tIdx< pTarget->getEntityList().size(); tIdx++) 
-			{
-				GameEntity* entity = (GameEntity*)pTarget->getEntityList()[tIdx];
-
-				for( int vIdx=0; vIdx < m_enemies.size() ; vIdx++)
-				{
-					if( entity == m_enemies[vIdx].enemyModel )
-					{
-						GameEntityView* view = m_enemies[vIdx].enemyView;
-						view->setHighlighted(false); 
-						break;
-					}
-				}
-
-			}
-			pTarget->clearTargetEntities();
-				
-		
-			//highlight new target
-				
-			pTarget->addTargetEntity( m_enemies[touchedIdx].enemyModel);
-			m_enemies[touchedIdx].enemyView->setHighlighted(true);
-			
-		}
-		*/
-
 	}
 }
 void BattleScene::ccTouchesCancelled(CCSet* touches, CCEvent* event)
@@ -167,11 +111,37 @@ void BattleScene::ccTouchesCancelled(CCSet* touches, CCEvent* event)
 		auto touch = dynamic_cast<CCTouch*>(*it);
 		if(touch == NULL)
 			break;
-
-		//m_playerView->ccTouchCancelled(touch, event);
 	}
 }
 
+#include "BattleManager.h"
+#include "MainMenuScreen.h"
+void BattleScene::doStateChange( CCObject* e )
+{
+	CCLog("start state change");
+
+	ZZEventBus::BaseEvent* evt = dynamic_cast<ZZEventBus::BaseEvent*>(e);
+	if( evt == NULL ) return;
+
+
+	if( m_activeLayer != NULL ) {
+		m_activeLayer->removeFromParentAndCleanup(true);
+		//m_activeLayer->autorelease(); //let the actual class die at the end of the current loop
+		//CC_SAFE_RELEASE_NULL(m_activeLayer);  //dont need to release here
+	}
+
+	if( evt->type.compare("battle") == 0 ) {
+		m_activeLayer = BattleManager::create();
+	}else if( evt->type.compare("mainMenu") == 0 ) {
+		m_activeLayer = MainMenuScreen::create();
+	}
+
+	if( m_activeLayer != NULL ) 
+	{
+		addChild(m_activeLayer);
+	}
+
+}
 
 void BattleScene::menuCloseCallback(CCObject* pSender)
 {
