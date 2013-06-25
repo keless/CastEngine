@@ -4,56 +4,23 @@
 #include "cocos2d.h"
 #include "CastPhysics.h"
 
-#include "ZZProgressBar.h"
-#include "GameEntity.h"
-#include "GameEntityView.h"
-#include "PlayerView.h"
+#include "BattleManager.h"
 
-#include "CastCommandState.h"
-#include "CastCommandModel.h"
 
-struct EntityPair
+class BattleScene : public cocos2d::CCLayer
 {
-	GameEntity* model;
-	GameEntityView* view;
-};
+	BattleManager* m_battleMgr;
 
-class BattleScene : public cocos2d::CCLayer, public ICastPhysics
-{
-	//GameEntity* m_playerModel;
-	//GameEntityView* m_playerView;
-
-	std::vector<EntityPair> m_players;
-	std::vector<EntityPair> m_enemies;
-
-	std::map<std::string, CastCommandModel*> m_abilities;
-	void initAbilities();
-	void spawnEnemy();
-	
-	void enemyMovementAI( int enemyIdx, float dt );
 public:
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
     virtual bool init();  
 
 	virtual void update( float dt );
 
-	void PerformEnemyAI( GameEntity* enemy );
-	void PerformPlayerAi( GameEntity* player );
-
-	void onEntityEffectEvent( CCObject* e );
-	void onEntityDeath( CCObject* e );
-	void onEntityLevelup( CCObject* e );
-	void setCardDeath( GameEntityView* view );
 
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
     static cocos2d::CCScene* scene();
     
-
-	virtual bool GetVecBetween( ICastEntity* from, ICastEntity* to, kmVec2& distVec );
-	virtual bool GetEntityPosition( ICastEntity* entity, kmVec2& pos );
-	virtual bool GetEntitiesInRadius( kmVec2 p, float r, std::vector<ICastEntity*>& entities );
-
-	GameEntityView* getViewForEntity( ICastEntity* entity );
 
     // a selector callback
     void menuCloseCallback(CCObject* pSender);

@@ -64,6 +64,9 @@
     <ClCompile Include="..\Classes\BattleScene.cpp">
       <Filter>Application</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\BattleManager.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\CastEngine\CastCommandModel.h">
@@ -146,6 +149,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\BattleScene.h">
       <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\BattleManager.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
