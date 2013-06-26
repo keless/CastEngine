@@ -98,6 +98,12 @@ void GameEntity::setProperty( std::string propName, float value, CastEffect* eff
 	if( m_statsMap.count(propName) == 0 ) return;
 	(*m_statsMap[propName]) = value;
 
+	if( propName.compare("hp_base") == 0 ) {
+		if( hp_curr > hp_base ) {
+			hp_curr = hp_base; //bound hp_curr to max
+		}
+	}
+
 	dispatch("incProperty", new GameEntityPropertyChangeEvt(propName, value ));
 }
 

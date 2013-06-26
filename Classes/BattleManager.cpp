@@ -20,6 +20,8 @@ BattleManager* BattleManager::create()
 
 BattleManager::BattleManager(void)
 {
+	m_travelProgess = 0;
+	m_pbTravel = NULL;
 }
 
 bool BattleManager::init()
@@ -31,6 +33,10 @@ bool BattleManager::init()
 	setContentSize( visibleSize );
 	
 	initAbilities();
+
+	float pbMargin = 50;
+	m_pbTravel = ZZProgressBar::create( CCRectMake( pbMargin, visibleSize.height - pbMargin, visibleSize.width - pbMargin*2, pbMargin ) );
+	addChild(m_pbTravel);
 
 	//todo: remove listener on destructor
 	ZZEventBus::game()->addListener("GameEntityDeathEvt", this, callfuncO_selector(BattleManager::onEntityDeath));
@@ -57,6 +63,7 @@ bool BattleManager::init()
 	addChild(player.view);
 
 	m_players.push_back(player);
+	m_allEntities.push_back(player);
 
 
 	player.model = new GameEntity("Derpsan");
@@ -74,6 +81,7 @@ bool BattleManager::init()
 	addChild(player.view);
 
 	m_players.push_back(player);
+	m_allEntities.push_back(player);
 
 	spawnEnemy();
 
@@ -91,6 +99,39 @@ BattleManager::~BattleManager(void)
 	ZZEventBus::game()->remListener("GameEntityEffectEvt", this, callfuncO_selector(BattleManager::onEntityEffectEvent));
 }
 
+void BattleManager::removeEntity( GameEntity* entity, bool isEnemy )
+{
+	if( isEnemy ) {
+		for( int i=m_enemies.size()-1; i >= 0; i--) {
+			EntityPair& enemy = m_enemies[i];
+			if( enemy.model == entity ) {
+				m_enemies.erase( m_enemies.begin() + i );
+				break;
+			}
+		}
+	}else {
+		for( int i=m_players.size()-1; i >= 0; i--) {
+			EntityPair& enemy = m_players[i];
+			if( enemy.model == entity ) {
+				m_players.erase( m_players.begin() + i );
+				break;
+			}
+		}
+
+	}
+
+	for( int i=m_allEntities.size()-1; i >= 0; i--) {
+		EntityPair& enemy = m_allEntities[i];
+		if( enemy.model == entity ) {
+			m_allEntities.erase( m_allEntities.begin() + i );
+			CC_SAFE_RELEASE_NULL(enemy.model);
+			CC_SAFE_RELEASE_NULL(enemy.view);
+
+			break;
+		}
+	}
+
+}
 
 //virtual 
 void BattleManager::update( float dt )
@@ -103,16 +144,22 @@ void BattleManager::update( float dt )
 	CastCommandScheduler::get()->update(dt);
 	CastWorldModel::get()->updateStep(dt);
 
+	if( m_players.size() < 1 ) 
+	{
+		//todo: handle game over 
+		ZZEventBus::BaseEvent* evt = new ZZEventBus::BaseEvent("mainMenu");
+		ZZEventBus::get("state")->dispatch("switchTo", evt);
+		return;
+	}
+
 	for( int i=m_enemies.size()-1; i >= 0; i--) {
 		EntityPair& enemy = m_enemies[i];
 
 		if( enemy.model->getProperty("hp_curr") <= 0 ) {
 			setCardDeath(enemy.view);
 			//removeChild(enemy.enemyView);
-			CC_SAFE_RELEASE_NULL(enemy.model);
-			CC_SAFE_RELEASE_NULL(enemy.view);
 
-			m_enemies.erase( m_enemies.begin() + i );
+			removeEntity( enemy.model, true );
 		}
 		else {
 			enemyMovementAI(i, dt);
@@ -120,6 +167,7 @@ void BattleManager::update( float dt )
 			PerformEnemyAI(enemy.model);
 		}
 	}
+
 
 	if( m_enemies.size()  == 0 ) {
 		int randNum = 1 + (rand() % 3);
@@ -132,7 +180,17 @@ void BattleManager::update( float dt )
 	
 	for( int i=0; i< m_players.size(); i++)
 	{
-		PerformPlayerAi(m_players[i].model);
+		EntityPair& player = m_players[i];
+		if( player.model->getProperty("hp_curr") <= 0 ) {
+			setCardDeath(player.view);
+			//removeChild(player.enemyView);
+
+			removeEntity( player.model, true );
+		}else {
+			PerformPlayerAi(m_players[i].model);
+		}
+
+		
 	}
 
 	
@@ -181,7 +239,26 @@ void BattleManager::PerformPlayerAi( GameEntity* player )
 		player->getTarget()->clearTargetEntities();
 
 		if( m_enemies.size() > 0 ) {
+
+			//target closest enemy
 			target = m_enemies[0].model;
+			kmVec2 distVec;
+			GetVecBetween(player, target, distVec);
+			float closestEnemy = kmVec2Length( &distVec );
+
+			for( int i=1; i< m_enemies.size(); i++)
+			{
+				GetVecBetween(player, m_enemies[i].model, distVec);
+				float distTo = kmVec2Length( &distVec );
+
+				if( distTo < closestEnemy ) {
+					closestEnemy = distTo;
+					target = m_enemies[i].model;
+				}
+				
+			}
+
+			
 			player->getTarget()->addTargetEntity(target);
 		}
 	}
@@ -663,18 +740,11 @@ bool BattleManager::GetVecBetween( ICastEntity* from, ICastEntity* to, kmVec2& d
 GameEntityView* BattleManager::getViewForEntity( ICastEntity* entity )
 {
 
-	for( int i=0; i< m_enemies.size() ; i++ )
+	for( int i=0; i< m_allEntities.size() ; i++ )
 	{
-		if( entity == m_enemies[i].model )
+		if( entity == m_allEntities[i].model )
 		{
-			return m_enemies[i].view;
-		}
-	}
-	for( int i=0; i< m_players.size(); i++ )
-	{
-		if( entity == m_players[i].model )
-		{
-			return m_players[i].view;
+			return m_allEntities[i].view;
 		}
 	}
 
@@ -705,11 +775,11 @@ bool BattleManager::GetEntitiesInRadius( kmVec2 p, float r, std::vector<ICastEnt
 	r *= VIEW_UNIT_CONVERSION; //convert to pixels
 
 	float rSq = r*r;
-	for( int i=0; i< m_enemies.size(); i++)
+	for( int i=0; i< m_allEntities.size(); i++)
 	{
 		kmVec2 ePos;
-		ePos.x = m_enemies[i].view->getPositionX();
-		ePos.y = m_enemies[i].view->getPositionY();
+		ePos.x = m_allEntities[i].view->getPositionX();
+		ePos.y = m_allEntities[i].view->getPositionY();
 
 
 		kmVec2 dist;
@@ -719,25 +789,7 @@ bool BattleManager::GetEntitiesInRadius( kmVec2 p, float r, std::vector<ICastEnt
 		CCLog("ent %d in radius dist %f", i, kmVec2Length(&dist));
 
 		if( kmVec2LengthSq(&dist) <= rSq ) {
-			entities.push_back( m_enemies[i].model );
-			found = true;
-		}
-	}
-
-	//check player
-	for( int i=0; i< m_players.size(); i++)
-	{
-		kmVec2 ePos;
-		ePos.x = m_players[i].view->getPositionX();
-		ePos.y = m_players[i].view->getPositionY();
-
-
-		kmVec2 dist;
-		kmVec2Subtract( &dist, &p, &ePos );
-		//kmVec2Scale( &dist, &dist, GAME_UNIT_CONVERSION ); //safe to operate on same vector
-
-		if( kmVec2LengthSq(&dist) <= rSq ) {
-			entities.push_back( m_players[i].model );
+			entities.push_back( m_allEntities[i].model );
 			found = true;
 		}
 	}
