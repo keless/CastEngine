@@ -36,9 +36,12 @@ protected:
 	void enemyMovementAI( int enemyIdx, float dt );
 
 	float m_travelProgess;
+	float m_travelDistance;
 	ZZProgressBar* m_pbTravel;
 
 	void removeEntity( GameEntity* entity, bool isEnemy );
+
+	float getPartySpeed();
 
 public:
 	BattleManager(void);

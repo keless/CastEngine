@@ -34,8 +34,11 @@ bool BattleManager::init()
 	
 	initAbilities();
 
+	m_travelProgess = 0.0f;
+	m_travelDistance = 100.0f;
 	float pbMargin = 50;
 	m_pbTravel = ZZProgressBar::create( CCRectMake( pbMargin, visibleSize.height - pbMargin, visibleSize.width - pbMargin*2, pbMargin ) );
+	m_pbTravel->setProgress( m_travelProgess / m_travelDistance );
 	addChild(m_pbTravel);
 
 	//todo: remove listener on destructor
@@ -45,6 +48,8 @@ bool BattleManager::init()
 	
 	
 	CastWorldModel::get()->setPhysicsInterface(this);
+
+
 
 	EntityPair player;
 
@@ -97,6 +102,11 @@ BattleManager::~BattleManager(void)
 	ZZEventBus::game()->remListener("GameEntityDeathEvt", this, callfuncO_selector(BattleManager::onEntityDeath));
 	ZZEventBus::game()->remListener("GameEntityLevelupEvt", this, callfuncO_selector(BattleManager::onEntityLevelup));
 	ZZEventBus::game()->remListener("GameEntityEffectEvt", this, callfuncO_selector(BattleManager::onEntityEffectEvent));
+}
+
+float BattleManager::getPartySpeed()
+{
+	return 1.0f; //todo: derive from party stats
 }
 
 void BattleManager::removeEntity( GameEntity* entity, bool isEnemy )
@@ -170,10 +180,28 @@ void BattleManager::update( float dt )
 
 
 	if( m_enemies.size()  == 0 ) {
+
+
+		//move forward
+
+		float speed = getPartySpeed();
+		m_travelProgess += speed * dt;
+
+		m_pbTravel->setProgress( m_travelProgess/ m_travelDistance );
+
+		/* todo: decide to spawn?
 		int randNum = 1 + (rand() % 3);
 		CCLog("spawn %d enemies", randNum);
 		for( int i=0; i< randNum; i++) {
 			spawnEnemy();
+		}
+		*/
+
+		if( m_travelProgess >= m_travelDistance )
+		{
+			//reached target, do something
+			ZZEventBus::get("state")->dispatch("switchTo", new ZZEventBus::BaseEvent("mainMenu") );
+			return;
 		}
 	}
 	
