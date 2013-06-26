@@ -165,6 +165,8 @@
 		1AFAF8C416D3884900DB1158 /* CloseSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AFAF8C116D3884900DB1158 /* CloseSelected.png */; };
 		1AFAF8C516D3884900DB1158 /* HelloWorld.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AFAF8C216D3884900DB1158 /* HelloWorld.png */; };
 		1AFAF8CA16D3886000DB1158 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AFAF8C616D3886000DB1158 /* AppDelegate.cpp */; };
+		33B97943177B752400976960 /* MainMenuScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33B97941177B752400976960 /* MainMenuScreen.cpp */; };
+		33B97946177B753100976960 /* BattleManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33B97944177B753100976960 /* BattleManager.cpp */; };
 		33BDC068175FC13100BE734B /* CastCommandModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33BDC05A175FC13100BE734B /* CastCommandModel.cpp */; };
 		33BDC069175FC13100BE734B /* CastCommandScheduler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33BDC05C175FC13100BE734B /* CastCommandScheduler.cpp */; };
 		33BDC06A175FC13100BE734B /* CastCommandState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33BDC05E175FC13100BE734B /* CastCommandState.cpp */; };
@@ -527,6 +529,10 @@
 		1AFAF8C616D3886000DB1158 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AppDelegate.cpp; path = ../Classes/AppDelegate.cpp; sourceTree = "<group>"; };
 		1AFAF8C716D3886000DB1158 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ../Classes/AppDelegate.h; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Test.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		33B97941177B752400976960 /* MainMenuScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MainMenuScreen.cpp; path = ../Classes/MainMenuScreen.cpp; sourceTree = "<group>"; };
+		33B97942177B752400976960 /* MainMenuScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainMenuScreen.h; path = ../Classes/MainMenuScreen.h; sourceTree = "<group>"; };
+		33B97944177B753100976960 /* BattleManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BattleManager.cpp; path = ../Classes/BattleManager.cpp; sourceTree = "<group>"; };
+		33B97945177B753100976960 /* BattleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BattleManager.h; path = ../Classes/BattleManager.h; sourceTree = "<group>"; };
 		33BDC05A175FC13100BE734B /* CastCommandModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CastCommandModel.cpp; sourceTree = "<group>"; };
 		33BDC05B175FC13100BE734B /* CastCommandModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CastCommandModel.h; sourceTree = "<group>"; };
 		33BDC05C175FC13100BE734B /* CastCommandScheduler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CastCommandScheduler.cpp; sourceTree = "<group>"; };
@@ -621,6 +627,8 @@
 				33BDC057175FC11900BE734B /* ext */,
 				1AFAF8C616D3886000DB1158 /* AppDelegate.cpp */,
 				1AFAF8C716D3886000DB1158 /* AppDelegate.h */,
+				33B97941177B752400976960 /* MainMenuScreen.cpp */,
+				33B97942177B752400976960 /* MainMenuScreen.h */,
 				33EA40F9176F768600ABF61A /* BattleScene.cpp */,
 				33EA40FA176F768600ABF61A /* BattleScene.h */,
 			);
@@ -1191,6 +1199,8 @@
 				33BDC077175FC14800BE734B /* GameAbilityView.h */,
 				33BDC078175FC14800BE734B /* GameEntity.cpp */,
 				33BDC079175FC14800BE734B /* GameEntity.h */,
+				33B97944177B753100976960 /* BattleManager.cpp */,
+				33B97945177B753100976960 /* BattleManager.h */,
 				33BDC07A175FC14800BE734B /* GameEntityView.cpp */,
 				33BDC07B175FC14800BE734B /* GameEntityView.h */,
 			);
@@ -1563,6 +1573,8 @@
 				33BDC0C2176A59F700BE734B /* PlayerView.cpp in Sources */,
 				33EA40F8176F767300ABF61A /* CastPhysics.cpp in Sources */,
 				33EA40FB176F768600ABF61A /* BattleScene.cpp in Sources */,
+				33B97943177B752400976960 /* MainMenuScreen.cpp in Sources */,
+				33B97946177B753100976960 /* BattleManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
