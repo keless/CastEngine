@@ -35,6 +35,8 @@ public:
 	GameEntityView( GameEntity* entity );
 	~GameEntityView(void);
 
+	void detatchFromEntity();
+
 	void setBackground( std::string imgName );
 
 	void onStatUpdate(CCObject* e);
@@ -50,7 +52,6 @@ public:
 
 	void updateView();
 
-	virtual void update( float delta );
 	virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
     virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
     virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);

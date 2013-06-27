@@ -135,6 +135,8 @@ void BattleManager::removeEntity( GameEntity* entity, bool isEnemy )
 		EntityPair& enemy = m_allEntities[i];
 		if( enemy.model == entity ) {
 			m_allEntities.erase( m_allEntities.begin() + i );
+			enemy.view->detatchFromEntity();
+
 			CC_SAFE_RELEASE_NULL(enemy.model);
 			CC_SAFE_RELEASE_NULL(enemy.view);
 

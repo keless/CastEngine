@@ -11,7 +11,7 @@ GameEntityView::GameEntityView( GameEntity* entity )
 
 	initView();
 
-	scheduleUpdate();
+	//scheduleUpdate();
 }
 
 //virtual 
@@ -117,15 +117,16 @@ void GameEntityView::initView()
 
 GameEntityView::~GameEntityView(void)
 {
-	m_pEntity->remListener("react", this, callfuncO_selector(GameEntityView::onShouldReact) );
-	m_pEntity->remListener("incProperty", this, callfuncO_selector(GameEntityView::onStatUpdate) );
-
-	m_pEntity->release();
+	detatchFromEntity();
 }
 
-void GameEntityView::update( float delta )
+void GameEntityView::detatchFromEntity()
 {
-
+	if( m_pEntity != NULL ) {
+		m_pEntity->remListener("react", this, callfuncO_selector(GameEntityView::onShouldReact) );
+		m_pEntity->remListener("incProperty", this, callfuncO_selector(GameEntityView::onStatUpdate) );
+		CC_SAFE_RELEASE_NULL(m_pEntity);
+	}
 }
 
 void GameEntityView::setBackground( std::string imgName )
