@@ -265,7 +265,7 @@ void CastCommandState::onCooldownComplete()
 {
 	if( m_state != CCS_COOLDOWN ) return;
 
-	CCLog("Cooldown %s complete!",  m_pModel->getName().c_str());
+	//CCLog("Cooldown %s complete!",  m_pModel->getName().c_str());
 
 	double currTime = CastCommandTime::get();
 	m_timeStart = currTime;

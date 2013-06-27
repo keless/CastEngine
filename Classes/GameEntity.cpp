@@ -38,6 +38,7 @@ GameEntity::GameEntity(std::string name)
 
 GameEntity::~GameEntity(void)
 {
+	CCLog("~GameEntity(%s)", m_name.c_str());
 	CC_SAFE_RELEASE_NULL( m_abilityTargets );
 
 	for( int i=0; i< m_abilities.size(); i++)

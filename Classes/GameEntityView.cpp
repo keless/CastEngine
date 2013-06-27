@@ -117,6 +117,7 @@ void GameEntityView::initView()
 
 GameEntityView::~GameEntityView(void)
 {
+	CCLog("~GameEntityView(%s)", m_lblName->getString());
 	detatchFromEntity();
 }
 

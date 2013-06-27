@@ -77,5 +77,5 @@ void ZZEventBus::dispatch(std::string evtName, CCObject* evtObject )
 
 	}
 
-	CCLog("dispatch %s complete", evtName.c_str());
+	//CCLog("dispatch %s complete", evtName.c_str());
 }

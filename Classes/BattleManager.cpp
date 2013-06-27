@@ -112,37 +112,55 @@ float BattleManager::getPartySpeed()
 
 void BattleManager::removeEntity( GameEntity* entity, bool isEnemy )
 {
+	
+	CCLog("begin remove entity at 0x%d", entity);
+
 	if( isEnemy ) {
+		bool removed = false;
 		for( int i=m_enemies.size()-1; i >= 0; i--) {
-			EntityPair& enemy = m_enemies[i];
-			if( enemy.model == entity ) {
+			EntityPair enemy = m_enemies[i];
+			CCLog("compare 0x%d to 0x%d", enemy.model, entity);
+			if( (enemy.model) == entity ) {
 				m_enemies.erase( m_enemies.begin() + i );
+				CCLog("removed enemy %d 0x%d", i, enemy.model);
+				removed = true;
 				break;
 			}
+		}
+		if(!removed) {
+			CCLog("wtf");
 		}
 	}else {
+		bool removed = false;
 		for( int i=m_players.size()-1; i >= 0; i--) {
-			EntityPair& enemy = m_players[i];
-			if( enemy.model == entity ) {
+			EntityPair enemy = m_players[i];
+			if( (enemy.model) == entity ) {
 				m_players.erase( m_players.begin() + i );
+				removed = true;
 				break;
 			}
 		}
-
+		if(!removed) {
+			CCLog("wtf");
+		}
 	}
 
 	for( int i=m_allEntities.size()-1; i >= 0; i--) {
-		EntityPair& enemy = m_allEntities[i];
-		if( enemy.model == entity ) {
+		EntityPair enemy = m_allEntities[i];
+		if( (enemy.model) == entity ) {
 			m_allEntities.erase( m_allEntities.begin() + i );
-			enemy.view->detatchFromEntity();
+			
 
+			CCLog("removed entity %d 0x%d", i, enemy.model);
+			enemy.view->detatchFromEntity();
 			CC_SAFE_RELEASE_NULL(enemy.model);
 			CC_SAFE_RELEASE_NULL(enemy.view);
 
 			break;
 		}
 	}
+
+	CCLOG("%d entities %d enemies left", m_allEntities.size(), m_enemies.size() );
 
 }
 
@@ -195,7 +213,7 @@ void BattleManager::update( float dt )
 		if( m_travelProgess >= m_travelLastSpawnLocation + 25 )
 		{
 			//spawn more
-			m_travelLastSpawnLocation = m_travelDistance +  25;
+			m_travelLastSpawnLocation = m_travelProgess +  25;
 			
 
 			int randNum = 1 + (rand() % 3);
@@ -540,7 +558,7 @@ void BattleManager::enemyMovementAI( int enemyIdx, float dt )
 	//CCLog("impulse %.4f", kmVec2Length(& finalImpulse));
 	if( kmVec2Length(& finalImpulse) <  (0.5f) )
 	{
-		CCLog("ignore impulse %.4f", kmVec2Length(& finalImpulse));
+		//CCLog("ignore impulse %.4f", kmVec2Length(& finalImpulse));
 		return; //ignore very small changes to avoid leash jitter
 	}
 	
