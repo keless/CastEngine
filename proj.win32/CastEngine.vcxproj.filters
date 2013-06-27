@@ -55,9 +55,6 @@
     <ClCompile Include="..\Classes\CastEngine\CastWorldModel.cpp">
       <Filter>CastEngine</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\PlayerView.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\CastEngine\CastPhysics.cpp">
       <Filter>CastEngine</Filter>
     </ClCompile>
@@ -143,9 +140,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\CastEngine\CastWorldModel.h">
       <Filter>CastEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\PlayerView.h">
-      <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\CastEngine\CastPhysics.h">
       <Filter>CastEngine</Filter>

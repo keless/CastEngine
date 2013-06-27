@@ -107,7 +107,7 @@ BattleManager::~BattleManager(void)
 
 float BattleManager::getPartySpeed()
 {
-	return 1.0f; //todo: derive from party stats
+	return 15.0f; //todo: derive from party stats
 }
 
 void BattleManager::removeEntity( GameEntity* entity, bool isEnemy )
@@ -755,6 +755,7 @@ bool BattleManager::GetVecBetween( ICastEntity* from, ICastEntity* to, kmVec2& d
 	if( !world->isValid(from) || !world->isValid(to) ) return false;
 
 	kmVec2 pFrom;
+	pFrom.x = pFrom.y = 0;
 	GameEntityView* fromView = getViewForEntity(from);
 	if( fromView != NULL ) 
 	{
@@ -763,11 +764,14 @@ bool BattleManager::GetVecBetween( ICastEntity* from, ICastEntity* to, kmVec2& d
 	}
 	
 	kmVec2 pTo;
+	pTo.x = pTo.y = 0;
 	GameEntityView* toView = getViewForEntity(to);
 	if( toView != NULL ) 
 	{
 		pTo.x = toView->getPositionX();
 		pTo.y = toView->getPositionY();
+	}else {
+		CCLog("uhoh..");
 	}
 
 	kmVec2Subtract( &distVec, &pFrom, &pTo );
