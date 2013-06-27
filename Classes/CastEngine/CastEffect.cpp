@@ -50,7 +50,7 @@ void CastEffect::initReturnEffect( CastEffect* parent )
 	m_isReturnEffect = true;
 
 	CastCommandState* originState = parent->m_pParent;
-	ICastEntity* to = parent->m_pTarget;
+	//ICastEntity* to = parent->m_pTarget;
 	ICastEntity* from = parent->m_pOrigin;
 	int effectIdx = parent->m_modelEffectIndex;
 	bool isChannelEffect = parent->m_isChannelEffect;

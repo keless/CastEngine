@@ -126,7 +126,7 @@ void CastCommandState::onSchedulerTick( float dt)
 		for( int i=0; i< ticksToDo; i++ ) {
 			//do tick
 			spawnChannelEffects();
-			CCLOG("channel %s tick", m_pModel->getName().c_str());
+			//CCLOG("channel %s tick", m_pModel->getName().c_str());
 			m_channelTicks++;
 		}
 
@@ -152,7 +152,7 @@ void CastCommandState::onChannelComplete()
 	if( m_state != CCS_CHANNELING ) return;
 	if( !CastWorldModel::get()->isValid( m_iOwner ) ) return;
 
-	CCLog("channel complete");
+	//CCLog("channel complete");
 
 	onCooldownStart();
 }
@@ -256,7 +256,7 @@ void CastCommandState::onCastComplete()
 		int numTicks = (m_pModel->channelTime / m_pModel->channelFreq) + 1;
 		CastCommandScheduler::get()->scheduleSelector( schedule_selector(CastCommandState::onSchedulerTick), this, m_pModel->channelFreq, numTicks, 0.0f, false);
 	}else {
-		CCLog("Cast %s complete!", m_pModel->getName().c_str());
+		//CCLog("Cast %s complete!", m_pModel->getName().c_str());
 		onCooldownStart();
 	}
 }

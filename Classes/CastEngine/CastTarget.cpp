@@ -68,7 +68,7 @@ bool CastTarget::hasTargetsAtRangeFromEntity( float range, ICastEntity* from)
 					world->getPhysicsInterface()->GetVecBetween( from, to, distVec);
 
 					float distSq = kmVec2LengthSq( &distVec );
-					if( distSq <= range*range )
+					if( distSq <= rangeSq )
 					{
 						foundTarget = true;
 						//note: dont break here, we still want to perform world->isValid on the rest of the elements

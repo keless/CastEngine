@@ -167,6 +167,7 @@
 		1AFAF8CA16D3886000DB1158 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AFAF8C616D3886000DB1158 /* AppDelegate.cpp */; };
 		33B97943177B752400976960 /* MainMenuScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33B97941177B752400976960 /* MainMenuScreen.cpp */; };
 		33B97946177B753100976960 /* BattleManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33B97944177B753100976960 /* BattleManager.cpp */; };
+		33B9794A177CCED300976960 /* abilities.json in Resources */ = {isa = PBXBuildFile; fileRef = 33B97949177CCED300976960 /* abilities.json */; };
 		33BDC068175FC13100BE734B /* CastCommandModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33BDC05A175FC13100BE734B /* CastCommandModel.cpp */; };
 		33BDC069175FC13100BE734B /* CastCommandScheduler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33BDC05C175FC13100BE734B /* CastCommandScheduler.cpp */; };
 		33BDC06A175FC13100BE734B /* CastCommandState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33BDC05E175FC13100BE734B /* CastCommandState.cpp */; };
@@ -533,6 +534,7 @@
 		33B97942177B752400976960 /* MainMenuScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainMenuScreen.h; path = ../Classes/MainMenuScreen.h; sourceTree = "<group>"; };
 		33B97944177B753100976960 /* BattleManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BattleManager.cpp; path = ../Classes/BattleManager.cpp; sourceTree = "<group>"; };
 		33B97945177B753100976960 /* BattleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BattleManager.h; path = ../Classes/BattleManager.h; sourceTree = "<group>"; };
+		33B97949177CCED300976960 /* abilities.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = abilities.json; sourceTree = "<group>"; };
 		33BDC05A175FC13100BE734B /* CastCommandModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CastCommandModel.cpp; sourceTree = "<group>"; };
 		33BDC05B175FC13100BE734B /* CastCommandModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CastCommandModel.h; sourceTree = "<group>"; };
 		33BDC05C175FC13100BE734B /* CastCommandScheduler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CastCommandScheduler.cpp; sourceTree = "<group>"; };
@@ -1295,6 +1297,7 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				33B97949177CCED300976960 /* abilities.json */,
 				33BDC0A31767AFF500BE734B /* rat.png */,
 				1AFAF8C016D3884900DB1158 /* CloseNormal.png */,
 				1AFAF8C116D3884900DB1158 /* CloseSelected.png */,
@@ -1397,6 +1400,7 @@
 				33BDC090175FC15200BE734B /* json_internalmap.inl in Resources */,
 				33BDC093175FC15200BE734B /* json_valueiterator.inl in Resources */,
 				33BDC0A41767AFF500BE734B /* rat.png in Resources */,
+				33B9794A177CCED300976960 /* abilities.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

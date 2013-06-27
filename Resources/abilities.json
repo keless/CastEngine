@@ -1,0 +1,146 @@
+{
+	"abilities":[
+		{
+			"name": "sword attack",
+			"castTime" : 0.15,
+			"cooldownTime" : 1.85,
+			"range" : 1.0,
+			"effectsOnCast":[
+				{
+					"effectType":"damage",
+					"damageType":"piercing",
+					"targetStat":"hp_curr",
+					"valueBase":2.0,
+					"valueStat":"str",
+					"valueMultiplier":2.0,
+					"react":"shake"
+				}
+			]
+		},
+		{
+			"name": "Death Grip",
+			"castTime": 0.0,
+			"cooldownTime": 3.0,
+			"range": 3.0,
+			"effectsOnCast":[
+				{
+					"effectType": "event",
+					"valueBase": 2.0,
+					"react" : "debuff"
+				}
+			]
+		},
+		{
+			"name": "Bite",
+			"castTime": 0.10,
+			"cooldownTime" : 1.75,
+			"range" :1.0,
+			"effectsOnCast":[
+				{
+					"effectType" :"debuff",
+					"targetStat": "str_curr",
+					"effectLifetime": 3.0,
+					"valueBase": 2.0,
+					"react": "debuff"
+				},
+				{
+					"effectType": "damage",
+					"damageType": "piercing",
+					"targetStat": "hp_curr",
+					"valueBase": 2.0,
+					"react": "shake"
+				}
+
+			]
+		},
+		{
+			"name": "Curse of Weakness",
+			"castTime": 0.0,
+			"cooldownTime": 0.15,
+			"range": 3.0,
+			"effectsOnCast":[
+				{
+					"effectType": "debuff",
+					"targetStat": "str_curr",
+					"effectLifetime":7.0,
+					"valueBase": 1.0,
+					"react" : "debuff"
+				}
+			]
+		},
+		{
+			"name": "fireball",
+			"castTime": 1.50,
+			"travelSpeed": 5.0,
+			"range":5,
+			"cooldownTime" : 0.15,
+			"effectWhileTravel" = true,
+			"stopOnHit" = true,
+			"costStat" = "mana_curr",
+			"costVal" = 10,
+			"effectsOnCast":[
+				{
+					"effectType" :"damage",
+					"damageType" : "fire",
+					"targetStat": "hp_curr",
+					"valueBase": 2.0,
+					"valueStat":"int",
+					"valueMultiplier":1.0,
+					"react": "shake"
+				},
+				{
+					"effectType": "damage",
+					"damageType": "fire",
+					"targetStat": "hp_curr",
+					"valueBase": 1.0,
+					"valueStat":"int",
+					"valueMultiplier":1.0,
+					"aoeRadius": 1.0,
+					"tickFreq":0.5,
+					"effectLifetime":3.5,
+					"stackFlag":"burn",
+					"react": "burn"
+				}		  
+			]
+		},
+		{
+			"name": "Heal",
+			"castTime": 0.75,
+			"cooldownTime": 0.25,
+			"range":2,
+			"effectsOnCast":[
+				{
+					"effectType" :"heal",
+					"targetStat": "hp_curr",
+					"valueBase": 30.0,
+					"valueStat":"int",
+					"valueMultiplier":2.0,
+					"react": "heal"
+				}
+			]
+		},
+		{
+			"name": "Life Drain",
+			"castTime": 0,
+			"channelTime":0.9,
+			"channelFreq":0.225,
+			"range":1.5,
+			"cooldownTime" : 0.10,
+			"effectsOnCast":[
+				{
+				"effectType": "damage",
+				"targetStat": "hp_curr",
+				"valueBase": 2.0,
+				"valueStat":"int",
+				"valueMultiplier":2.0,
+				"react": "lifedrain",
+				"returnEffect":{
+					"effectType" :"heal",
+					"targetStat": "hp_curr",
+					"react": "heal"
+					}
+				}
+			]
+		}
+	]
+}

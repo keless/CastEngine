@@ -8,7 +8,7 @@ MainMenuScreen::MainMenuScreen(void)
 
 MainMenuScreen::~MainMenuScreen(void)
 {
-	CCLog("derp");
+
 }
 
 // on "init" you need to initialize your instance

@@ -844,14 +844,24 @@ bool BattleManager::GetEntitiesInRadius( kmVec2 p, float r, std::vector<ICastEnt
 		ePos.x = m_allEntities[i].view->getPositionX();
 		ePos.y = m_allEntities[i].view->getPositionY();
 
+		float distSq = 0;
+		if( ePos.x == p.x ) //handle simple cases first
+		{
+			distSq = ePos.y - p.y;
+			distSq *= distSq;
+		}else if( ePos.y == p.y )
+		{
+			distSq = ePos.x - p.x;
+			distSq *= distSq;
+		}else {
+			kmVec2 dist;
+			kmVec2Subtract( &dist, &p, &ePos );
+			distSq = kmVec2LengthSq(&dist);
+		}
 
-		kmVec2 dist;
-		kmVec2Subtract( &dist, &p, &ePos );
-		//kmVec2Scale( &dist, &dist, GAME_UNIT_CONVERSION ); //safe to operate on same vector
+		CCLog("ent %d in radius dist %f", i, sqrt(distSq));
 
-		CCLog("ent %d in radius dist %f", i, kmVec2Length(&dist));
-
-		if( kmVec2LengthSq(&dist) <= rSq ) {
+		if( distSq  <= rSq ) {
 			entities.push_back( m_allEntities[i].model );
 			found = true;
 		}
