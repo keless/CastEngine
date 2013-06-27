@@ -34,6 +34,7 @@ bool BattleManager::init()
 	
 	initAbilities();
 
+	m_travelLastSpawnLocation = 0.0f;
 	m_travelProgess = 0.0f;
 	m_travelDistance = 100.0f;
 	float pbMargin = 50;
@@ -189,13 +190,23 @@ void BattleManager::update( float dt )
 
 		m_pbTravel->setProgress( m_travelProgess/ m_travelDistance );
 
-		/* todo: decide to spawn?
-		int randNum = 1 + (rand() % 3);
-		CCLog("spawn %d enemies", randNum);
-		for( int i=0; i< randNum; i++) {
-			spawnEnemy();
+		if( m_travelProgess >= m_travelLastSpawnLocation + 25 )
+		{
+			//spawn more
+			m_travelLastSpawnLocation = m_travelDistance +  25;
+			
+
+			int randNum = 1 + (rand() % 3);
+			CCLog("spawn %d enemies", randNum);
+			for( int i=0; i< randNum; i++) {
+				spawnEnemy();
+			}
+		
+
 		}
-		*/
+
+		
+
 
 		if( m_travelProgess >= m_travelDistance )
 		{

@@ -37,6 +37,7 @@ protected:
 
 	float m_travelProgess;
 	float m_travelDistance;
+	float m_travelLastSpawnLocation;
 	ZZProgressBar* m_pbTravel;
 
 	void removeEntity( GameEntity* entity, bool isEnemy );
