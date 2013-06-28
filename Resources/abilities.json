@@ -74,10 +74,10 @@
 			"travelSpeed": 5.0,
 			"range":5,
 			"cooldownTime" : 0.15,
-			"effectWhileTravel" = true,
-			"stopOnHit" = true,
-			"costStat" = "mana_curr",
-			"costVal" = 10,
+			"effectWhileTravel" : true,
+			"stopOnHit" : true,
+			"costStat" : "mana_curr",
+			"costVal" : 10,
 			"effectsOnCast":[
 				{
 					"effectType" :"damage",

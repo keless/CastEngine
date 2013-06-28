@@ -569,10 +569,62 @@ void BattleManager::enemyMovementAI( int enemyIdx, float dt )
 	enemy.view->setPosition(ePos);
 }
 
+Json::Value BattleManager::readFileToJson( const char* fileName )
+{
+	std::string path = CCFileUtils::sharedFileUtils()->fullPathForFilename(fileName);
+
+	
+	bool bRet = false;
+    unsigned long size = 0;
+    char* pBuffer = (char*)CCFileUtils::sharedFileUtils()->getFileData(path.c_str(), "rt", &size);
+    if (pBuffer == NULL || size <= 0)
+    {
+		return Json::Value();
+        //bRet = parse(pBuffer, size);
+    }
+	std::string strJson(pBuffer, size);
+
+	CC_SAFE_DELETE_ARRAY(pBuffer);
+
+	Json::Value root;
+	Json::Reader reader;
+	reader.parse(strJson, root);
+
+    return root;
+}
+
 void BattleManager::initAbilities()
 {
-	CastCommandModel* mod = NULL;
 
+	//todo: load abilities from file
+
+
+	Json::Value json = readFileToJson( "abilities.json" );
+	
+	if( json.isMember("abilities" ) ) {
+		json = json["abilities"];
+	}
+
+	if( ! json.isArray() ) {
+		return;
+	}
+
+	CastCommandModel* mod = NULL;
+	for( int i=0; i< json.size(); i++)
+	{
+		Json::Value& obj = json[i];
+
+		if( obj.isNull() || ! obj.isObject() ) continue;
+
+		CCLog("load %s",  obj.get("name", "").asString().c_str() );
+
+		mod = new CastCommandModel( obj );
+		mod->retain();
+		m_abilities[mod->getName()] = mod;
+	}
+
+	
+	/*
 	{
 		Json::Value attack;
 
@@ -764,7 +816,7 @@ void BattleManager::initAbilities()
 		m_abilities[mod->getName()] = mod;
 	}
 
-
+	*/
 
 }
 

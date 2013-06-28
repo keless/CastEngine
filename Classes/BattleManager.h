@@ -31,6 +31,8 @@ protected:
 	std::vector<EntityPair> m_enemies;
 
 	std::map<std::string, CastCommandModel*> m_abilities;
+
+	Json::Value readFileToJson( const char* fileName );
 	void initAbilities();
 	void spawnEnemy();
 	void enemyMovementAI( int enemyIdx, float dt );
