@@ -122,7 +122,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
-    <ClCompile Include="..\Classes\BattleManager.cpp" />
+    <ClCompile Include="..\Classes\BattleManagerScreen.cpp" />
     <ClCompile Include="..\Classes\CastEngine\CastCommandModel.cpp" />
     <ClCompile Include="..\Classes\CastEngine\CastCommandScheduler.cpp" />
     <ClCompile Include="..\Classes\CastEngine\CastCommandState.cpp" />
@@ -140,13 +140,14 @@
     <ClCompile Include="..\Classes\GameEntityView.cpp" />
     <ClCompile Include="..\Classes\BattleScene.cpp" />
     <ClCompile Include="..\Classes\MainMenuScreen.cpp" />
+    <ClCompile Include="..\Classes\SpellEditScreen.cpp" />
     <ClCompile Include="..\Classes\ZZ\ZZEventBus.cpp" />
     <ClCompile Include="..\Classes\ZZ\ZZProgressBar.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
-    <ClInclude Include="..\Classes\BattleManager.h" />
+    <ClInclude Include="..\Classes\BattleManagerScreen.h" />
     <ClInclude Include="..\Classes\CastEngine\CastCommandModel.h" />
     <ClInclude Include="..\Classes\CastEngine\CastCommandScheduler.h" />
     <ClInclude Include="..\Classes\CastEngine\CastCommandState.h" />
@@ -170,6 +171,7 @@
     <ClInclude Include="..\Classes\GameEntityView.h" />
     <ClInclude Include="..\Classes\BattleScene.h" />
     <ClInclude Include="..\Classes\MainMenuScreen.h" />
+    <ClInclude Include="..\Classes\SpellEditScreen.h" />
     <ClInclude Include="..\Classes\ZZ\ZZEventBus.h" />
     <ClInclude Include="..\Classes\ZZ\ZZProgressBar.h" />
     <ClInclude Include="main.h" />

@@ -22,7 +22,7 @@ struct EntityPair
 };
 
 
-class BattleManager :
+class BattleManagerScreen :
 	public CCLayer, public ICastPhysics
 {
 protected:
@@ -47,10 +47,10 @@ protected:
 	float getPartySpeed();
 
 public:
-	BattleManager(void);
-	~BattleManager(void);
+	BattleManagerScreen(void);
+	~BattleManagerScreen(void);
 
-	static BattleManager* create();
+	static BattleManagerScreen* create();
 
 	virtual bool init();  
 

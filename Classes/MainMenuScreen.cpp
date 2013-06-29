@@ -24,17 +24,18 @@ bool MainMenuScreen::init()
     CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
     CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
 
-    // add a "close" icon to exit the progress. it's an autorelease object
-    CCMenuItemImage *pCloseItem = CCMenuItemImage::create(
-                                        "CloseNormal.png",
-                                        "CloseSelected.png",
-                                        this,
-                                        menu_selector(MainMenuScreen::menuStartCallback));
-    
-	pCloseItem->setPosition(ccp(origin.x + visibleSize.width/2 - pCloseItem->getContentSize().width/2 ,
-                                origin.y + visibleSize.height/2 - pCloseItem->getContentSize().height/2));
+	float menuY = origin.y + visibleSize.height/2;
+	float menuX = origin.x + visibleSize.width/2;
 
-    CCMenu* pMenu = CCMenu::create(pCloseItem, NULL);
+	CCMenuItemFont* menuTravel = CCMenuItemFont::create("Travel", this, menu_selector(MainMenuScreen::menuStartCallback));
+	menuTravel->setPosition(ccp( menuX, menuY));
+
+	menuY += menuTravel->getContentSize().height;
+
+	CCMenuItemFont* menuSpellbook = CCMenuItemFont::create("Spellbook", this, menu_selector(MainMenuScreen::menuBookCallback));
+	menuSpellbook->setPosition(ccp( menuX, menuY ));
+
+	CCMenu* pMenu = CCMenu::create(menuTravel, menuSpellbook, NULL);
     pMenu->setPosition(CCPointZero);
     this->addChild(pMenu, 1);
 
@@ -49,6 +50,12 @@ bool MainMenuScreen::init()
 void MainMenuScreen::menuStartCallback(CCObject* pSender)
 {
 	ZZEventBus::BaseEvent* evt = new ZZEventBus::BaseEvent("battle");
+	ZZEventBus::get("state")->dispatch("switchTo", evt);
+
+}
+void MainMenuScreen::menuBookCallback(CCObject* pSender)
+{
+	ZZEventBus::BaseEvent* evt = new ZZEventBus::BaseEvent("spellbook");
 	ZZEventBus::get("state")->dispatch("switchTo", evt);
 
 }

@@ -9,15 +9,12 @@ class MainMenuScreen : public CCLayer
 public:
 	MainMenuScreen(void);
 	~MainMenuScreen(void);
-
-	// implement the "static node()" method manually
     CREATE_FUNC(MainMenuScreen);
-
 	bool init();
 
     // a selector callback
     void menuStartCallback(CCObject* pSender);
-
+	void menuBookCallback(CCObject* pSender);
 
 };
 

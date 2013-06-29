@@ -1,4 +1,4 @@
-#include "BattleManager.h"
+#include "BattleManagerScreen.h"
 
 #define MAX_STEP 1.0f
 #define TIME_SCALE 0.5f
@@ -10,21 +10,21 @@
 #define VIEW_UNIT_CONVERSION (210.0f)
 
 //static 
-BattleManager* BattleManager::create()
+BattleManagerScreen* BattleManagerScreen::create()
 {
-	BattleManager* bm = new BattleManager();
+	BattleManagerScreen* bm = new BattleManagerScreen();
 	bm->init();
 	bm->autorelease();
 	return bm;
 }
 
-BattleManager::BattleManager(void)
+BattleManagerScreen::BattleManagerScreen(void)
 {
 	m_travelProgess = 0;
 	m_pbTravel = NULL;
 }
 
-bool BattleManager::init()
+bool BattleManagerScreen::init()
 {
 
 	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
@@ -43,9 +43,9 @@ bool BattleManager::init()
 	addChild(m_pbTravel);
 
 	//todo: remove listener on destructor
-	ZZEventBus::game()->addListener("GameEntityDeathEvt", this, callfuncO_selector(BattleManager::onEntityDeath));
-	ZZEventBus::game()->addListener("GameEntityLevelupEvt", this, callfuncO_selector(BattleManager::onEntityLevelup));
-	ZZEventBus::game()->addListener("GameEntityEffectEvt", this, callfuncO_selector(BattleManager::onEntityEffectEvent));
+	ZZEventBus::game()->addListener("GameEntityDeathEvt", this, callfuncO_selector(BattleManagerScreen::onEntityDeath));
+	ZZEventBus::game()->addListener("GameEntityLevelupEvt", this, callfuncO_selector(BattleManagerScreen::onEntityLevelup));
+	ZZEventBus::game()->addListener("GameEntityEffectEvt", this, callfuncO_selector(BattleManagerScreen::onEntityEffectEvent));
 	
 	
 	CastWorldModel::get()->setPhysicsInterface(this);
@@ -98,19 +98,19 @@ bool BattleManager::init()
     return true;
 }
 
-BattleManager::~BattleManager(void)
+BattleManagerScreen::~BattleManagerScreen(void)
 {
-	ZZEventBus::game()->remListener("GameEntityDeathEvt", this, callfuncO_selector(BattleManager::onEntityDeath));
-	ZZEventBus::game()->remListener("GameEntityLevelupEvt", this, callfuncO_selector(BattleManager::onEntityLevelup));
-	ZZEventBus::game()->remListener("GameEntityEffectEvt", this, callfuncO_selector(BattleManager::onEntityEffectEvent));
+	ZZEventBus::game()->remListener("GameEntityDeathEvt", this, callfuncO_selector(BattleManagerScreen::onEntityDeath));
+	ZZEventBus::game()->remListener("GameEntityLevelupEvt", this, callfuncO_selector(BattleManagerScreen::onEntityLevelup));
+	ZZEventBus::game()->remListener("GameEntityEffectEvt", this, callfuncO_selector(BattleManagerScreen::onEntityEffectEvent));
 }
 
-float BattleManager::getPartySpeed()
+float BattleManagerScreen::getPartySpeed()
 {
 	return 15.0f; //todo: derive from party stats
 }
 
-void BattleManager::removeEntity( GameEntity* entity, bool isEnemy )
+void BattleManagerScreen::removeEntity( GameEntity* entity, bool isEnemy )
 {
 	
 	CCLog("begin remove entity at 0x%d", entity);
@@ -165,7 +165,7 @@ void BattleManager::removeEntity( GameEntity* entity, bool isEnemy )
 }
 
 //virtual 
-void BattleManager::update( float dt )
+void BattleManagerScreen::update( float dt )
 {
 	if( dt > MAX_STEP ) dt = MAX_STEP;
 
@@ -257,7 +257,7 @@ void BattleManager::update( float dt )
 
 //#define DISABLE_ATTACKS
 
-void BattleManager::PerformEnemyAI( GameEntity* enemy )
+void BattleManagerScreen::PerformEnemyAI( GameEntity* enemy )
 {
 	//select ability
 	std::vector<CastCommandState*> abilities;
@@ -282,7 +282,7 @@ void BattleManager::PerformEnemyAI( GameEntity* enemy )
 	}
 }
 
-void BattleManager::PerformPlayerAi( GameEntity* player )
+void BattleManagerScreen::PerformPlayerAi( GameEntity* player )
 {
 	//select ability
 	std::vector<CastCommandState*> abilities;
@@ -363,7 +363,7 @@ void BattleManager::PerformPlayerAi( GameEntity* player )
 
 }
 
-void BattleManager::onEntityEffectEvent( CCObject* e )
+void BattleManagerScreen::onEntityEffectEvent( CCObject* e )
 {
 	GameEntityEffectEvt* evt = dynamic_cast<GameEntityEffectEvt*>(e);
 	if(!evt) return;
@@ -401,7 +401,7 @@ void BattleManager::onEntityEffectEvent( CCObject* e )
 
 }
 
-void BattleManager::onEntityDeath( CCObject* e )
+void BattleManagerScreen::onEntityDeath( CCObject* e )
 {
 	GameEntityDeathEvt* evt = dynamic_cast<GameEntityDeathEvt*>(e);
 	if(!evt) return;
@@ -435,7 +435,7 @@ void BattleManager::onEntityDeath( CCObject* e )
 
 }
 
-void BattleManager::onEntityLevelup( CCObject* e )
+void BattleManagerScreen::onEntityLevelup( CCObject* e )
 {
 	GameEntityLevelupEvt* evt = dynamic_cast<GameEntityLevelupEvt*>(e);
 	if(!evt) return;
@@ -450,7 +450,7 @@ void BattleManager::onEntityLevelup( CCObject* e )
 	
 }
 
-void BattleManager::setCardDeath( GameEntityView* view )
+void BattleManagerScreen::setCardDeath( GameEntityView* view )
 {
 	CCSequence* seq = CCSequence::create(
 		CCScaleTo::create(1.f, 1.2f, 0.1f),
@@ -461,7 +461,7 @@ void BattleManager::setCardDeath( GameEntityView* view )
 	view->runAction( seq );
 }
 
-void BattleManager::enemyMovementAI( int enemyIdx, float dt )
+void BattleManagerScreen::enemyMovementAI( int enemyIdx, float dt )
 {
 	float speed = 75.0f; //5 pixels/sec
 	EntityPair& enemy = m_enemies[enemyIdx];
@@ -569,7 +569,7 @@ void BattleManager::enemyMovementAI( int enemyIdx, float dt )
 	enemy.view->setPosition(ePos);
 }
 
-Json::Value BattleManager::readFileToJson( const char* fileName )
+Json::Value BattleManagerScreen::readFileToJson( const char* fileName )
 {
 	std::string path = CCFileUtils::sharedFileUtils()->fullPathForFilename(fileName);
 
@@ -593,7 +593,7 @@ Json::Value BattleManager::readFileToJson( const char* fileName )
     return root;
 }
 
-void BattleManager::initAbilities()
+void BattleManagerScreen::initAbilities()
 {
 
 	//todo: load abilities from file
@@ -820,7 +820,7 @@ void BattleManager::initAbilities()
 
 }
 
-bool BattleManager::GetVecBetween( ICastEntity* from, ICastEntity* to, kmVec2& distVec )
+bool BattleManagerScreen::GetVecBetween( ICastEntity* from, ICastEntity* to, kmVec2& distVec )
 {
 	CastWorldModel* world = CastWorldModel::get();
 
@@ -852,7 +852,7 @@ bool BattleManager::GetVecBetween( ICastEntity* from, ICastEntity* to, kmVec2& d
 	return true;
 }
 
-GameEntityView* BattleManager::getViewForEntity( ICastEntity* entity )
+GameEntityView* BattleManagerScreen::getViewForEntity( ICastEntity* entity )
 {
 
 	for( int i=0; i< m_allEntities.size() ; i++ )
@@ -866,7 +866,7 @@ GameEntityView* BattleManager::getViewForEntity( ICastEntity* entity )
 	return NULL;
 }
 
-bool BattleManager::GetEntityPosition( ICastEntity* entity, kmVec2& pos )
+bool BattleManagerScreen::GetEntityPosition( ICastEntity* entity, kmVec2& pos )
 {
 	GameEntityView* view = getViewForEntity( entity );
 
@@ -880,7 +880,7 @@ bool BattleManager::GetEntityPosition( ICastEntity* entity, kmVec2& pos )
 	return false;
 }
 
-bool BattleManager::GetEntitiesInRadius( kmVec2 p, float r, std::vector<ICastEntity*>& entities )
+bool BattleManagerScreen::GetEntitiesInRadius( kmVec2 p, float r, std::vector<ICastEntity*>& entities )
 {
 
 	bool found = false;
@@ -923,7 +923,7 @@ bool BattleManager::GetEntitiesInRadius( kmVec2 p, float r, std::vector<ICastEnt
 }
 
 
-void BattleManager::spawnEnemy()
+void BattleManagerScreen::spawnEnemy()
 {
 	CCSize screen = boundingBox().size;
 

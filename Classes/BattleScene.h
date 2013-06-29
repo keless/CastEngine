@@ -4,7 +4,7 @@
 #include "cocos2d.h"
 #include "CastPhysics.h"
 
-#include "BattleManager.h"
+#include "BattleManagerScreen.h"
 
 
 class BattleScene : public cocos2d::CCLayer

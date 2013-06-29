@@ -44,7 +44,7 @@ bool BattleScene::init()
     pMenu->setPosition(CCPointZero);
     this->addChild(pMenu, 1);
 
-    CCSprite* pSprite = CCSprite::create("HelloWorld.png");
+    CCSprite* pSprite = CCSprite::create("workbench.png");
     pSprite->setPosition(ccp(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
     this->addChild(pSprite, 0);
 
@@ -114,7 +114,7 @@ void BattleScene::ccTouchesCancelled(CCSet* touches, CCEvent* event)
 	}
 }
 
-#include "BattleManager.h"
+#include "BattleManagerScreen.h"
 #include "MainMenuScreen.h"
 void BattleScene::doStateChange( CCObject* e )
 {
@@ -131,9 +131,11 @@ void BattleScene::doStateChange( CCObject* e )
 	}
 
 	if( evt->type.compare("battle") == 0 ) {
-		m_activeLayer = BattleManager::create();
+		m_activeLayer = BattleManagerScreen::create();
 	}else if( evt->type.compare("mainMenu") == 0 ) {
 		m_activeLayer = MainMenuScreen::create();
+	}else if( evt->type.compare("spellbook") == 0 ) {
+
 	}
 
 	if( m_activeLayer != NULL ) 

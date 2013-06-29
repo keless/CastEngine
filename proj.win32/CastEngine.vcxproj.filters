@@ -61,11 +61,14 @@
     <ClCompile Include="..\Classes\BattleScene.cpp">
       <Filter>Application</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\BattleManager.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\MainMenuScreen.cpp">
       <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\SpellEditScreen.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\BattleManagerScreen.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -147,11 +150,14 @@
     <ClInclude Include="..\Classes\BattleScene.h">
       <Filter>Application</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\BattleManager.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\MainMenuScreen.h">
       <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SpellEditScreen.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\BattleManagerScreen.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
