@@ -116,6 +116,7 @@ void BattleScene::ccTouchesCancelled(CCSet* touches, CCEvent* event)
 
 #include "BattleManagerScreen.h"
 #include "MainMenuScreen.h"
+#include "SpellEditScreen.h"
 void BattleScene::doStateChange( CCObject* e )
 {
 	CCLog("start state change");
@@ -135,7 +136,7 @@ void BattleScene::doStateChange( CCObject* e )
 	}else if( evt->type.compare("mainMenu") == 0 ) {
 		m_activeLayer = MainMenuScreen::create();
 	}else if( evt->type.compare("spellbook") == 0 ) {
-
+		m_activeLayer = SpellEditScreen::create();
 	}
 
 	if( m_activeLayer != NULL ) 
@@ -145,11 +146,21 @@ void BattleScene::doStateChange( CCObject* e )
 
 }
 
+#include <typeinfo>
 void BattleScene::menuCloseCallback(CCObject* pSender)
 {
-    CCDirector::sharedDirector()->end();
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    exit(0);
-#endif
+	if( m_activeLayer == NULL || dynamic_cast<MainMenuScreen*>(m_activeLayer) != NULL ) {
+		//main menu or no state-- kill app
+		CCDirector::sharedDirector()->end();
+
+		#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+			exit(0);
+		#endif
+	}else {
+		//move back to main menu
+		doStateChange(new ZZEventBus::BaseEvent("mainMenu"));
+	}
+
+
 }
