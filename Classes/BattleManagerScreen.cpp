@@ -38,14 +38,14 @@ bool BattleManagerScreen::init()
 	m_travelProgess = 0.0f;
 	m_travelDistance = 100.0f;
 	float pbMargin = 50;
-	m_pbTravel = ZZProgressBar::create( CCRectMake( pbMargin, visibleSize.height - pbMargin, visibleSize.width - pbMargin*2, pbMargin ) );
+	m_pbTravel = ProgressBar::create( CCRectMake( pbMargin, visibleSize.height - pbMargin, visibleSize.width - pbMargin*2, pbMargin ) );
 	m_pbTravel->setProgress( m_travelProgess / m_travelDistance );
 	addChild(m_pbTravel);
 
 	//todo: remove listener on destructor
-	ZZEventBus::game()->addListener("GameEntityDeathEvt", this, callfuncO_selector(BattleManagerScreen::onEntityDeath));
-	ZZEventBus::game()->addListener("GameEntityLevelupEvt", this, callfuncO_selector(BattleManagerScreen::onEntityLevelup));
-	ZZEventBus::game()->addListener("GameEntityEffectEvt", this, callfuncO_selector(BattleManagerScreen::onEntityEffectEvent));
+	EventBus::game()->addListener("GameEntityDeathEvt", this, callfuncO_selector(BattleManagerScreen::onEntityDeath));
+	EventBus::game()->addListener("GameEntityLevelupEvt", this, callfuncO_selector(BattleManagerScreen::onEntityLevelup));
+	EventBus::game()->addListener("GameEntityEffectEvt", this, callfuncO_selector(BattleManagerScreen::onEntityEffectEvent));
 	
 	
 	CastWorldModel::get()->setPhysicsInterface(this);
@@ -100,9 +100,9 @@ bool BattleManagerScreen::init()
 
 BattleManagerScreen::~BattleManagerScreen(void)
 {
-	ZZEventBus::game()->remListener("GameEntityDeathEvt", this, callfuncO_selector(BattleManagerScreen::onEntityDeath));
-	ZZEventBus::game()->remListener("GameEntityLevelupEvt", this, callfuncO_selector(BattleManagerScreen::onEntityLevelup));
-	ZZEventBus::game()->remListener("GameEntityEffectEvt", this, callfuncO_selector(BattleManagerScreen::onEntityEffectEvent));
+	EventBus::game()->remListener("GameEntityDeathEvt", this, callfuncO_selector(BattleManagerScreen::onEntityDeath));
+	EventBus::game()->remListener("GameEntityLevelupEvt", this, callfuncO_selector(BattleManagerScreen::onEntityLevelup));
+	EventBus::game()->remListener("GameEntityEffectEvt", this, callfuncO_selector(BattleManagerScreen::onEntityEffectEvent));
 }
 
 float BattleManagerScreen::getPartySpeed()
@@ -178,8 +178,8 @@ void BattleManagerScreen::update( float dt )
 	if( m_players.size() < 1 ) 
 	{
 		//todo: handle game over 
-		ZZEventBus::BaseEvent* evt = new ZZEventBus::BaseEvent("mainMenu");
-		ZZEventBus::get("state")->dispatch("switchTo", evt);
+		BaseEvent* evt = new BaseEvent("mainMenu");
+		EventBus::get("state")->dispatch("switchTo", evt);
 		return;
 	}
 
@@ -231,7 +231,7 @@ void BattleManagerScreen::update( float dt )
 		if( m_travelProgess >= m_travelDistance )
 		{
 			//reached target, do something
-			ZZEventBus::get("state")->dispatch("switchTo", new ZZEventBus::BaseEvent("mainMenu") );
+			EventBus::get("state")->dispatch("switchTo", new BaseEvent("mainMenu") );
 			return;
 		}
 	}

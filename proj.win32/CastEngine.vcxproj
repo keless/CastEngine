@@ -140,7 +140,9 @@
     <ClCompile Include="..\Classes\GameEntityView.cpp" />
     <ClCompile Include="..\Classes\BattleScene.cpp" />
     <ClCompile Include="..\Classes\MainMenuScreen.cpp" />
+    <ClCompile Include="..\Classes\SpellDiagramNode.cpp" />
     <ClCompile Include="..\Classes\SpellEditScreen.cpp" />
+    <ClCompile Include="..\Classes\SpellPageList.cpp" />
     <ClCompile Include="..\Classes\ZZ\ZZEventBus.cpp" />
     <ClCompile Include="..\Classes\ZZ\ZZProgressBar.cpp" />
     <ClCompile Include="main.cpp" />
@@ -171,7 +173,9 @@
     <ClInclude Include="..\Classes\GameEntityView.h" />
     <ClInclude Include="..\Classes\BattleScene.h" />
     <ClInclude Include="..\Classes\MainMenuScreen.h" />
+    <ClInclude Include="..\Classes\SpellDiagramNode.h" />
     <ClInclude Include="..\Classes\SpellEditScreen.h" />
+    <ClInclude Include="..\Classes\SpellPageList.h" />
     <ClInclude Include="..\Classes\ZZ\ZZEventBus.h" />
     <ClInclude Include="..\Classes\ZZ\ZZProgressBar.h" />
     <ClInclude Include="main.h" />

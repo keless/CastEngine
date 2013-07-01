@@ -44,14 +44,14 @@ bool BattleScene::init()
     pMenu->setPosition(CCPointZero);
     this->addChild(pMenu, 1);
 
-    CCSprite* pSprite = CCSprite::create("workbench.png");
+    CCSprite* pSprite = CCSprite::create("workbench2.png");
     pSprite->setPosition(ccp(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
     this->addChild(pSprite, 0);
 
 	//todo: remove listener when this state goes out of scope (doesnt happen?)
-	ZZEventBus::get("state")->addListener("switchTo", this, callfuncO_selector(BattleScene::doStateChange));
+	EventBus::get("state")->addListener("switchTo", this, callfuncO_selector(BattleScene::doStateChange));
 
-	doStateChange( new ZZEventBus::BaseEvent("mainMenu") );
+	doStateChange( new BaseEvent("mainMenu") );
 
 	setTouchEnabled(true);
 	//registerWithTouchDispatcher();
@@ -121,7 +121,7 @@ void BattleScene::doStateChange( CCObject* e )
 {
 	CCLog("start state change");
 
-	ZZEventBus::BaseEvent* evt = dynamic_cast<ZZEventBus::BaseEvent*>(e);
+	BaseEvent* evt = dynamic_cast<BaseEvent*>(e);
 	if( evt == NULL ) return;
 
 
@@ -146,7 +146,6 @@ void BattleScene::doStateChange( CCObject* e )
 
 }
 
-#include <typeinfo>
 void BattleScene::menuCloseCallback(CCObject* pSender)
 {
 
@@ -159,7 +158,7 @@ void BattleScene::menuCloseCallback(CCObject* pSender)
 		#endif
 	}else {
 		//move back to main menu
-		doStateChange(new ZZEventBus::BaseEvent("mainMenu"));
+		doStateChange(new BaseEvent("mainMenu"));
 	}
 
 

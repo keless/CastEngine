@@ -7,6 +7,7 @@ using namespace cocos2d;
 
 #include "GameEntity.h"
 #include "ZZProgressBar.h"
+using namespace ZZ;
 
 #include "json.h"
 
@@ -16,9 +17,9 @@ class GameEntityView :
 	public CCNode
 {
 protected:
-	ZZProgressBar* m_healthBar;
-	ZZProgressBar* m_manaBar;
-	ZZProgressBar* m_xpBar;
+	ProgressBar* m_healthBar;
+	ProgressBar* m_manaBar;
+	ProgressBar* m_xpBar;
 	GameEntity* m_pEntity;
 	CCLabelTTF* m_lblName;
 	CCLabelTTF* m_lblLevel;

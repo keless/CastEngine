@@ -40,7 +40,7 @@ void GameEntityView::initView()
 	addChild(m_lblName, 50);
 
 	int healthBarH = 30;
-	m_healthBar = ZZProgressBar::create( CCRectMake(0,0, cardW/2, healthBarH) );
+	m_healthBar = ProgressBar::create( CCRectMake(0,0, cardW/2, healthBarH) );
 	m_healthBar->setMargin(margin);
 	m_healthBar->setProgress(  m_pEntity->getProperty("hp_curr") / (m_pEntity->getProperty("hp_base")) );
 	m_healthBar->setAnchorPoint(ccp(0.0f, 1.0f) );
@@ -48,7 +48,7 @@ void GameEntityView::initView()
 	addChild(m_healthBar, 49);
 
 	int manaBarH = 10;
-	m_manaBar = ZZProgressBar::create( CCRectMake( 0,0, cardW/2, manaBarH ) );
+	m_manaBar = ProgressBar::create( CCRectMake( 0,0, cardW/2, manaBarH ) );
 	m_manaBar->setMargin(margin);
 	m_manaBar->setColor( ccc3(50,50,255), ccc3(50,50,50) );
 	m_manaBar->setProgress( m_pEntity->getProperty("mana_curr") / (m_pEntity->getProperty("mana_base")) );
@@ -57,7 +57,7 @@ void GameEntityView::initView()
 	addChild(m_manaBar, 48);
 
 	int xpBarH = 10;
-	m_xpBar = ZZProgressBar::create( CCRectMake( 0,0, cardW, xpBarH ) );
+	m_xpBar = ProgressBar::create( CCRectMake( 0,0, cardW, xpBarH ) );
 	m_xpBar->setMargin(margin);
 	m_xpBar->setColor( ccc3(150,150,150), ccc3(20,20,20) );
 

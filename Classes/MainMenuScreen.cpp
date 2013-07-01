@@ -47,15 +47,16 @@ bool MainMenuScreen::init()
 }
 
 #include "ZZEventBus.h"
+using namespace ZZ;
 void MainMenuScreen::menuStartCallback(CCObject* pSender)
 {
-	ZZEventBus::BaseEvent* evt = new ZZEventBus::BaseEvent("battle");
-	ZZEventBus::get("state")->dispatch("switchTo", evt);
+	BaseEvent* evt = new BaseEvent("battle");
+	EventBus::get("state")->dispatch("switchTo", evt);
 
 }
 void MainMenuScreen::menuBookCallback(CCObject* pSender)
 {
-	ZZEventBus::BaseEvent* evt = new ZZEventBus::BaseEvent("spellbook");
-	ZZEventBus::get("state")->dispatch("switchTo", evt);
+	BaseEvent* evt = new BaseEvent("spellbook");
+	EventBus::get("state")->dispatch("switchTo", evt);
 
 }

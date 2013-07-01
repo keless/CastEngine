@@ -7,6 +7,9 @@ using namespace cocos2d;
 #include "CastPhysics.h"
 
 #include "ZZProgressBar.h"
+#include "ZZEventBus.h"
+using namespace ZZ;
+
 #include "GameEntity.h"
 #include "GameEntityView.h"
 #include "PlayerView.h"
@@ -40,7 +43,7 @@ protected:
 	float m_travelProgess;
 	float m_travelDistance;
 	float m_travelLastSpawnLocation;
-	ZZProgressBar* m_pbTravel;
+	ProgressBar* m_pbTravel;
 
 	void removeEntity( GameEntity* entity, bool isEnemy );
 

@@ -1,17 +1,18 @@
 #include "ZZProgressBar.h"
 
+namespace ZZ {
 
-ZZProgressBar::ZZProgressBar(void) : m_bg(NULL), m_bar(NULL), m_margin(0)
+ProgressBar::ProgressBar(void) : m_bg(NULL), m_bar(NULL), m_margin(0)
 {
 }
 
 
-ZZProgressBar::~ZZProgressBar(void)
+ProgressBar::~ProgressBar(void)
 {
 }
 
 //virtual 
-bool ZZProgressBar::init( const CCRect &area )
+bool ProgressBar::init( const CCRect &area )
 {
 	setContentSize( CCSizeMake( area.size.width, area.size.height ) );
 
@@ -30,26 +31,26 @@ bool ZZProgressBar::init( const CCRect &area )
 }
 
 //.static 
-ZZProgressBar * ZZProgressBar::create( const CCRect &area )
+ProgressBar * ProgressBar::create( const CCRect &area )
 {
-	ZZProgressBar* bar = new ZZProgressBar();
+	ProgressBar* bar = new ProgressBar();
 	bar->init(area);
 	bar->autorelease();
 	return bar;
 }
 
-void ZZProgressBar::setColor( const ccColor3B& fg, const ccColor3B& bg )
+void ProgressBar::setColor( const ccColor3B& fg, const ccColor3B& bg )
 {
 	m_bg->setColor( bg );
 	m_bar->setColor(fg);
 }
 
-void ZZProgressBar::setProgress( float pct )
+void ProgressBar::setProgress( float pct )
 {
 	m_bar->setScaleX( pct );
 }
 
-void ZZProgressBar::setMargin( float margin )
+void ProgressBar::setMargin( float margin )
 {
 	CCSize area = m_bg->getContentSize();
 	area.height -= margin * 2;
@@ -57,4 +58,6 @@ void ZZProgressBar::setMargin( float margin )
 	m_margin = margin;
 	m_bar->setContentSize(area);
 	m_bar->setPosition(ccp(margin, margin )); //after resizing, cause position to recalculate
+}
+
 }

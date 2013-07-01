@@ -5,24 +5,28 @@
 
 using namespace cocos2d;
 
-class ZZProgressBar : public CCNode
+namespace ZZ {
+
+class ProgressBar : public CCNode
 {
 	CCLayerColor* m_bg;
 	CCLayerColor* m_bar;
 	float m_margin;
 
 public:
-	ZZProgressBar(void);
-	~ZZProgressBar(void);
+	ProgressBar(void);
+	~ProgressBar(void);
 
 	void setColor( const ccColor3B& fg, const ccColor3B& bg );
 
 	virtual bool init(  const CCRect &area );
 
-	static ZZProgressBar * create( const CCRect &area );
+	static ProgressBar * create( const CCRect &area );
 
 	void setProgress( float pct );
 	void setMargin( float margin );
 };
+
+}
 
 #endif

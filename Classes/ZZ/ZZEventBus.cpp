@@ -1,41 +1,42 @@
 #include "ZZEventBus.h"
 
+namespace ZZ {
 
 //static 
-ZZEventBus* ZZEventBus::s_gameBus = NULL;
+EventBus* EventBus::s_gameBus = NULL;
 //static 
-std::map<std::string, ZZEventBus*> ZZEventBus::s_busHash;
+std::map<std::string, EventBus*> EventBus::s_busHash;
 
 //static 
-ZZEventBus* ZZEventBus::game()
+EventBus* EventBus::game()
 {
 	if( s_gameBus == NULL ) {
-		s_gameBus = new ZZEventBus();
+		s_gameBus = new EventBus();
 	}
 	return s_gameBus;
 }
 
 //static 
-ZZEventBus* ZZEventBus::get( char* busName )
+EventBus* EventBus::get( char* busName )
 {
 	if( s_busHash.count(busName) < 1 ) 
 	{
-		s_busHash[busName] = new ZZEventBus();
+		s_busHash[busName] = new EventBus();
 	}
 
 	return s_busHash[busName];
 }
 
-ZZEventBus::ZZEventBus(void)
+EventBus::EventBus(void)
 {
 }
 
 
-ZZEventBus::~ZZEventBus(void)
+EventBus::~EventBus(void)
 {
 }
 
-void ZZEventBus::addListener(std::string evtName, CCObject* listener, SEL_CallFuncO callback  )
+void EventBus::addListener(std::string evtName, CCObject* listener, SEL_CallFuncO callback  )
 {
 	callbackPair cbp;
 	cbp.callback = callback;
@@ -48,7 +49,7 @@ void ZZEventBus::addListener(std::string evtName, CCObject* listener, SEL_CallFu
 	m_listeners[evtName].push_back(cbp);
 }
 
-void ZZEventBus::remListener(std::string evtName, CCObject* listener, SEL_CallFuncO callback  )
+void EventBus::remListener(std::string evtName, CCObject* listener, SEL_CallFuncO callback  )
 {
 	if( m_listeners.count( evtName ) == 0 ) {
 		return;
@@ -65,7 +66,7 @@ void ZZEventBus::remListener(std::string evtName, CCObject* listener, SEL_CallFu
 	}
 }
 
-void ZZEventBus::dispatch(std::string evtName, CCObject* evtObject )
+void EventBus::dispatch(std::string evtName, CCObject* evtObject )
 {
 	std::vector<callbackPair> & listeners = m_listeners[evtName];
 	for( int i=0; i< (int) listeners.size(); i++) 
@@ -79,3 +80,6 @@ void ZZEventBus::dispatch(std::string evtName, CCObject* evtObject )
 
 	//CCLog("dispatch %s complete", evtName.c_str());
 }
+
+}
+

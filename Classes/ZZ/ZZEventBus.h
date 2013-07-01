@@ -4,24 +4,41 @@
 #include <cocos2d.h>
 using namespace cocos2d;
 
-class ZZEventBus
+#include "json.h"
+
+namespace ZZ {
+
+class BaseEvent : public CCObject
+{
+public:
+	std::string type;
+
+	BaseEvent( std::string evtType ) : type(evtType) { this->autorelease(); }
+	virtual ~BaseEvent() {}
+};
+
+
+class JsonEvent : public BaseEvent
+{
+public:
+	Json::Value json;
+
+	JsonEvent( std::string evtType ) : BaseEvent(evtType) { }
+	virtual ~JsonEvent() {}
+};
+
+class EventBus
 {
 protected:
-	static ZZEventBus* s_gameBus;
-	static std::map<std::string, ZZEventBus*> s_busHash;
+	static EventBus* s_gameBus;
+	static std::map<std::string, EventBus*> s_busHash;
 
 public:
-	static ZZEventBus* game();
+	static EventBus* game();
 
-	static ZZEventBus* get( char* busName );
+	static EventBus* get( char* busName );
 
-	class BaseEvent : public CCObject
-	{
-	public:
-		std::string type;
 
-		BaseEvent( std::string evtType ) : type(evtType) { this->autorelease(); }
-	};
 
 
 protected:
@@ -33,8 +50,8 @@ protected:
 	std::map< std::string, std::vector< callbackPair > > m_listeners;
 
 public:
-	ZZEventBus(void);
-	~ZZEventBus(void);
+	EventBus(void);
+	~EventBus(void);
 
 	void addListener(std::string evtName, CCObject* listener, SEL_CallFuncO callback  );
 	void remListener(std::string evtName, CCObject* listener, SEL_CallFuncO callback  );
@@ -43,5 +60,6 @@ public:
 
 };
 
+}
 
 #endif

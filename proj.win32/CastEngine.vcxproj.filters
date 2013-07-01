@@ -70,6 +70,12 @@
     <ClCompile Include="..\Classes\BattleManagerScreen.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\SpellPageList.cpp">
+      <Filter>SpellEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\SpellDiagramNode.cpp">
+      <Filter>SpellEditor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\CastEngine\CastCommandModel.h">
@@ -159,6 +165,12 @@
     <ClInclude Include="..\Classes\BattleManagerScreen.h">
       <Filter>Game</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\SpellPageList.h">
+      <Filter>SpellEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SpellDiagramNode.h">
+      <Filter>SpellEditor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Classes\ext\json\json_internalarray.inl">
@@ -189,6 +201,9 @@
     </Filter>
     <Filter Include="ZZ">
       <UniqueIdentifier>{21989f7c-a6bd-4baa-9fa8-b4c14cf3d3cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SpellEditor">
+      <UniqueIdentifier>{0f39472e-dd6d-45b4-a88e-3a30df3c99e4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

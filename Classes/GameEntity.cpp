@@ -141,7 +141,7 @@ void GameEntity::incProperty( std::string propName, float value, CastEffect* eff
 			CCLog("%s: I am slain, by %s!", m_name.c_str(), killer?killer->getName().c_str():"a ghost");
 
 			GameEntityDeathEvt* evt = new GameEntityDeathEvt(killer, this);
-			ZZEventBus::game()->dispatch("GameEntityDeathEvt", evt);
+			EventBus::game()->dispatch("GameEntityDeathEvt", evt);
 		}
 	}else if( xp_next != 0 &&  propName.compare("xp_curr") == 0  ) {
 		if( xp_curr >= xp_next ) {
@@ -153,7 +153,7 @@ void GameEntity::incProperty( std::string propName, float value, CastEffect* eff
 			xp_level++;
 
 			GameEntityLevelupEvt* evt = new GameEntityLevelupEvt(this);
-			ZZEventBus::game()->dispatch("GameEntityLevelupEvt", evt);
+			EventBus::game()->dispatch("GameEntityLevelupEvt", evt);
 
 
 		}
@@ -221,7 +221,7 @@ void GameEntity::handleEffectReaction( Json::Value& reaction, CastEffect* source
 void GameEntity::handleEffectEvent( std::string effectEventName, CastEffect* source )
 {
 	GameEntityEffectEvt* evt = new GameEntityEffectEvt( effectEventName, source->getOrigin(), this );
-	ZZEventBus::game()->dispatch("GameEntityEffectEvt", evt);
+	EventBus::game()->dispatch("GameEntityEffectEvt", evt);
 }
 
 CastTarget* GameEntity::getTarget()

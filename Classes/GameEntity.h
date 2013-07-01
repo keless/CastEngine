@@ -10,11 +10,11 @@ using namespace cocos2d;
 #include "CastTarget.h"
 
 #include "ZZEventBus.h"
-
+using namespace ZZ;
 
 
 class GameEntity :
-	public CCObject, public ICastEntity, public ZZEventBus
+	public CCObject, public ICastEntity, public EventBus
 {
 	int hp_base;
 	int hp_curr;
