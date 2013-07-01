@@ -159,13 +159,19 @@
 		1AFAF8B716D35DE700DB1158 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AFAF8B316D35DE700DB1158 /* AppDelegate.cpp */; };
 		1AFAF8BC16D35E4900DB1158 /* CloseNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AFAF8B916D35E4900DB1158 /* CloseNormal.png */; };
 		1AFAF8BD16D35E4900DB1158 /* CloseSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AFAF8BA16D35E4900DB1158 /* CloseSelected.png */; };
-		1AFAF8BE16D35E4900DB1158 /* HelloWorld.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AFAF8BB16D35E4900DB1158 /* HelloWorld.png */; };
 		1AFCDA8216D4A25900906EA6 /* RootViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1AFCDA8116D4A25900906EA6 /* RootViewController.mm */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
-		33B9793C177B749900976960 /* BattleManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33B9793A177B749900976960 /* BattleManager.cpp */; };
 		33B9793F177B74E000976960 /* MainMenuScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33B9793D177B74E000976960 /* MainMenuScreen.cpp */; };
+		33B9796317821B3A00976960 /* workbench.png in Resources */ = {isa = PBXBuildFile; fileRef = 33B9796017821B3A00976960 /* workbench.png */; };
+		33B9796417821B3A00976960 /* workbench2.png in Resources */ = {isa = PBXBuildFile; fileRef = 33B9796117821B3A00976960 /* workbench2.png */; };
+		33B9796517821B3A00976960 /* workbench3.png in Resources */ = {isa = PBXBuildFile; fileRef = 33B9796217821B3A00976960 /* workbench3.png */; };
+		33B9796817821B4900976960 /* BattleManagerScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33B9796617821B4900976960 /* BattleManagerScreen.cpp */; };
+		33B9797017821B5C00976960 /* SpellDiagramNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33B9796A17821B5C00976960 /* SpellDiagramNode.cpp */; };
+		33B9797117821B5C00976960 /* SpellEditScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33B9796C17821B5C00976960 /* SpellEditScreen.cpp */; };
+		33B9797217821B5C00976960 /* SpellPageList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33B9796E17821B5C00976960 /* SpellPageList.cpp */; };
+		33B9797417821C6200976960 /* abilities.json in Resources */ = {isa = PBXBuildFile; fileRef = 33B9797317821C6200976960 /* abilities.json */; };
 		33BDC027175FBCA300BE734B /* CastCommandModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33BDC019175FBCA300BE734B /* CastCommandModel.cpp */; };
 		33BDC028175FBCA300BE734B /* CastCommandScheduler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33BDC01B175FBCA300BE734B /* CastCommandScheduler.cpp */; };
 		33BDC029175FBCA300BE734B /* CastCommandState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33BDC01D175FBCA300BE734B /* CastCommandState.cpp */; };
@@ -186,7 +192,6 @@
 		33BDC054175FBCF700BE734B /* json_writer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33BDC04B175FBCF700BE734B /* json_writer.cpp */; };
 		33BDC098175FCE6800BE734B /* CastWorldModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33BDC096175FCE6600BE734B /* CastWorldModel.cpp */; };
 		33BDC0A71767B22400BE734B /* rat.png in Resources */ = {isa = PBXBuildFile; fileRef = 33BDC0A61767B22400BE734B /* rat.png */; };
-		33BDC0BD176A50B200BE734B /* PlayerView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33BDC0BB176A50B200BE734B /* PlayerView.cpp */; };
 		33EA40F1176F75E300ABF61A /* BattleScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33EA40EF176F75E300ABF61A /* BattleScene.cpp */; };
 		33EA40F4176F760400ABF61A /* CastPhysics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33EA40F2176F760400ABF61A /* CastPhysics.cpp */; };
 		7855E0E1153FEF240059DD9A /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7855E0DF153FEF240059DD9A /* Default.png */; };
@@ -533,17 +538,26 @@
 		1AFAF8B416D35DE700DB1158 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ../Classes/AppDelegate.h; sourceTree = "<group>"; };
 		1AFAF8B916D35E4900DB1158 /* CloseNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseNormal.png; sourceTree = "<group>"; };
 		1AFAF8BA16D35E4900DB1158 /* CloseSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseSelected.png; sourceTree = "<group>"; };
-		1AFAF8BB16D35E4900DB1158 /* HelloWorld.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HelloWorld.png; sourceTree = "<group>"; };
 		1AFCDA8016D4A25900906EA6 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = SOURCE_ROOT; };
 		1AFCDA8116D4A25900906EA6 /* RootViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RootViewController.mm; sourceTree = SOURCE_ROOT; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Test.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		33B9793A177B749900976960 /* BattleManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BattleManager.cpp; path = ../Classes/BattleManager.cpp; sourceTree = "<group>"; };
-		33B9793B177B749900976960 /* BattleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BattleManager.h; path = ../Classes/BattleManager.h; sourceTree = "<group>"; };
 		33B9793D177B74E000976960 /* MainMenuScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MainMenuScreen.cpp; path = ../Classes/MainMenuScreen.cpp; sourceTree = "<group>"; };
 		33B9793E177B74E000976960 /* MainMenuScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainMenuScreen.h; path = ../Classes/MainMenuScreen.h; sourceTree = "<group>"; };
+		33B9796017821B3A00976960 /* workbench.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = workbench.png; sourceTree = "<group>"; };
+		33B9796117821B3A00976960 /* workbench2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = workbench2.png; sourceTree = "<group>"; };
+		33B9796217821B3A00976960 /* workbench3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = workbench3.png; sourceTree = "<group>"; };
+		33B9796617821B4900976960 /* BattleManagerScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BattleManagerScreen.cpp; path = ../Classes/BattleManagerScreen.cpp; sourceTree = "<group>"; };
+		33B9796717821B4900976960 /* BattleManagerScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BattleManagerScreen.h; path = ../Classes/BattleManagerScreen.h; sourceTree = "<group>"; };
+		33B9796A17821B5C00976960 /* SpellDiagramNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SpellDiagramNode.cpp; path = ../Classes/SpellDiagramNode.cpp; sourceTree = "<group>"; };
+		33B9796B17821B5C00976960 /* SpellDiagramNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpellDiagramNode.h; path = ../Classes/SpellDiagramNode.h; sourceTree = "<group>"; };
+		33B9796C17821B5C00976960 /* SpellEditScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SpellEditScreen.cpp; path = ../Classes/SpellEditScreen.cpp; sourceTree = "<group>"; };
+		33B9796D17821B5C00976960 /* SpellEditScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpellEditScreen.h; path = ../Classes/SpellEditScreen.h; sourceTree = "<group>"; };
+		33B9796E17821B5C00976960 /* SpellPageList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SpellPageList.cpp; path = ../Classes/SpellPageList.cpp; sourceTree = "<group>"; };
+		33B9796F17821B5C00976960 /* SpellPageList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpellPageList.h; path = ../Classes/SpellPageList.h; sourceTree = "<group>"; };
+		33B9797317821C6200976960 /* abilities.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = abilities.json; sourceTree = "<group>"; };
 		33BDC019175FBCA300BE734B /* CastCommandModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CastCommandModel.cpp; sourceTree = "<group>"; };
 		33BDC01A175FBCA300BE734B /* CastCommandModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CastCommandModel.h; sourceTree = "<group>"; };
 		33BDC01B175FBCA300BE734B /* CastCommandScheduler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CastCommandScheduler.cpp; sourceTree = "<group>"; };
@@ -586,8 +600,6 @@
 		33BDC096175FCE6600BE734B /* CastWorldModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CastWorldModel.cpp; sourceTree = "<group>"; };
 		33BDC097175FCE6700BE734B /* CastWorldModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CastWorldModel.h; sourceTree = "<group>"; };
 		33BDC0A61767B22400BE734B /* rat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rat.png; sourceTree = "<group>"; };
-		33BDC0BB176A50B200BE734B /* PlayerView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PlayerView.cpp; path = ../Classes/PlayerView.cpp; sourceTree = "<group>"; };
-		33BDC0BC176A50B200BE734B /* PlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayerView.h; path = ../Classes/PlayerView.h; sourceTree = "<group>"; };
 		33EA40EF176F75E300ABF61A /* BattleScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BattleScene.cpp; path = ../Classes/BattleScene.cpp; sourceTree = "<group>"; };
 		33EA40F0176F75E300ABF61A /* BattleScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BattleScene.h; path = ../Classes/BattleScene.h; sourceTree = "<group>"; };
 		33EA40F2176F760400ABF61A /* CastPhysics.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CastPhysics.cpp; sourceTree = "<group>"; };
@@ -1120,6 +1132,7 @@
 		15AA9C4015B7EC450033D6C2 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				33B9796917821B4E00976960 /* SpellEditor */,
 				33BDC03E175FBCE800BE734B /* ext */,
 				33BDC02E175FBCA800BE734B /* ZZ */,
 				33BDC018175FBCA300BE734B /* CastEngine */,
@@ -1224,13 +1237,24 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		33B9796917821B4E00976960 /* SpellEditor */ = {
+			isa = PBXGroup;
+			children = (
+				33B9796A17821B5C00976960 /* SpellDiagramNode.cpp */,
+				33B9796B17821B5C00976960 /* SpellDiagramNode.h */,
+				33B9796C17821B5C00976960 /* SpellEditScreen.cpp */,
+				33B9796D17821B5C00976960 /* SpellEditScreen.h */,
+				33B9796E17821B5C00976960 /* SpellPageList.cpp */,
+				33B9796F17821B5C00976960 /* SpellPageList.h */,
+			);
+			name = SpellEditor;
+			sourceTree = "<group>";
+		};
 		33BDC001175FBC8700BE734B /* Game */ = {
 			isa = PBXGroup;
 			children = (
-				33B9793A177B749900976960 /* BattleManager.cpp */,
-				33B9793B177B749900976960 /* BattleManager.h */,
-				33BDC0BB176A50B200BE734B /* PlayerView.cpp */,
-				33BDC0BC176A50B200BE734B /* PlayerView.h */,
+				33B9796617821B4900976960 /* BattleManagerScreen.cpp */,
+				33B9796717821B4900976960 /* BattleManagerScreen.h */,
 				33BDC035175FBCD500BE734B /* GameAbilityView.cpp */,
 				33BDC036175FBCD500BE734B /* GameAbilityView.h */,
 				33BDC037175FBCD500BE734B /* GameEntity.cpp */,
@@ -1313,10 +1337,13 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				33B9797317821C6200976960 /* abilities.json */,
+				33B9796017821B3A00976960 /* workbench.png */,
+				33B9796117821B3A00976960 /* workbench2.png */,
+				33B9796217821B3A00976960 /* workbench3.png */,
 				33BDC0A61767B22400BE734B /* rat.png */,
 				1AFAF8B916D35E4900DB1158 /* CloseNormal.png */,
 				1AFAF8BA16D35E4900DB1158 /* CloseSelected.png */,
-				1AFAF8BB16D35E4900DB1158 /* HelloWorld.png */,
 				D41A0AD0160F154A004552AE /* Default-568h@2x.png */,
 				7855E0DF153FEF240059DD9A /* Default.png */,
 				D446FD6D16102124000ADA7B /* Default@2x.png */,
@@ -1408,11 +1435,14 @@
 				15A3D9961682F7F9002FB0C5 /* CMakeLists.txt in Resources */,
 				1AFAF8BC16D35E4900DB1158 /* CloseNormal.png in Resources */,
 				1AFAF8BD16D35E4900DB1158 /* CloseSelected.png in Resources */,
-				1AFAF8BE16D35E4900DB1158 /* HelloWorld.png in Resources */,
 				33BDC04F175FBCF700BE734B /* json_internalarray.inl in Resources */,
 				33BDC050175FBCF700BE734B /* json_internalmap.inl in Resources */,
 				33BDC053175FBCF700BE734B /* json_valueiterator.inl in Resources */,
 				33BDC0A71767B22400BE734B /* rat.png in Resources */,
+				33B9796317821B3A00976960 /* workbench.png in Resources */,
+				33B9796417821B3A00976960 /* workbench2.png in Resources */,
+				33B9796517821B3A00976960 /* workbench3.png in Resources */,
+				33B9797417821C6200976960 /* abilities.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1587,11 +1617,13 @@
 				33BDC052175FBCF700BE734B /* json_value.cpp in Sources */,
 				33BDC054175FBCF700BE734B /* json_writer.cpp in Sources */,
 				33BDC098175FCE6800BE734B /* CastWorldModel.cpp in Sources */,
-				33BDC0BD176A50B200BE734B /* PlayerView.cpp in Sources */,
 				33EA40F1176F75E300ABF61A /* BattleScene.cpp in Sources */,
 				33EA40F4176F760400ABF61A /* CastPhysics.cpp in Sources */,
-				33B9793C177B749900976960 /* BattleManager.cpp in Sources */,
 				33B9793F177B74E000976960 /* MainMenuScreen.cpp in Sources */,
+				33B9796817821B4900976960 /* BattleManagerScreen.cpp in Sources */,
+				33B9797017821B5C00976960 /* SpellDiagramNode.cpp in Sources */,
+				33B9797117821B5C00976960 /* SpellEditScreen.cpp in Sources */,
+				33B9797217821B5C00976960 /* SpellPageList.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
