@@ -1,5 +1,6 @@
 #include "SpellDiagramNode.h"
 
+#define DSIZE 400
 
 SpellDiagramNode::SpellDiagramNode(void)
 {
@@ -11,10 +12,25 @@ SpellDiagramNode::~SpellDiagramNode(void)
 {
 }
 
+CCDrawNode* createPentNode( ccColor4F fill, ccColor4F outline)
+{
+	CCPoint pent[5];
+	pent[0] = CCPointMake(0,10);
+	pent[1] = CCPointMake(10,2);
+	pent[2] = CCPointMake(5,-7);
+	pent[3] = CCPointMake(-5,-7);
+	pent[4] = CCPointMake(-10,2);
+
+	CCDrawNode* pt = CCDrawNode::create();
+	pt->drawPolygon(pent, 5, fill, 1, outline);
+	return pt;
+}
+
 bool SpellDiagramNode::init()
 {
 	setAnchorPoint(ccp(0.5f,0.5f));
 	//setContentSize(CCSizeMake(100,100));
+	size = DSIZE;
 
 	CCParticleSpiral* ps = CCParticleSpiral::createWithTotalParticles(150);
 	ps->setPosition(ccp(0,0));
@@ -29,23 +45,78 @@ bool SpellDiagramNode::init()
 	m_ps = ps;
 	m_ps->stopSystem();
 
-	/*
-	CCParticleFire* fire = CCParticleFire::createWithTotalParticles(150);
-	CCPoint point = CCPointMake(  m_healthBar->getContentSize().width/2, 0 );
-
-	//fire->stopSystem();
-	fire->setSpeed(20);
-	fire->setStartSize(25);
-	CCPoint posVar = fire->getPosVar();
-	posVar.y /= 2;
-	fire->setPosVar( posVar );
-
-	fire->setPosition( point );
-	addChild(fire);
-	//*/
 
 	return true;
 }
+
+#define TRANSITION_TIME 0.5f
+
+void SpellDiagramNode::addEffect( int idx, float x, float y, int level ) {
+
+
+	if( idx < m_effectSlots.size() )
+	{
+		CCDrawNode* pt = m_effectSlots[idx];
+		pt->runAction( CCMoveTo::create(TRANSITION_TIME, ccp(x,y)) );
+	}else {
+		//create new
+		CCDrawNode* pt = createPentNode(ccc4f(1,0,0,1), ccc4f(0,0,0,1));
+		pt->setPosition(x,y);
+		addChild(pt);
+		pt->setScale(0.01);
+		pt->runAction(CCScaleTo::create(TRANSITION_TIME/2, 1,1));
+		m_effectSlots.push_back(pt);
+	}
+}
+
+void SpellDiagramNode::addMod( int idx, float x, float y, int level ) {
+
+	if( idx < m_modSlots.size() )
+	{
+		CCDrawNode* pt = m_modSlots[idx];
+		pt->runAction( CCMoveTo::create(TRANSITION_TIME, ccp(x,y)) );
+	}else {
+
+		CCDrawNode* pt = createPentNode(ccc4f(0,1,0,1), ccc4f(0,0,0,1));
+		pt->setPosition(x,y);
+		addChild(pt);
+		pt->setScale(0.01);
+		pt->runAction(CCScaleTo::create(TRANSITION_TIME/2, 1,1));
+		m_modSlots.push_back(pt);
+	}
+}
+
+void SpellDiagramNode::trimEffectsSize( int maxEffects )
+{
+	if( m_effectSlots.size() <= maxEffects ) return;
+
+	for( int i= maxEffects; i < m_effectSlots.size(); i++ ) {
+		m_effectSlots[i]->removeFromParentAndCleanup(true);
+	}
+	m_effectSlots.erase( m_effectSlots.begin() + maxEffects, m_effectSlots.end() );
+
+}
+void SpellDiagramNode::trimModsSize( int maxMods )
+{
+	
+	if( m_modSlots.size() <= maxMods ) return;
+
+	for( int i= maxMods; i < m_modSlots.size(); i++ ) {
+		m_modSlots[i]->removeFromParentAndCleanup(true);
+	}
+	m_modSlots.erase( m_modSlots.begin() + maxMods, m_modSlots.end() );
+}
+
+//triangle
+CCPoint tA = ccp(0, DSIZE*0.5); //top
+CCPoint tB = ccp(DSIZE*0.4330, -DSIZE*0.25); //br
+CCPoint tC = ccp(-DSIZE*0.4330, -DSIZE*0.25); //bl
+//serpents eye
+CCPoint seT = ccp(0, DSIZE*0.38);
+CCPoint seB = ccp(0, -DSIZE*0.38);
+//leaf
+CCPoint leT = ccp(0, DSIZE*0.5);
+CCPoint leB = ccp(0, -DSIZE*0.15);
 
 void SpellDiagramNode::setDiagram( SpellDiagrams diagram )
 {
@@ -59,6 +130,122 @@ void SpellDiagramNode::setDiagram( SpellDiagrams diagram )
 
 	m_type = diagram;
 
+
+
+
+	CCDrawNode* pt = NULL;
+	switch( m_type ) {
+	case SD_01_NOVICE_CIRCLE:
+		trimEffectsSize(1);
+		trimModsSize(0);
+		addEffect(0, 0,0, 1);
+		break;
+	case SD_02_BLIND_EYE:
+		trimEffectsSize(1);
+		trimModsSize(2);
+		addEffect(0, 0,0, 2);
+		addMod(0, -size*0.5,0, 2);
+		addMod(1,  size*0.5,0, 2);
+		break;
+	case SD_03_ADEPTS_CIRCLE:
+		trimEffectsSize(2);
+		trimModsSize(2);
+		addEffect(0, -size*0.25,0, 2);
+		addEffect(1,  size*0.25,0, 2);
+		addMod(0, 0,-size*0.5, 3);
+		addMod(1, 0, size*0.5, 3);
+		break;
+
+	case SD_04_LESSER_PYRAMID:
+		trimEffectsSize(1);
+		trimModsSize(3);
+		addEffect(0, 0,0, 3);
+		addMod(0, tA.x,tA.y, 2);
+		addMod(1, tB.x,tB.y, 2);
+		addMod(2, tC.x,tC.y, 2);
+		break;
+
+	case SD_05_SERPENTS_EYE:
+		trimEffectsSize(2);
+		trimModsSize(4);
+		addEffect(0, -size*0.25,0, 3);
+		addEffect(1,  size*0.25,0, 3);
+		addMod(0, seT.x,seT.y, 3);
+		addMod(1, seB.x,seB.y, 3);
+		addMod(2, -size*0.5,0, 2);
+		addMod(3,  size*0.5,0, 2);
+		break;
+
+	case SD_06_LESSER_TRIQUESTRA:
+		trimEffectsSize(4);
+		trimModsSize(6);
+		addEffect(0, 0,size*0.02, 3);
+		addEffect(1, 0,size*0.25, 3);
+		addEffect(2, -size*0.25,-size*0.1, 3);
+		addEffect(3,  size*0.25,-size*0.1, 3);
+		addMod(0, -size*0.1667,size*0.1, 4);
+		addMod(1,  size*0.1667,size*0.1, 4);
+		addMod(2,  0,-size*0.15, 4);
+		addMod(3, tA.x,tA.y, 2);
+		addMod(4, tB.x,tB.y, 2);
+		addMod(5, tC.x,tC.y, 2);
+		break;
+
+	case SD_07_COMPASS:
+		trimEffectsSize(4);
+		trimModsSize(5);
+		addEffect(0, -size*0.25, size*0.25, 3);
+		addEffect(1,  size*0.25, size*0.25, 3);
+		addEffect(2,  size*0.25,-size*0.25, 3);
+		addEffect(3, -size*0.25,-size*0.25, 3);
+
+		addMod(0, 0,0, 4);
+		addMod(1, 0, size*0.5, 3);
+		addMod(2, size*0.5,0, 3);
+		addMod(3, 0,-size*0.5, 3);
+		addMod(4, -size*0.5,0, 3);
+		break;
+
+	case SD_08_FORTRESS:
+		trimEffectsSize(1);
+		trimModsSize(4);
+		addEffect(0, 0,0, 4);
+		addMod(0, -size*0.5, size*0.5, 2);
+		addMod(1,  size*0.5, size*0.5, 2);
+		addMod(2,  size*0.5,-size*0.5, 2);
+		addMod(3, -size*0.5,-size*0.5, 2);
+		break;
+
+	case SD_09_DRAGONS_EYE:
+		trimEffectsSize(3);
+		trimModsSize(4);
+		addEffect(0, 0,0, 2);
+		addEffect(1, -size*0.375,0, 2);
+		addEffect(2,  size*0.375,0, 2);
+
+		addMod(0, seT.x,seT.y, 4);
+		addMod(1, seB.x,seB.y, 4);
+		addMod(2, -size*0.5,0, 2);
+		addMod(3,  size*0.5,0, 2);
+		break;
+
+	case SD_10_SEEING_EYE:
+		trimEffectsSize(3);
+		trimModsSize(2);
+		addEffect(0, 0,0, 2);
+		addEffect(1, 0, size*0.375, 2);
+		addEffect(2, 0,-size*0.375, 2);
+
+
+		addMod(0, -size*0.5,0, 2);
+		addMod(1,  size*0.5,0, 2);
+		break;
+
+	default:
+		trimEffectsSize(0);
+		trimModsSize(0);
+	}
+
 }
 
 //virtual 
@@ -66,7 +253,6 @@ void SpellDiagramNode::draw()
 {
 	CCNode::draw();
 
-	float size = 400;
 	float ptSz = 5;
 
 	ccDrawInit();
@@ -76,13 +262,9 @@ void SpellDiagramNode::draw()
 	ccDrawColor4F(0.0f, 0.0f, 1.0f, 1.0f);
     //ccDrawLine(ccp(0,0), ccp(100, 100));
 
-	CCPoint tA = ccp(0, size*0.5); //top
-	CCPoint tB = ccp(size*0.4330, -size*0.25); //br
-	CCPoint tC = ccp(-size*0.4330, -size*0.25); //bl
-
 	if( m_type == SD_01_NOVICE_CIRCLE || m_type == SD_03_ADEPTS_CIRCLE || 
-		m_type == SD_07_COMPASS || m_type == SD_13_GREATER_PYRAMID || 
-		m_type == SD_14_GREATER_TRIQUETRA ) 
+		m_type == SD_07_COMPASS || m_type == SD_12_GREATER_PYRAMID || 
+		m_type == SD_13_GREATER_TRIQUETRA ) 
 	{
 		//circle shape
 		ccDrawCircle(ccp(0,0), size/2, 0, 32, false);
@@ -106,8 +288,7 @@ void SpellDiagramNode::draw()
 		//ccDrawQuadBezier(ccp(-size/2, 0), ccp(0, size), ccp(size/2, 0), 32);
 	}
 
-	if( m_type == SD_04_LESSER_PYRAMID || m_type == SD_11_SCHOOL || 
-		m_type == SD_13_GREATER_PYRAMID ) 
+	if( m_type == SD_04_LESSER_PYRAMID || m_type == SD_12_GREATER_PYRAMID ) 
 	{
 		//triangle shape
 		ccDrawLine(tA, tC); //left
@@ -124,48 +305,49 @@ void SpellDiagramNode::draw()
 		ccDrawLine(ccp(-size/2, size/2), ccp(-size/2 , -size/2)); //left
 	}
 
-	if( m_type == SD_06_LESSER_TRIQUESTRA || m_type == SD_12_LEAF || 
-		m_type == SD_14_GREATER_TRIQUETRA ) 
+	if( m_type == SD_06_LESSER_TRIQUESTRA || m_type == SD_11_LEAF || 
+		m_type == SD_13_GREATER_TRIQUETRA ) 
 	{
-		CCPoint lcp1 = ccp(size*0.1666, -size*0.4167);
-		CCPoint lcp2 = ccp(size*0.3335, -size*0.0833);
-		ccDrawCubicBezier(ccp(-size/2, -size/2), lcp1, lcp2, ccp(0,size/2), 32); //left
+		float topY = tA.y;
+		float botY = tB.y;
+		float midY = 0;
 
-		CCPoint rcp1 = ccp(-size*0.1666, -size*0.4167);
-		CCPoint rcp2 = ccp(-size*0.3335, -size*0.0833);
-		ccDrawCubicBezier(ccp(size/2, -size/2), rcp1, rcp2, ccp(0,size/2), 32); //right
+		CCPoint lcp1 = ccp(size*0.1666, -size*0.2167);
+		CCPoint lcp2 = ccp(size*0.3335, size*0.1233);
+		ccDrawCubicBezier(tC, lcp1, lcp2, tA, 32); //left
 
-		CCPoint bcp1 = ccp(-size*0.25, size*0.166);
-		CCPoint bcp2 = ccp( size*0.25, size*0.166);
-		ccDrawCubicBezier(ccp(-size/2, -size/2), bcp1, bcp2, ccp(size/2,-size/2), 32); //bottom
+		CCPoint rcp1 = ccp(-size*0.1666, -size*0.2167);
+		CCPoint rcp2 = ccp(-size*0.3335, size*0.1233);
+		ccDrawCubicBezier(tB, rcp1, rcp2, tA, 32); //right
 
+		CCPoint bcp1 = ccp(-size*0.25, size*0.286);
+		CCPoint bcp2 = ccp( size*0.25, size*0.286);
+		ccDrawCubicBezier(tC, bcp1, bcp2, tB, 32); //bottom
+
+		/*
 		ccDrawColor4F(1.0f, 0.0f, 0.0f, 1.0f);
-				ccDrawPoint( lcp1);
+		ccDrawPoint( lcp1);
 		ccDrawPoint(lcp2);
-				ccDrawPoint(rcp1);
+		ccDrawPoint(rcp1);
 		ccDrawPoint(rcp2);
 		ccDrawPoint(bcp1);
 		ccDrawPoint(bcp2);
 		ccDrawColor4F(0.0f, 0.0f, 1.0f, 1.0f);
+		*/
 	}
 
 	if( m_type == SD_07_COMPASS || m_type == SD_03_ADEPTS_CIRCLE ) {
 		ccDrawLine(ccp(0, size/2), ccp(0, -size/2)); 
 	}
 
-	if( m_type == SD_11_SCHOOL ) {
-		//verticle line
-		ccDrawLine(tA, ccp(0, tB.y)); 
-	}
-
 	if( m_type == SD_05_SERPENTS_EYE ) {
 		//shorter verticle line for eye
-		ccDrawLine(ccp(0, size*0.38), ccp(0, -size*0.38));
+		ccDrawLine( seT, seB);
 	}
 
-	if( m_type == SD_12_LEAF ) {
+	if( m_type == SD_11_LEAF ) {
 		//offset verticle line for leaf
-		ccDrawLine(ccp(0, size*0.5), ccp(0, -size*0.38));
+		ccDrawLine(leT, leB);
 	}
 
 	if( m_type == SD_09_DRAGONS_EYE ) {

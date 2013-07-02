@@ -20,10 +20,9 @@ enum SpellDiagrams
 	SD_08_FORTRESS,
 	SD_09_DRAGONS_EYE,
 	SD_10_SEEING_EYE,
-	SD_11_SCHOOL,
-	SD_12_LEAF,
-	SD_13_GREATER_PYRAMID,
-	SD_14_GREATER_TRIQUETRA,
+	SD_11_LEAF,
+	SD_12_GREATER_PYRAMID,
+	SD_13_GREATER_TRIQUETRA,
 
 	SD_COUNT,
 
@@ -34,6 +33,16 @@ class SpellDiagramNode : public CCNode
 {
 	SpellDiagrams m_type;
 	CCParticleSpiral* m_ps;
+
+	float size;
+
+	std::vector<CCDrawNode*> m_effectSlots;
+	std::vector<CCDrawNode*> m_modSlots;
+
+	void trimEffectsSize( int maxEffects );
+	void trimModsSize( int maxMods );
+	void addEffect( int idx, float x, float y, int level);
+	void addMod( int idx, float x, float y, int level);
 
 public:
 	SpellDiagramNode(void);
