@@ -241,6 +241,58 @@ void SpellDiagramNode::setDiagram( SpellDiagrams diagram )
 		addMod(1,  size*0.5,0, 2);
 		break;
 
+	case SD_11_LEAF:
+		trimEffectsSize(6);
+		trimModsSize(7);
+		addEffect(0, -size*0.075,size*0.02, 3);
+		addEffect(1, -size*0.075,size*0.25, 3);
+		addEffect(2,  size*0.075,size*0.02, 3);
+		addEffect(3,  size*0.075,size*0.25, 3);
+		addEffect(4, -size*0.25,-size*0.1, 3);
+		addEffect(5,  size*0.25,-size*0.1, 3);
+		addMod(0, -size*0.1667,size*0.1, 4);
+		addMod(1,  size*0.1667,size*0.1, 4);
+		addMod(2, 0,-size*0.15, 4);
+		addMod(3, 0,size*0.15, 2);
+		addMod(4, tA.x,tA.y, 2);
+		addMod(5, tB.x,tB.y, 2);
+		addMod(6, tC.x,tC.y, 2);
+
+		break;
+	
+	case SD_12_GREATER_PYRAMID:
+		trimEffectsSize(4);
+		trimModsSize(3);
+		addEffect(0, 0,0, 3);
+		addEffect(1, -size*0.3,size*0.20, 3);
+		addEffect(2,  size*0.3,size*0.20, 3);
+		addEffect(3,  0,-size*0.35, 3);
+		addMod(0, tA.x,tA.y, 4);
+		addMod(1, tB.x,tB.y, 4);
+		addMod(2, tC.x,tC.y, 4);
+		break;
+
+	case SD_13_GREATER_TRIQUETRA:
+		trimEffectsSize(7);
+		trimModsSize(6);
+		addEffect(0, 0,size*0.02, 3);
+		addEffect(1, 0,size*0.25, 3);
+		addEffect(2, -size*0.25,-size*0.1, 3);
+		addEffect(3,  size*0.25,-size*0.1, 3);
+
+
+		addEffect(4, -size*0.3,size*0.20, 3);
+		addEffect(5,  size*0.3,size*0.20, 3);
+		addEffect(6,  0,-size*0.35, 3);
+
+		addMod(0, -size*0.1667,size*0.1, 4);
+		addMod(1,  size*0.1667,size*0.1, 4);
+		addMod(2,  0,-size*0.15, 4);
+		addMod(3, tA.x,tA.y, 4);
+		addMod(4, tB.x,tB.y, 4);
+		addMod(5, tC.x,tC.y, 4);
+		break;
+
 	default:
 		trimEffectsSize(0);
 		trimModsSize(0);

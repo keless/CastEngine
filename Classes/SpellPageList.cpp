@@ -41,9 +41,11 @@ SpellPageList::SpellPageList(void)
 	s_spellScriptNames[9] = "10 Seeing Eye\n\
 	3 effects(2)\n\
 	2 mods(4)";
-	s_spellScriptNames[10] = "11 School\n\
-	2 effects(3)\n\
-	2 mods(3)\n\
+	s_spellScriptNames[10] = "11 Leaf\n\
+	6 effects(3)\n\
+	1 mod(5)\n\
+	3 mods(4)\n\
+	1 mod(3)\n\
 	2 mods(2)";
 	s_spellScriptNames[11] = "12 Greater Pyramid\n\
 	1 effect(3)\n\
