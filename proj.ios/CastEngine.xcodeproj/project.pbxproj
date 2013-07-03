@@ -163,6 +163,7 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
+		3373F6491784C55C00450473 /* ZZRadialLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3373F6471784C55C00450473 /* ZZRadialLayer.cpp */; };
 		33B9793F177B74E000976960 /* MainMenuScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33B9793D177B74E000976960 /* MainMenuScreen.cpp */; };
 		33B9796317821B3A00976960 /* workbench.png in Resources */ = {isa = PBXBuildFile; fileRef = 33B9796017821B3A00976960 /* workbench.png */; };
 		33B9796417821B3A00976960 /* workbench2.png in Resources */ = {isa = PBXBuildFile; fileRef = 33B9796117821B3A00976960 /* workbench2.png */; };
@@ -544,6 +545,8 @@
 		1D6058910D05DD3D006BFB54 /* Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Test.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		3373F6471784C55C00450473 /* ZZRadialLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZZRadialLayer.cpp; sourceTree = "<group>"; };
+		3373F6481784C55C00450473 /* ZZRadialLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZRadialLayer.h; sourceTree = "<group>"; };
 		33B9793D177B74E000976960 /* MainMenuScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MainMenuScreen.cpp; path = ../Classes/MainMenuScreen.cpp; sourceTree = "<group>"; };
 		33B9793E177B74E000976960 /* MainMenuScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainMenuScreen.h; path = ../Classes/MainMenuScreen.h; sourceTree = "<group>"; };
 		33B9796017821B3A00976960 /* workbench.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = workbench.png; sourceTree = "<group>"; };
@@ -1294,6 +1297,8 @@
 		33BDC02E175FBCA800BE734B /* ZZ */ = {
 			isa = PBXGroup;
 			children = (
+				3373F6471784C55C00450473 /* ZZRadialLayer.cpp */,
+				3373F6481784C55C00450473 /* ZZRadialLayer.h */,
 				33BDC02F175FBCA800BE734B /* ZZEventBus.cpp */,
 				33BDC030175FBCA800BE734B /* ZZEventBus.h */,
 				33BDC031175FBCA800BE734B /* ZZProgressBar.cpp */,
@@ -1624,6 +1629,7 @@
 				33B9797017821B5C00976960 /* SpellDiagramNode.cpp in Sources */,
 				33B9797117821B5C00976960 /* SpellEditScreen.cpp in Sources */,
 				33B9797217821B5C00976960 /* SpellPageList.cpp in Sources */,
+				3373F6491784C55C00450473 /* ZZRadialLayer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1648,7 +1654,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					USE_FILE32API,
@@ -1672,7 +1678,7 @@
 					"\"$(SRCROOT)/../../../cocos2dx/platform/ios/Simulation\"",
 				);
 				INFOPLIST_FILE = Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../cocos2dx/platform/third_party/ios/libraries\"";
 				OTHER_CFLAGS = "-O2";
 				PRODUCT_NAME = Test;
@@ -1694,7 +1700,7 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					USE_FILE32API,
@@ -1717,7 +1723,7 @@
 					"\"$(SRCROOT)/../../../cocos2dx/platform/ios/Simulation\"",
 				);
 				INFOPLIST_FILE = Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../cocos2dx/platform/third_party/ios/libraries\"";
 				PRODUCT_NAME = Test;
 				PROVISIONING_PROFILE = "";

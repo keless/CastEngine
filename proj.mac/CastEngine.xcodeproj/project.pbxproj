@@ -164,6 +164,7 @@
 		1AFAF8C316D3884900DB1158 /* CloseNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AFAF8C016D3884900DB1158 /* CloseNormal.png */; };
 		1AFAF8C416D3884900DB1158 /* CloseSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AFAF8C116D3884900DB1158 /* CloseSelected.png */; };
 		1AFAF8CA16D3886000DB1158 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AFAF8C616D3886000DB1158 /* AppDelegate.cpp */; };
+		3373F64D1784C5BB00450473 /* ZZRadialLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3373F64B1784C5BB00450473 /* ZZRadialLayer.cpp */; };
 		33B97943177B752400976960 /* MainMenuScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33B97941177B752400976960 /* MainMenuScreen.cpp */; };
 		33B9794A177CCED300976960 /* abilities.json in Resources */ = {isa = PBXBuildFile; fileRef = 33B97949177CCED300976960 /* abilities.json */; };
 		33B9794E1782186000976960 /* BattleManagerScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33B9794C1782186000976960 /* BattleManagerScreen.cpp */; };
@@ -533,6 +534,8 @@
 		1AFAF8C616D3886000DB1158 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AppDelegate.cpp; path = ../Classes/AppDelegate.cpp; sourceTree = "<group>"; };
 		1AFAF8C716D3886000DB1158 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ../Classes/AppDelegate.h; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Test.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3373F64B1784C5BB00450473 /* ZZRadialLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZZRadialLayer.cpp; sourceTree = "<group>"; };
+		3373F64C1784C5BB00450473 /* ZZRadialLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZRadialLayer.h; sourceTree = "<group>"; };
 		33B97941177B752400976960 /* MainMenuScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MainMenuScreen.cpp; path = ../Classes/MainMenuScreen.cpp; sourceTree = "<group>"; };
 		33B97942177B752400976960 /* MainMenuScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainMenuScreen.h; path = ../Classes/MainMenuScreen.h; sourceTree = "<group>"; };
 		33B97949177CCED300976960 /* abilities.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = abilities.json; sourceTree = "<group>"; };
@@ -1260,6 +1263,8 @@
 		33BDC06F175FC13700BE734B /* ZZ */ = {
 			isa = PBXGroup;
 			children = (
+				3373F64B1784C5BB00450473 /* ZZRadialLayer.cpp */,
+				3373F64C1784C5BB00450473 /* ZZRadialLayer.h */,
 				33BDC070175FC13700BE734B /* ZZEventBus.cpp */,
 				33BDC071175FC13700BE734B /* ZZEventBus.h */,
 				33BDC072175FC13700BE734B /* ZZProgressBar.cpp */,
@@ -1607,6 +1612,7 @@
 				33B97956178218AE00976960 /* SpellDiagramNode.cpp in Sources */,
 				33B97957178218AE00976960 /* SpellEditScreen.cpp in Sources */,
 				33B97958178218AE00976960 /* SpellPageList.cpp in Sources */,
+				3373F64D1784C5BB00450473 /* ZZRadialLayer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
