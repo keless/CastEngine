@@ -145,6 +145,7 @@
     <ClCompile Include="..\Classes\SpellPageList.cpp" />
     <ClCompile Include="..\Classes\ZZ\ZZEventBus.cpp" />
     <ClCompile Include="..\Classes\ZZ\ZZProgressBar.cpp" />
+    <ClCompile Include="..\Classes\ZZ\ZZRadialLayer.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -178,6 +179,7 @@
     <ClInclude Include="..\Classes\SpellPageList.h" />
     <ClInclude Include="..\Classes\ZZ\ZZEventBus.h" />
     <ClInclude Include="..\Classes\ZZ\ZZProgressBar.h" />
+    <ClInclude Include="..\Classes\ZZ\ZZRadialLayer.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>

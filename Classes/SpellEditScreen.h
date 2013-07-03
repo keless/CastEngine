@@ -12,11 +12,13 @@ using namespace cocos2d::extension;
 #include "ZZEventBus.h"
 using namespace ZZ;
 
+
 class SpellEditScreen : public CCLayer
 {
 	SpellPageList* m_spellPageList;
 
 	SpellDiagramNode* m_spellDiagram;
+
 
 public:
 	SpellEditScreen(void);

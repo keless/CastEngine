@@ -5,6 +5,7 @@
 SpellDiagramNode::SpellDiagramNode(void)
 {
 	m_type = SD_INVALID;
+	m_slotEquipMenu = NULL; 
 }
 
 
@@ -29,6 +30,7 @@ CCDrawNode* createPentNode( ccColor4F fill, ccColor4F outline)
 bool SpellDiagramNode::init()
 {
 	setAnchorPoint(ccp(0.5f,0.5f));
+	ignoreAnchorPointForPosition(false);
 	//setContentSize(CCSizeMake(100,100));
 	size = DSIZE;
 
@@ -45,11 +47,14 @@ bool SpellDiagramNode::init()
 	m_ps = ps;
 	m_ps->stopSystem();
 
+	setTouchEnabled(true);
 
 	return true;
 }
 
 #define TRANSITION_TIME 0.5f
+#define MOD_COLOR ccc4f(0,1,0,1)
+#define EFF_COLOR ccc4f(1,0,0,1)
 
 void SpellDiagramNode::addEffect( int idx, float x, float y, int level ) {
 
@@ -60,7 +65,7 @@ void SpellDiagramNode::addEffect( int idx, float x, float y, int level ) {
 		pt->runAction( CCMoveTo::create(TRANSITION_TIME, ccp(x,y)) );
 	}else {
 		//create new
-		CCDrawNode* pt = createPentNode(ccc4f(1,0,0,1), ccc4f(0,0,0,1));
+		CCDrawNode* pt = createPentNode(EFF_COLOR, ccc4f(0,0,0,1));
 		pt->setPosition(x,y);
 		addChild(pt);
 		pt->setScale(0.01);
@@ -68,6 +73,8 @@ void SpellDiagramNode::addEffect( int idx, float x, float y, int level ) {
 		m_effectSlots.push_back(pt);
 	}
 }
+
+
 
 void SpellDiagramNode::addMod( int idx, float x, float y, int level ) {
 
@@ -77,7 +84,7 @@ void SpellDiagramNode::addMod( int idx, float x, float y, int level ) {
 		pt->runAction( CCMoveTo::create(TRANSITION_TIME, ccp(x,y)) );
 	}else {
 
-		CCDrawNode* pt = createPentNode(ccc4f(0,1,0,1), ccc4f(0,0,0,1));
+		CCDrawNode* pt = createPentNode(MOD_COLOR, ccc4f(0,0,0,1));
 		pt->setPosition(x,y);
 		addChild(pt);
 		pt->setScale(0.01);
@@ -129,9 +136,6 @@ void SpellDiagramNode::setDiagram( SpellDiagrams diagram )
 
 
 	m_type = diagram;
-
-
-
 
 	CCDrawNode* pt = NULL;
 	switch( m_type ) {
@@ -426,3 +430,56 @@ void SpellDiagramNode::draw()
 	}
 }
 
+void SpellDiagramNode::ccTouchesEnded(CCSet* touches, CCEvent* event)
+{
+	float slotRadius = 25.0f;
+
+	for(auto it = touches->begin(); it != touches->end(); it++) 
+	{
+		auto touch = dynamic_cast<CCTouch*>(*it);
+		if(touch == NULL)
+			break;
+
+		if( m_slotEquipMenu == NULL ) {
+
+			CCPoint p = touch->getLocation();
+			p.x -= getPositionX();
+			p.y -= getPositionY();
+
+			for(int i=0; i< m_effectSlots.size(); i++)
+			{
+				CCPoint sp = m_effectSlots[i]->getPosition();
+
+				if( p.getDistance(sp) <= slotRadius ) {
+					CCLog("touched effect %d", i);
+
+					m_slotEquipMenu = RadialLayer::create();
+					
+					m_slotEquipMenu->setCenterNode(createPentNode(EFF_COLOR, ccc4f(0,0,0,1)));
+					m_slotEquipMenu->setPosition( sp );
+					addChild(m_slotEquipMenu);
+
+					CCLabelTTF* label = CCLabelTTF::create("cancel", "Arial",20);
+					m_slotEquipMenu->addItem(label);
+
+					CCLabelTTF* lEffect1 = CCLabelTTF::create("damage", "Helvetica", 20.0f);
+					m_slotEquipMenu->addItem(lEffect1);
+					
+					CCLabelTTF* lEffect2 = CCLabelTTF::create("heal", "Helvetica", 20.0f);
+					m_slotEquipMenu->addItem(lEffect2);
+					return;
+				}
+			}
+
+			for(int i=0; i< m_modSlots.size(); i++)
+			{
+				CCPoint sp = m_modSlots[i]->getPosition();
+
+				if( p.getDistance(sp) <= slotRadius ) {
+					CCLog("touched mod %d", i);
+					return;
+				}
+			}
+		}
+	}
+}

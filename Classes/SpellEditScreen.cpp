@@ -4,6 +4,9 @@
 
 SpellEditScreen::SpellEditScreen(void)
 {
+	m_spellPageList = NULL;
+	m_spellDiagram = NULL;
+	
 	EventBus::get("spellEdit")->addListener("pageSelected", this, callfuncO_selector(SpellEditScreen::onSpellPageSelected));
 }
 

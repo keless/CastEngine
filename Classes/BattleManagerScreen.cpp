@@ -92,8 +92,7 @@ bool BattleManagerScreen::init()
 	spawnEnemy();
 
 	scheduleUpdate();
-	setTouchEnabled(true);
-	//registerWithTouchDispatcher();
+	//setTouchEnabled(true);
     
     return true;
 }

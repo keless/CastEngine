@@ -4,6 +4,9 @@
 #include "cocos2d.h"
 using namespace cocos2d;
 
+#include "ZZRadialLayer.h"
+using namespace ZZ;
+
 /*
 custom node for rendering spell diagrams
 */
@@ -29,10 +32,14 @@ enum SpellDiagrams
 	SD_INVALID = -1
 };
 
-class SpellDiagramNode : public CCNode
+class SpellDiagramNode : public CCLayer
 {
 	SpellDiagrams m_type;
 	CCParticleSpiral* m_ps;
+
+	RadialLayer* m_slotEquipMenu;
+
+
 
 	float size;
 
@@ -52,6 +59,8 @@ public:
 	bool init();
 
 	void setDiagram( SpellDiagrams diagram );
+
+	void ccTouchesEnded(CCSet* touches, CCEvent* event);
 
 	virtual void draw();
 };

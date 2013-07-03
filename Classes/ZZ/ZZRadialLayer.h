@@ -1,0 +1,37 @@
+#ifndef _ZZRADIALLAYER_H_
+#define _ZZRADIALLAYER_H_
+
+#include <cocos2d.h>
+
+using namespace cocos2d;
+
+namespace ZZ {
+
+class RadialLayer : public CCNode
+{
+	CCDrawNode* m_bg;
+
+	CCNode* m_center;
+
+	std::vector<CCNode*> m_items;
+
+	float m_radius;
+	float m_tierRadius;
+
+public:
+	RadialLayer(void);
+	~RadialLayer(void);
+
+	static RadialLayer* create();
+
+	virtual bool init( float radius = 150, float tierRadius = 75 );  
+
+	void setCenterNode( CCNode* node );
+	CCNode* getCenterNode() { return m_center; }
+
+	void addItem( CCNode* item );
+};
+
+}
+
+#endif
