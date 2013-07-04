@@ -5,6 +5,7 @@
 using namespace cocos2d;
 
 #include "ZZRadialLayer.h"
+#include "ZZEventBus.h"
 using namespace ZZ;
 
 /*
@@ -32,11 +33,14 @@ enum SpellDiagrams
 	SD_INVALID = -1
 };
 
+
 class SpellDiagramNode : public CCLayer
 {
 	SpellDiagrams m_type;
 	CCParticleSpiral* m_ps;
 
+	int m_modSelectedIdx;
+	int m_effSelectedIdx;
 	RadialLayer* m_slotEquipMenu;
 
 
@@ -50,6 +54,10 @@ class SpellDiagramNode : public CCLayer
 	void trimModsSize( int maxMods );
 	void addEffect( int idx, float x, float y, int level);
 	void addMod( int idx, float x, float y, int level);
+
+	void onMenuCancel( CCObject* e );
+	void onMenuMod(CCObject* e );
+	void onMenuEff(CCObject* e );
 
 public:
 	SpellDiagramNode(void);

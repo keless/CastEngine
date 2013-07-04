@@ -79,6 +79,9 @@
     <ClCompile Include="..\Classes\ZZ\ZZRadialLayer.cpp">
       <Filter>ZZ</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\ZZ\ZZTouchableNode.cpp">
+      <Filter>ZZ</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\CastEngine\CastCommandModel.h">
@@ -175,6 +178,9 @@
       <Filter>SpellEditor</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\ZZ\ZZRadialLayer.h">
+      <Filter>ZZ</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ZZ\ZZTouchableNode.h">
       <Filter>ZZ</Filter>
     </ClInclude>
   </ItemGroup>

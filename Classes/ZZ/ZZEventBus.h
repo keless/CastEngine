@@ -36,7 +36,7 @@ protected:
 public:
 	static EventBus* game();
 
-	static EventBus* get( char* busName );
+	static EventBus* get( const char* busName );
 
 
 
@@ -51,7 +51,7 @@ protected:
 
 public:
 	EventBus(void);
-	~EventBus(void);
+	virtual ~EventBus(void);
 
 	void addListener(std::string evtName, CCObject* listener, SEL_CallFuncO callback  );
 	void remListener(std::string evtName, CCObject* listener, SEL_CallFuncO callback  );

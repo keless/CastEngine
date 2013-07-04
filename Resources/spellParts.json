@@ -1,0 +1,22 @@
+{
+	"effects":[
+		{
+			"name":"minor glyph of damage",
+			"type":"damage",
+			"baseValue":1
+		},
+		{
+			"name":"minor glyph of healing",
+			"type":"heal",
+			"baseValue":1
+		}
+	],
+	"mods":[
+		{
+			"name":"sigil of range",
+			"type":"range"
+		}
+
+
+	]
+}

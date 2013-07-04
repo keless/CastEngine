@@ -6,6 +6,9 @@ SpellDiagramNode::SpellDiagramNode(void)
 {
 	m_type = SD_INVALID;
 	m_slotEquipMenu = NULL; 
+	
+	m_modSelectedIdx = -1;
+	m_effSelectedIdx = -1;
 }
 
 
@@ -43,6 +46,9 @@ bool SpellDiagramNode::init()
 	ps->setEndColorVar(ccc4f(0.1,0.0,0.2,0.0));
 	addChild(ps);
 
+	EventBus::game()->addListener("slotMenuCancel", this, callfuncO_selector(SpellDiagramNode::onMenuCancel));
+	EventBus::game()->addListener("slotMenuModHeal", this, callfuncO_selector(SpellDiagramNode::onMenuMod));
+	EventBus::game()->addListener("slotMenuModDamage", this, callfuncO_selector(SpellDiagramNode::onMenuMod));
 
 	m_ps = ps;
 	m_ps->stopSystem();
@@ -50,6 +56,34 @@ bool SpellDiagramNode::init()
 	setTouchEnabled(true);
 
 	return true;
+}
+
+void SpellDiagramNode::onMenuCancel( CCObject* e )
+{
+	if( m_slotEquipMenu != NULL ) {
+		m_slotEquipMenu->removeFromParentAndCleanup(true);
+		m_slotEquipMenu = NULL;
+	}
+}
+void SpellDiagramNode::onMenuMod(CCObject* e )
+{
+	if( m_slotEquipMenu != NULL && m_modSelectedIdx >= 0 ) {
+		//handle mod selection
+
+		//clean up menu
+		m_slotEquipMenu->removeFromParentAndCleanup(true);
+		m_slotEquipMenu = NULL;
+	}
+}
+void SpellDiagramNode::onMenuEff(CCObject* e )
+{
+	if( m_slotEquipMenu != NULL && m_effSelectedIdx >= 0 ) {
+		//handle eff selection
+
+		//clean up menu
+		m_slotEquipMenu->removeFromParentAndCleanup(true);
+		m_slotEquipMenu = NULL;
+	}
 }
 
 #define TRANSITION_TIME 0.5f
@@ -454,19 +488,20 @@ void SpellDiagramNode::ccTouchesEnded(CCSet* touches, CCEvent* event)
 					CCLog("touched effect %d", i);
 
 					m_slotEquipMenu = RadialLayer::create();
+					m_modSelectedIdx = i;
 					
 					m_slotEquipMenu->setCenterNode(createPentNode(EFF_COLOR, ccc4f(0,0,0,1)));
 					m_slotEquipMenu->setPosition( sp );
 					addChild(m_slotEquipMenu);
 
 					CCLabelTTF* label = CCLabelTTF::create("cancel", "Arial",20);
-					m_slotEquipMenu->addItem(label);
+					m_slotEquipMenu->addItem(label, "slotMenuCancel");
 
 					CCLabelTTF* lEffect1 = CCLabelTTF::create("damage", "Helvetica", 20.0f);
-					m_slotEquipMenu->addItem(lEffect1);
+					m_slotEquipMenu->addItem(lEffect1, "slotMenuModDamage");
 					
 					CCLabelTTF* lEffect2 = CCLabelTTF::create("heal", "Helvetica", 20.0f);
-					m_slotEquipMenu->addItem(lEffect2);
+					m_slotEquipMenu->addItem(lEffect2, "slotMenuModHeal");
 					return;
 				}
 			}
@@ -477,6 +512,16 @@ void SpellDiagramNode::ccTouchesEnded(CCSet* touches, CCEvent* event)
 
 				if( p.getDistance(sp) <= slotRadius ) {
 					CCLog("touched mod %d", i);
+
+					m_slotEquipMenu = RadialLayer::create();
+					m_effSelectedIdx = i;
+
+					m_slotEquipMenu->setCenterNode(createPentNode(MOD_COLOR, ccc4f(0,0,0,1)));
+					m_slotEquipMenu->setPosition( sp );
+					addChild(m_slotEquipMenu);
+
+					CCLabelTTF* label = CCLabelTTF::create("cancel", "Arial",20);
+					m_slotEquipMenu->addItem(label, "slotMenuCancel");
 					return;
 				}
 			}

@@ -1,4 +1,6 @@
 #include "ZZRadialLayer.h"
+#include "ZZTouchableNode.h"
+
 
 namespace ZZ {
 
@@ -62,11 +64,14 @@ void RadialLayer::setCenterNode( CCNode* node )
 //TODO: minimum radial distance, spawn new tier/ring
 
 
-void RadialLayer::addItem( CCNode* node )
+void RadialLayer::addItem( CCNode* node, std::string evt, std::string bus )
 {
-	m_items.push_back(node);
+	TouchableNode* holder = new TouchableNode(evt, bus);
+	holder->addChild(node);
 
-	addChild(node);
+	m_items.push_back(holder);
+
+	addChild(holder);
 
 	//rearrange positions
 	float delta = 360.0f / m_items.size();

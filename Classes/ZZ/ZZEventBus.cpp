@@ -17,11 +17,15 @@ EventBus* EventBus::game()
 }
 
 //static 
-EventBus* EventBus::get( char* busName )
+EventBus* EventBus::get( const char* busName )
 {
 	if( s_busHash.count(busName) < 1 ) 
 	{
-		s_busHash[busName] = new EventBus();
+		if( strcmp("game", busName) == 0 ) {
+			s_busHash["game"] = game();
+		}else {
+			s_busHash[busName] = new EventBus();
+		}
 	}
 
 	return s_busHash[busName];

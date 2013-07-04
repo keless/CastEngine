@@ -20,7 +20,7 @@ class RadialLayer : public CCNode
 
 public:
 	RadialLayer(void);
-	~RadialLayer(void);
+	virtual ~RadialLayer(void);
 
 	static RadialLayer* create();
 
@@ -29,7 +29,7 @@ public:
 	void setCenterNode( CCNode* node );
 	CCNode* getCenterNode() { return m_center; }
 
-	void addItem( CCNode* item );
+	void addItem( CCNode* item, std::string evt, std::string bus = "game" );
 };
 
 }

@@ -15,7 +15,7 @@ class ProgressBar : public CCNode
 
 public:
 	ProgressBar(void);
-	~ProgressBar(void);
+	virtual ~ProgressBar(void);
 
 	void setColor( const ccColor3B& fg, const ccColor3B& bg );
 
