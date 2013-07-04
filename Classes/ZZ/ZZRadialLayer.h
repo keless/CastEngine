@@ -5,6 +5,8 @@
 
 using namespace cocos2d;
 
+#include "ZZTouchableNode.h"
+
 namespace ZZ {
 
 class RadialLayer : public CCNode
@@ -13,7 +15,7 @@ class RadialLayer : public CCNode
 
 	CCNode* m_center;
 
-	std::vector<CCNode*> m_items;
+	std::vector<TouchableNode*> m_items;
 
 	float m_radius;
 	float m_tierRadius;
@@ -30,6 +32,7 @@ public:
 	CCNode* getCenterNode() { return m_center; }
 
 	void addItem( CCNode* item, std::string evt, std::string bus = "game" );
+	void addItemWithJson( CCNode* item, std::string evt, Json::Value& json, std::string bus = "game" );
 };
 
 }

@@ -6,8 +6,7 @@ using namespace cocos2d;
 
 #include "CastPhysics.h"
 
-#include "ZZProgressBar.h"
-#include "ZZEventBus.h"
+#include "ZZUtils.h"
 using namespace ZZ;
 
 #include "GameEntity.h"
@@ -35,7 +34,6 @@ protected:
 
 	std::map<std::string, CastCommandModel*> m_abilities;
 
-	Json::Value readFileToJson( const char* fileName );
 	void initAbilities();
 	void spawnEnemy();
 	void enemyMovementAI( int enemyIdx, float dt );

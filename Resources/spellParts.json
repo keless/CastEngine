@@ -1,22 +1,34 @@
 {
-	"effects":[
-		{
-			"name":"minor glyph of damage",
-			"type":"damage",
-			"baseValue":1
+	"effects":{
+		"minor glyph of damage":{
+			"effectType":"damage",
+			"damageType":"piercing",
+			"targetStat":"hp_curr",
+			"valueBase":2.0,
+			"valueStat":"str",
+			"valueMultiplier":2.0,
+			"react":"shake"
 		},
-		{
-			"name":"minor glyph of healing",
+		"minor glyph of healing":{
 			"type":"heal",
-			"baseValue":1
+			"valueBase":1
 		}
-	],
-	"mods":[
-		{
-			"name":"sigil of range",
-			"type":"range"
+	},
+	"mods":{
+		"sigil of range":{
+			"type":"range",
+			"value":1
+		},
+		"sigil of alacrity":{
+			"type":"cooldownTime",
+			"value":-1
+		},
+		"sigil of alacrity":{
+			"type":"cooldownTime",
+			"value":-1
+		},
+		"sigil of thought":{
+			"castTime": -0.2
 		}
-
-
-	]
+	}
 }

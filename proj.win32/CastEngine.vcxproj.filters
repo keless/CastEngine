@@ -82,6 +82,9 @@
     <ClCompile Include="..\Classes\ZZ\ZZTouchableNode.cpp">
       <Filter>ZZ</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\ZZ\ZZUtils.cpp">
+      <Filter>ZZ</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\CastEngine\CastCommandModel.h">
@@ -181,6 +184,9 @@
       <Filter>ZZ</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\ZZ\ZZTouchableNode.h">
+      <Filter>ZZ</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ZZ\ZZUtils.h">
       <Filter>ZZ</Filter>
     </ClInclude>
   </ItemGroup>

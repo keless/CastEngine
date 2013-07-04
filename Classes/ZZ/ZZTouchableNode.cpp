@@ -78,7 +78,9 @@ void TouchableNode::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 
 			//handle touch event
 			CCLog("send %s:%s", m_bus.c_str(),m_evt.c_str());
-			EventBus::get(m_bus.c_str())->dispatch(m_evt, new BaseEvent(m_evt) );
+			JsonEvent* evt = new JsonEvent(m_evt);
+			evt->json = m_data;
+			EventBus::get(m_bus.c_str())->dispatch(m_evt, evt );
 
 			return;
 		}

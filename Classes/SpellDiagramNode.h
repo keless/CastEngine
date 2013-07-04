@@ -4,8 +4,7 @@
 #include "cocos2d.h"
 using namespace cocos2d;
 
-#include "ZZRadialLayer.h"
-#include "ZZEventBus.h"
+#include "ZZUtils.h"
 using namespace ZZ;
 
 /*
@@ -39,11 +38,7 @@ class SpellDiagramNode : public CCLayer
 	SpellDiagrams m_type;
 	CCParticleSpiral* m_ps;
 
-	int m_modSelectedIdx;
-	int m_effSelectedIdx;
 	RadialLayer* m_slotEquipMenu;
-
-
 
 	float size;
 
@@ -54,6 +49,9 @@ class SpellDiagramNode : public CCLayer
 	void trimModsSize( int maxMods );
 	void addEffect( int idx, float x, float y, int level);
 	void addMod( int idx, float x, float y, int level);
+
+	void createModSlotMenu( RadialLayer* slotEquipMenu, CCPoint pos, int idx );
+	void createEffSlotMenu( RadialLayer* slotEquipMenu, CCPoint pos, int idx );
 
 	void onMenuCancel( CCObject* e );
 	void onMenuMod(CCObject* e );

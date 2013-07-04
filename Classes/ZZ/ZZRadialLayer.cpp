@@ -87,7 +87,12 @@ void RadialLayer::addItem( CCNode* node, std::string evt, std::string bus )
 		m_items[i]->setPosition(x,y);
 	}
 
+}
 
+void RadialLayer::addItemWithJson( CCNode* item, std::string evt, Json::Value& json, std::string bus )
+{
+	addItem(item, evt, bus);
+	m_items[ m_items.size()-1 ]->setData( json );
 }
 
 };

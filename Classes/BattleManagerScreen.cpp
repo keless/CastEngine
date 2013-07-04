@@ -568,37 +568,13 @@ void BattleManagerScreen::enemyMovementAI( int enemyIdx, float dt )
 	enemy.view->setPosition(ePos);
 }
 
-Json::Value BattleManagerScreen::readFileToJson( const char* fileName )
-{
-	std::string path = CCFileUtils::sharedFileUtils()->fullPathForFilename(fileName);
-
-	
-	bool bRet = false;
-    unsigned long size = 0;
-    char* pBuffer = (char*)CCFileUtils::sharedFileUtils()->getFileData(path.c_str(), "rt", &size);
-    if (pBuffer == NULL || size <= 0)
-    {
-		return Json::Value();
-        //bRet = parse(pBuffer, size);
-    }
-	std::string strJson(pBuffer, size);
-
-	CC_SAFE_DELETE_ARRAY(pBuffer);
-
-	Json::Value root;
-	Json::Reader reader;
-	reader.parse(strJson, root);
-
-    return root;
-}
-
 void BattleManagerScreen::initAbilities()
 {
 
 	//todo: load abilities from file
 
 
-	Json::Value json = readFileToJson( "abilities.json" );
+	Json::Value json = ReadFileToJson( "abilities.json" );
 	
 	if( json.isMember("abilities" ) ) {
 		json = json["abilities"];

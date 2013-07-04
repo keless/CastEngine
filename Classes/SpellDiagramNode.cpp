@@ -1,14 +1,15 @@
 #include "SpellDiagramNode.h"
 
 #define DSIZE 400
+#define TRANSITION_TIME 0.5f
+#define MOD_COLOR ccc4f(0,1,0,1)
+#define EFF_COLOR ccc4f(1,0,0,1)
 
 SpellDiagramNode::SpellDiagramNode(void)
 {
 	m_type = SD_INVALID;
 	m_slotEquipMenu = NULL; 
 	
-	m_modSelectedIdx = -1;
-	m_effSelectedIdx = -1;
 }
 
 
@@ -47,8 +48,8 @@ bool SpellDiagramNode::init()
 	addChild(ps);
 
 	EventBus::game()->addListener("slotMenuCancel", this, callfuncO_selector(SpellDiagramNode::onMenuCancel));
-	EventBus::game()->addListener("slotMenuModHeal", this, callfuncO_selector(SpellDiagramNode::onMenuMod));
-	EventBus::game()->addListener("slotMenuModDamage", this, callfuncO_selector(SpellDiagramNode::onMenuMod));
+	EventBus::game()->addListener("slotMenuMod", this, callfuncO_selector(SpellDiagramNode::onMenuMod));
+	EventBus::game()->addListener("slotMenuEff", this, callfuncO_selector(SpellDiagramNode::onMenuEff));
 
 	m_ps = ps;
 	m_ps->stopSystem();
@@ -56,6 +57,60 @@ bool SpellDiagramNode::init()
 	setTouchEnabled(true);
 
 	return true;
+}
+
+void SpellDiagramNode::createModSlotMenu( RadialLayer* slotEquipMenu, CCPoint pos, int idx )
+{
+	
+		m_slotEquipMenu->setCenterNode(createPentNode(MOD_COLOR, ccc4f(0,0,0,1)));
+		m_slotEquipMenu->setPosition( pos );
+		addChild(m_slotEquipMenu);
+
+		CCLabelTTF* label = CCLabelTTF::create("cancel", "Arial",20);
+		m_slotEquipMenu->addItem(label, "slotMenuCancel");
+
+		Json::Value json = ReadFileToJson( "spellParts.json" );
+		if( !json.isMember("mods") ) 
+		{
+			CCLOGERROR("spellParts unable to read or no mods section");
+		}
+		Json::Value& mods = json["mods"];
+		Json::Value::Members modNames = mods.getMemberNames();
+		for( int i=0; i<modNames.size(); i++)
+		{
+			label = CCLabelTTF::create(modNames[i].c_str(), "Helvetica", 20.0f);
+			Json::Value data;
+			data["name"] = modNames[i];
+			data["idx"] = idx;
+			m_slotEquipMenu->addItemWithJson(label, "slotMenuMod", data);
+		}
+
+}
+void SpellDiagramNode::createEffSlotMenu( RadialLayer* slotEquipMenu, CCPoint pos, int idx )
+{
+		m_slotEquipMenu->setCenterNode(createPentNode(EFF_COLOR, ccc4f(0,0,0,1)));
+		m_slotEquipMenu->setPosition( pos );
+		addChild(m_slotEquipMenu);
+
+		CCLabelTTF* label = CCLabelTTF::create("cancel", "Arial",20);
+		m_slotEquipMenu->addItem(label, "slotMenuCancel");
+
+		Json::Value json = ReadFileToJson( "spellParts.json" );
+		if( !json.isMember("mods") ) 
+		{
+			CCLOGERROR("spellParts unable to read or no effects section");
+		}
+		Json::Value& mods = json["effects"];
+		Json::Value::Members modNames = mods.getMemberNames();
+		for( int i=0; i<modNames.size(); i++)
+		{
+			label = CCLabelTTF::create(modNames[i].c_str(), "Helvetica", 20.0f);
+			Json::Value data;
+			data["name"] = modNames[i];
+			data["idx"] = idx;
+			m_slotEquipMenu->addItemWithJson(label, "slotMenuEff", data);
+		}
+
 }
 
 void SpellDiagramNode::onMenuCancel( CCObject* e )
@@ -67,8 +122,16 @@ void SpellDiagramNode::onMenuCancel( CCObject* e )
 }
 void SpellDiagramNode::onMenuMod(CCObject* e )
 {
-	if( m_slotEquipMenu != NULL && m_modSelectedIdx >= 0 ) {
+	
+	if( m_slotEquipMenu != NULL ) {
+		JsonEvent* evt = dynamic_cast<JsonEvent*>(e);
+		if(evt == NULL ) return;
+
+		std::string modName = evt->json.get("name", "").asString();
+		int modIdx = evt->json.get("idx", -1).asInt();
+
 		//handle mod selection
+		CCLog("todo: apply mod %s to idx %d", modName.c_str(), modIdx);
 
 		//clean up menu
 		m_slotEquipMenu->removeFromParentAndCleanup(true);
@@ -77,8 +140,15 @@ void SpellDiagramNode::onMenuMod(CCObject* e )
 }
 void SpellDiagramNode::onMenuEff(CCObject* e )
 {
-	if( m_slotEquipMenu != NULL && m_effSelectedIdx >= 0 ) {
+	if( m_slotEquipMenu != NULL  ) {
+		JsonEvent* evt = dynamic_cast<JsonEvent*>(e);
+		if(evt == NULL ) return;
+
+		std::string modName = evt->json.get("name", "").asString();
+		int modIdx = evt->json.get("idx", -1).asInt();
+
 		//handle eff selection
+		CCLog("todo: apply eff %s to idx %d", modName.c_str(), modIdx);
 
 		//clean up menu
 		m_slotEquipMenu->removeFromParentAndCleanup(true);
@@ -86,9 +156,7 @@ void SpellDiagramNode::onMenuEff(CCObject* e )
 	}
 }
 
-#define TRANSITION_TIME 0.5f
-#define MOD_COLOR ccc4f(0,1,0,1)
-#define EFF_COLOR ccc4f(1,0,0,1)
+
 
 void SpellDiagramNode::addEffect( int idx, float x, float y, int level ) {
 
@@ -413,17 +481,6 @@ void SpellDiagramNode::draw()
 		CCPoint bcp1 = ccp(-size*0.25, size*0.286);
 		CCPoint bcp2 = ccp( size*0.25, size*0.286);
 		ccDrawCubicBezier(tC, bcp1, bcp2, tB, 32); //bottom
-
-		/*
-		ccDrawColor4F(1.0f, 0.0f, 0.0f, 1.0f);
-		ccDrawPoint( lcp1);
-		ccDrawPoint(lcp2);
-		ccDrawPoint(rcp1);
-		ccDrawPoint(rcp2);
-		ccDrawPoint(bcp1);
-		ccDrawPoint(bcp2);
-		ccDrawColor4F(0.0f, 0.0f, 1.0f, 1.0f);
-		*/
 	}
 
 	if( m_type == SD_07_COMPASS || m_type == SD_03_ADEPTS_CIRCLE ) {
@@ -488,20 +545,9 @@ void SpellDiagramNode::ccTouchesEnded(CCSet* touches, CCEvent* event)
 					CCLog("touched effect %d", i);
 
 					m_slotEquipMenu = RadialLayer::create();
-					m_modSelectedIdx = i;
+					createEffSlotMenu(m_slotEquipMenu, sp, i);
 					
-					m_slotEquipMenu->setCenterNode(createPentNode(EFF_COLOR, ccc4f(0,0,0,1)));
-					m_slotEquipMenu->setPosition( sp );
-					addChild(m_slotEquipMenu);
 
-					CCLabelTTF* label = CCLabelTTF::create("cancel", "Arial",20);
-					m_slotEquipMenu->addItem(label, "slotMenuCancel");
-
-					CCLabelTTF* lEffect1 = CCLabelTTF::create("damage", "Helvetica", 20.0f);
-					m_slotEquipMenu->addItem(lEffect1, "slotMenuModDamage");
-					
-					CCLabelTTF* lEffect2 = CCLabelTTF::create("heal", "Helvetica", 20.0f);
-					m_slotEquipMenu->addItem(lEffect2, "slotMenuModHeal");
 					return;
 				}
 			}
@@ -514,14 +560,8 @@ void SpellDiagramNode::ccTouchesEnded(CCSet* touches, CCEvent* event)
 					CCLog("touched mod %d", i);
 
 					m_slotEquipMenu = RadialLayer::create();
-					m_effSelectedIdx = i;
+					createModSlotMenu(m_slotEquipMenu, sp, i);
 
-					m_slotEquipMenu->setCenterNode(createPentNode(MOD_COLOR, ccc4f(0,0,0,1)));
-					m_slotEquipMenu->setPosition( sp );
-					addChild(m_slotEquipMenu);
-
-					CCLabelTTF* label = CCLabelTTF::create("cancel", "Arial",20);
-					m_slotEquipMenu->addItem(label, "slotMenuCancel");
 					return;
 				}
 			}

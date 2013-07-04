@@ -147,6 +147,7 @@
     <ClCompile Include="..\Classes\ZZ\ZZProgressBar.cpp" />
     <ClCompile Include="..\Classes\ZZ\ZZRadialLayer.cpp" />
     <ClCompile Include="..\Classes\ZZ\ZZTouchableNode.cpp" />
+    <ClCompile Include="..\Classes\ZZ\ZZUtils.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -182,6 +183,7 @@
     <ClInclude Include="..\Classes\ZZ\ZZProgressBar.h" />
     <ClInclude Include="..\Classes\ZZ\ZZRadialLayer.h" />
     <ClInclude Include="..\Classes\ZZ\ZZTouchableNode.h" />
+    <ClInclude Include="..\Classes\ZZ\ZZUtils.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>
