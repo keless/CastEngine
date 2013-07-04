@@ -37,13 +37,17 @@ class SpellDiagramNode : public CCLayer
 
 	RadialLayer* m_slotEquipMenu;
 
-
+	Json::Value m_spellParts;
 
 	float size;
 
 	std::vector<CCDrawNode*> m_effectSlots;
 	std::vector<CCDrawNode*> m_modSlots;
 
+	std::map<int, std::string> m_effectsJson;
+	std::map<int, std::string> m_modsJson;
+
+	void prepareDiagram( int numEffects, int numMods );
 	void trimEffectsSize( int maxEffects );
 	void trimModsSize( int maxMods );
 	void addEffect( int idx, float x, float y, int level);

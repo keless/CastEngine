@@ -27,6 +27,8 @@ bool SpellDiagramNode::init()
 	//setContentSize(CCSizeMake(100,100));
 	size = DSIZE;
 
+	m_spellParts = ReadFileToJson( "spellParts.json" );
+
 	CCParticleSpiral* ps = CCParticleSpiral::createWithTotalParticles(150);
 	ps->setPosition(ccp(0,0));
 	ps->setScale(0.6);
@@ -119,14 +121,28 @@ Json::Value SpellDiagramNode::getSpellDiagramJson()
 		break;
 	}
 
+	json["effects"] = Json::Value();
+
 	for( int i=0; i< m_effectSlots.size(); i++)
 	{
-		//todo
+		if( m_effectsJson.count(i) == 0 )
+		{
+			json["effects"].append( Json::Value() );
+		}else {
+			json["effects"].append( m_effectsJson[i] );
+		}
 	}
+
+	json["mods"] = Json::Value();
 
 	for( int i=0; i< m_modSlots.size(); i++)
 	{
-		//todo
+		if( m_modsJson.count(i) == 0 )
+		{
+			json["mods"].append( Json::Value() );
+		}else {
+			json["mods"].append( m_modsJson[i] );
+		}
 	}
 
 	return json;
@@ -156,12 +172,7 @@ void SpellDiagramNode::createModSlotMenu( RadialLayer* slotEquipMenu, CCPoint po
 		CCLabelTTF* label = CCLabelTTF::create("cancel", "Arial",20);
 		m_slotEquipMenu->addItem(label, "slotMenuCancel");
 
-		Json::Value json = ReadFileToJson( "spellParts.json" );
-		if( !json.isMember("mods") ) 
-		{
-			CCLOGERROR("spellParts unable to read or no mods section");
-		}
-		Json::Value& mods = json["mods"];
+		Json::Value& mods = m_spellParts.get("mods", Json::Value());
 		Json::Value::Members modNames = mods.getMemberNames();
 		for( int i=0; i<modNames.size(); i++)
 		{
@@ -182,12 +193,8 @@ void SpellDiagramNode::createEffSlotMenu( RadialLayer* slotEquipMenu, CCPoint po
 		CCLabelTTF* label = CCLabelTTF::create("cancel", "Arial",20);
 		m_slotEquipMenu->addItem(label, "slotMenuCancel");
 
-		Json::Value json = ReadFileToJson( "spellParts.json" );
-		if( !json.isMember("mods") ) 
-		{
-			CCLOGERROR("spellParts unable to read or no effects section");
-		}
-		Json::Value& mods = json["effects"];
+
+		Json::Value& mods = m_spellParts.get("effects", Json::Value());
 		Json::Value::Members modNames = mods.getMemberNames();
 		for( int i=0; i<modNames.size(); i++)
 		{
@@ -217,12 +224,35 @@ void SpellDiagramNode::onMenuMod(CCObject* e )
 		std::string modName = evt->json.get("name", "").asString();
 		int modIdx = evt->json.get("idx", -1).asInt();
 
-		//handle mod selection
-		CCLog("todo: apply mod %s to idx %d", modName.c_str(), modIdx);
+		Json::Value& mods = m_spellParts.get("mods", Json::Value());
+		if( mods.isMember(modName) ) {
+			//Json::Value& sel = mods[modName];
+			
+
+			//handle mod selection
+			CCLog("todo: apply mod %s to idx %d", modName.c_str(), modIdx);
+
+			//clear any previous labels
+			m_modSlots[modIdx]->removeAllChildrenWithCleanup(true);
+
+			//store json
+			m_modsJson[ modIdx ] = modName; //sel;
+
+			//apply label
+			CCLabelTTF* label = CCLabelTTF::create(modName.c_str(), "Helevetica", 12, CCSizeMake(size/5, size/5), kCCTextAlignmentCenter);
+			label->setAnchorPoint(ccp(0.5f,0.5f));
+			m_modSlots[modIdx]->addChild(label);
+
+		}
 
 		//clean up menu
 		m_slotEquipMenu->removeFromParentAndCleanup(true);
 		m_slotEquipMenu = NULL;
+
+		//send update event
+		JsonEvent* updateEvt = new JsonEvent("spellEditorUpdate");
+		updateEvt->json = getSpellDiagramJson();
+		EventBus::game()->dispatch("spellEditorUpdate", updateEvt);
 	}
 }
 void SpellDiagramNode::onMenuEff(CCObject* e )
@@ -234,12 +264,39 @@ void SpellDiagramNode::onMenuEff(CCObject* e )
 		std::string modName = evt->json.get("name", "").asString();
 		int modIdx = evt->json.get("idx", -1).asInt();
 
+
+		Json::Value& mods = m_spellParts.get("effects", Json::Value());
+		if( mods.isMember(modName) ) {
+			//Json::Value& sel = mods[modName];
+			
+
+			//handle mod selection
+			CCLog("todo: apply mod %s to idx %d", modName.c_str(), modIdx);
+
+			//clear any previous labels
+			m_effectSlots[modIdx]->removeAllChildrenWithCleanup(true);
+
+			//store json
+			m_effectsJson[ modIdx ] = modName; //sel;
+
+			//apply label
+			CCLabelTTF* label = CCLabelTTF::create(modName.c_str(), "Helevetica", 12, CCSizeMake(size/5, size/5), kCCTextAlignmentCenter);
+			label->setAnchorPoint(ccp(0.5f,0.5f));
+			m_effectSlots[modIdx]->addChild(label);
+
+		}
+
 		//handle eff selection
 		CCLog("todo: apply eff %s to idx %d", modName.c_str(), modIdx);
 
 		//clean up menu
 		m_slotEquipMenu->removeFromParentAndCleanup(true);
 		m_slotEquipMenu = NULL;
+
+		//send update event
+		JsonEvent* updateEvt = new JsonEvent("spellEditorUpdate");
+		updateEvt->json = getSpellDiagramJson();
+		EventBus::game()->dispatch("spellEditorUpdate", updateEvt);
 	}
 }
 
@@ -280,6 +337,24 @@ void SpellDiagramNode::addMod( int idx, float x, float y, int level ) {
 		pt->runAction(CCScaleTo::create(TRANSITION_TIME/2, 1,1));
 		m_modSlots.push_back(pt);
 	}
+}
+
+void SpellDiagramNode::prepareDiagram( int numEffects, int numMods )
+{
+	m_effectsJson.clear();
+	m_modsJson.clear();
+
+	for( int i=0; i< m_effectSlots.size();i++)
+	{
+		m_effectSlots[i]->removeAllChildrenWithCleanup(true);
+	}
+	for( int i=0; i< m_modSlots.size();i++)
+	{
+		m_modSlots[i]->removeAllChildrenWithCleanup(true);
+	}
+
+	trimEffectsSize(numEffects);
+	trimModsSize(numMods);
 }
 
 void SpellDiagramNode::trimEffectsSize( int maxEffects )
@@ -329,20 +404,17 @@ void SpellDiagramNode::setDiagram( SpellDiagrams diagram )
 	CCDrawNode* pt = NULL;
 	switch( m_type ) {
 	case SD_01_NOVICE_CIRCLE:
-		trimEffectsSize(1);
-		trimModsSize(0);
+		prepareDiagram(1,0);
 		addEffect(0, 0,0, 1);
 		break;
 	case SD_02_BLIND_EYE:
-		trimEffectsSize(1);
-		trimModsSize(2);
+		prepareDiagram(1,2);
 		addEffect(0, 0,0, 2);
 		addMod(0, -size*0.5,0, 2);
 		addMod(1,  size*0.5,0, 2);
 		break;
 	case SD_03_ADEPTS_CIRCLE:
-		trimEffectsSize(2);
-		trimModsSize(2);
+		prepareDiagram(2,2);
 		addEffect(0, -size*0.25,0, 2);
 		addEffect(1,  size*0.25,0, 2);
 		addMod(0, 0,-size*0.5, 3);
@@ -350,8 +422,7 @@ void SpellDiagramNode::setDiagram( SpellDiagrams diagram )
 		break;
 
 	case SD_04_LESSER_PYRAMID:
-		trimEffectsSize(1);
-		trimModsSize(3);
+		prepareDiagram(1,3);
 		addEffect(0, 0,0, 3);
 		addMod(0, tA.x,tA.y, 2);
 		addMod(1, tB.x,tB.y, 2);
@@ -359,8 +430,7 @@ void SpellDiagramNode::setDiagram( SpellDiagrams diagram )
 		break;
 
 	case SD_05_SERPENTS_EYE:
-		trimEffectsSize(2);
-		trimModsSize(4);
+		prepareDiagram(2,4);
 		addEffect(0, -size*0.25,0, 3);
 		addEffect(1,  size*0.25,0, 3);
 		addMod(0, seT.x,seT.y, 3);
@@ -370,8 +440,7 @@ void SpellDiagramNode::setDiagram( SpellDiagrams diagram )
 		break;
 
 	case SD_06_LESSER_TRIQUESTRA:
-		trimEffectsSize(4);
-		trimModsSize(6);
+		prepareDiagram(4,6);
 		addEffect(0, 0,size*0.02, 3);
 		addEffect(1, 0,size*0.25, 3);
 		addEffect(2, -size*0.25,-size*0.1, 3);
@@ -385,8 +454,7 @@ void SpellDiagramNode::setDiagram( SpellDiagrams diagram )
 		break;
 
 	case SD_07_COMPASS:
-		trimEffectsSize(4);
-		trimModsSize(5);
+		prepareDiagram(4,5);
 		addEffect(0, -size*0.25, size*0.25, 3);
 		addEffect(1,  size*0.25, size*0.25, 3);
 		addEffect(2,  size*0.25,-size*0.25, 3);
@@ -400,8 +468,7 @@ void SpellDiagramNode::setDiagram( SpellDiagrams diagram )
 		break;
 
 	case SD_08_FORTRESS:
-		trimEffectsSize(1);
-		trimModsSize(4);
+		prepareDiagram(1,4);
 		addEffect(0, 0,0, 4);
 		addMod(0, -size*0.5, size*0.5, 2);
 		addMod(1,  size*0.5, size*0.5, 2);
@@ -410,8 +477,7 @@ void SpellDiagramNode::setDiagram( SpellDiagrams diagram )
 		break;
 
 	case SD_09_DRAGONS_EYE:
-		trimEffectsSize(3);
-		trimModsSize(4);
+		prepareDiagram(3,4);
 		addEffect(0, 0,0, 2);
 		addEffect(1, -size*0.375,0, 2);
 		addEffect(2,  size*0.375,0, 2);
@@ -423,8 +489,7 @@ void SpellDiagramNode::setDiagram( SpellDiagrams diagram )
 		break;
 
 	case SD_10_SEEING_EYE:
-		trimEffectsSize(3);
-		trimModsSize(2);
+		prepareDiagram(3,2);
 		addEffect(0, 0,0, 2);
 		addEffect(1, 0, size*0.375, 2);
 		addEffect(2, 0,-size*0.375, 2);
@@ -435,8 +500,7 @@ void SpellDiagramNode::setDiagram( SpellDiagrams diagram )
 		break;
 
 	case SD_11_LEAF:
-		trimEffectsSize(6);
-		trimModsSize(7);
+		prepareDiagram(6,7);
 		addEffect(0, -size*0.075,size*0.02, 3);
 		addEffect(1, -size*0.075,size*0.25, 3);
 		addEffect(2,  size*0.075,size*0.02, 3);
@@ -454,8 +518,7 @@ void SpellDiagramNode::setDiagram( SpellDiagrams diagram )
 		break;
 	
 	case SD_12_GREATER_PYRAMID:
-		trimEffectsSize(4);
-		trimModsSize(3);
+		prepareDiagram(4,3);
 		addEffect(0, 0,0, 3);
 		addEffect(1, -size*0.3,size*0.20, 3);
 		addEffect(2,  size*0.3,size*0.20, 3);
@@ -466,8 +529,7 @@ void SpellDiagramNode::setDiagram( SpellDiagrams diagram )
 		break;
 
 	case SD_13_GREATER_TRIQUETRA:
-		trimEffectsSize(7);
-		trimModsSize(6);
+		prepareDiagram(7,6);
 		addEffect(0, 0,size*0.02, 3);
 		addEffect(1, 0,size*0.25, 3);
 		addEffect(2, -size*0.25,-size*0.1, 3);
@@ -487,8 +549,7 @@ void SpellDiagramNode::setDiagram( SpellDiagrams diagram )
 		break;
 
 	default:
-		trimEffectsSize(0);
-		trimModsSize(0);
+		prepareDiagram(0,0);
 	}
 
 	JsonEvent* evt = new JsonEvent("spellEditorUpdate");
