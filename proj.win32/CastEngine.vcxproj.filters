@@ -64,9 +64,6 @@
     <ClCompile Include="..\Classes\MainMenuScreen.cpp">
       <Filter>Application</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\SpellEditScreen.cpp">
-      <Filter>Application</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\BattleManagerScreen.cpp">
       <Filter>Game</Filter>
     </ClCompile>
@@ -84,6 +81,12 @@
     </ClCompile>
     <ClCompile Include="..\Classes\ZZ\ZZUtils.cpp">
       <Filter>ZZ</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\SpellEditScreen.cpp">
+      <Filter>SpellEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\SpellDescriptionView.cpp">
+      <Filter>SpellEditor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -168,9 +171,6 @@
     <ClInclude Include="..\Classes\MainMenuScreen.h">
       <Filter>Application</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\SpellEditScreen.h">
-      <Filter>Application</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\BattleManagerScreen.h">
       <Filter>Game</Filter>
     </ClInclude>
@@ -188,6 +188,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\ZZ\ZZUtils.h">
       <Filter>ZZ</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SpellEditScreen.h">
+      <Filter>SpellEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SpellDescriptionView.h">
+      <Filter>SpellEditor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

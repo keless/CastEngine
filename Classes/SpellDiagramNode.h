@@ -1,9 +1,6 @@
 #ifndef _SPELLDIAGRAMNODE_H_
 #define _SPELLDIAGRAMNODE_H_
 
-#include "cocos2d.h"
-using namespace cocos2d;
-
 #include "ZZUtils.h"
 using namespace ZZ;
 
@@ -40,6 +37,8 @@ class SpellDiagramNode : public CCLayer
 
 	RadialLayer* m_slotEquipMenu;
 
+
+
 	float size;
 
 	std::vector<CCDrawNode*> m_effectSlots;
@@ -61,6 +60,8 @@ public:
 	SpellDiagramNode(void);
 	~SpellDiagramNode(void);
 	CREATE_FUNC(SpellDiagramNode);
+
+	Json::Value getSpellDiagramJson();
 
 	bool init();
 

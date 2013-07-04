@@ -15,20 +15,9 @@ SpellDiagramNode::SpellDiagramNode(void)
 
 SpellDiagramNode::~SpellDiagramNode(void)
 {
-}
-
-CCDrawNode* createPentNode( ccColor4F fill, ccColor4F outline)
-{
-	CCPoint pent[5];
-	pent[0] = CCPointMake(0,10);
-	pent[1] = CCPointMake(10,2);
-	pent[2] = CCPointMake(5,-7);
-	pent[3] = CCPointMake(-5,-7);
-	pent[4] = CCPointMake(-10,2);
-
-	CCDrawNode* pt = CCDrawNode::create();
-	pt->drawPolygon(pent, 5, fill, 1, outline);
-	return pt;
+	EventBus::game()->remListener("slotMenuCancel", this, callfuncO_selector(SpellDiagramNode::onMenuCancel));
+	EventBus::game()->remListener("slotMenuMod", this, callfuncO_selector(SpellDiagramNode::onMenuMod));
+	EventBus::game()->remListener("slotMenuEff", this, callfuncO_selector(SpellDiagramNode::onMenuEff));
 }
 
 bool SpellDiagramNode::init()
@@ -57,6 +46,104 @@ bool SpellDiagramNode::init()
 	setTouchEnabled(true);
 
 	return true;
+}
+
+
+Json::Value SpellDiagramNode::getSpellDiagramJson()
+{
+	Json::Value json;
+
+	//TODO: pull data from resource file
+	switch( m_type ) {
+	case SD_01_NOVICE_CIRCLE:
+		json["diagramLevel"] = 1;
+		json["diagramName"] = "Novice Circle";
+		break;
+	case SD_02_BLIND_EYE:
+		json["diagramLevel"] = 2;
+		json["diagramName"] = "Blind Eye";
+		break;
+	case SD_03_ADEPTS_CIRCLE:
+		json["diagramLevel"] = 2;
+		json["diagramName"] = "Adept's Circle";
+		break;
+
+	case SD_04_LESSER_PYRAMID:
+		json["diagramLevel"] = 3;
+		json["diagramName"] = "Lesser Pyramid";
+		break;
+
+	case SD_05_SERPENTS_EYE:
+		json["diagramLevel"] = 3;
+		json["diagramName"] = "Serpent's Eye";
+		break;
+
+	case SD_06_LESSER_TRIQUESTRA:
+		json["diagramLevel"] = 3;
+		json["diagramName"] = "Lesser Triquestra";
+		break;
+
+	case SD_07_COMPASS:
+		json["diagramLevel"] = 3;
+		json["diagramName"] = "Compass";
+		break;
+
+	case SD_08_FORTRESS:
+		json["diagramLevel"] = 4;
+		json["diagramName"] = "Fortress";
+		break;
+
+	case SD_09_DRAGONS_EYE:
+		json["diagramLevel"] = 4;
+		json["diagramName"] = "Dragon's Eye";
+		break;
+
+	case SD_10_SEEING_EYE:
+		json["diagramLevel"] = 4;
+		json["diagramName"] = "Seeing Eye";
+		break;
+
+	case SD_11_LEAF:
+		json["diagramLevel"] = 4;
+		json["diagramName"] = "Leaf";
+		break;
+	
+	case SD_12_GREATER_PYRAMID:
+		json["diagramLevel"] = 4;
+		json["diagramName"] = "Greater Pyramid";
+		break;
+
+	case SD_13_GREATER_TRIQUETRA:
+		json["diagramLevel"] = 4;
+		json["diagramName"] = "Greater Triquetra";
+		break;
+	}
+
+	for( int i=0; i< m_effectSlots.size(); i++)
+	{
+		//todo
+	}
+
+	for( int i=0; i< m_modSlots.size(); i++)
+	{
+		//todo
+	}
+
+	return json;
+}
+
+CCDrawNode* createPentNode( ccColor4F fill, ccColor4F outline)
+{
+	CCPoint pent[5];
+	pent[0] = CCPointMake(0,10);
+	pent[1] = CCPointMake(10,2);
+	pent[2] = CCPointMake(5,-7);
+	pent[3] = CCPointMake(-5,-7);
+	pent[4] = CCPointMake(-10,2);
+
+	CCDrawNode* pt = CCDrawNode::create();
+	pt->drawPolygon(pent, 5, fill, 1, outline);
+	return pt;
 }
 
 void SpellDiagramNode::createModSlotMenu( RadialLayer* slotEquipMenu, CCPoint pos, int idx )
@@ -403,6 +490,10 @@ void SpellDiagramNode::setDiagram( SpellDiagrams diagram )
 		trimEffectsSize(0);
 		trimModsSize(0);
 	}
+
+	JsonEvent* evt = new JsonEvent("spellEditorUpdate");
+	evt->json = getSpellDiagramJson();
+	EventBus::game()->dispatch("spellEditorUpdate", evt);
 
 }
 

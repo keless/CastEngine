@@ -2,13 +2,13 @@
 #define _SPELLPAGELIST_H_
 
 
-#include "cocos2d.h"
-#include "cocos-ext.h"
-using namespace cocos2d;
-using namespace cocos2d::extension;
-
-#include "ZZEventBus.h"
+#include "ZZUtils.h"
 using namespace ZZ;
+
+#include "cocos-ext.h"
+using namespace extension;
+
+
 
 class SpellPageList : public CCLayer, public CCTableViewDataSource, public CCTableViewDelegate
 {

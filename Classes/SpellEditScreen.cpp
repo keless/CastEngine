@@ -48,15 +48,18 @@ bool SpellEditScreen::init()
 	m_spellPageList->setPosition(0,0);
 	addChild(m_spellPageList);
 
+	m_spellDiagram = SpellDiagramNode::create();
+	m_spellDiagram->setPosition(ccp(visibleSize.width/2, visibleSize.height/2));
+	addChild(m_spellDiagram);
+
 	CCLayerColor* panel = CCLayerColor::create( ccc4(240,227,132,125), visibleSize.width/5, visibleSize.height);
 	panel->setAnchorPoint(ccp(1,0));
 	panel->ignoreAnchorPointForPosition(false);
 	panel->setPosition(visibleSize.width, 0);
 	addChild(panel);
 
-	m_spellDiagram = SpellDiagramNode::create();
-	m_spellDiagram->setPosition(ccp(visibleSize.width/2, visibleSize.height/2));
-	addChild(m_spellDiagram);
+	m_spellDescription = SpellDescriptionView::create(panel->boundingBox());
+	addChild(m_spellDescription);
 
 	setTouchEnabled(true);
 	//registerWithTouchDispatcher();

@@ -1,17 +1,12 @@
 #ifndef __SPELLEDITSCREEN_H__
 #define __SPELLEDITSCREEN_H__
 
-#include "cocos2d.h"
-#include "cocos-ext.h"
-using namespace cocos2d;
-using namespace cocos2d::extension;
+#include "ZZUtils.h"
+using namespace ZZ;
 
 #include "SpellPageList.h"
 #include "SpellDiagramNode.h"
-
-#include "ZZEventBus.h"
-using namespace ZZ;
-
+#include "SpellDescriptionView.h"
 
 class SpellEditScreen : public CCLayer
 {
@@ -19,6 +14,7 @@ class SpellEditScreen : public CCLayer
 
 	SpellDiagramNode* m_spellDiagram;
 
+	SpellDescriptionView* m_spellDescription;
 
 public:
 	SpellEditScreen(void);

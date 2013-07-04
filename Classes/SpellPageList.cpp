@@ -7,6 +7,8 @@ char* s_spellScriptNames[NUM_SPELL_SCRIPTS];
 
 SpellPageList::SpellPageList(void)
 {
+	//TODO: unhardcode this
+
 	s_spellScriptNames[0] = "01 Novice's Circle\n\
 	1 effect(1)";
 	s_spellScriptNames[1] = "02 Blind Eye\n\
