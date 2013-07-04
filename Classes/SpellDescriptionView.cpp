@@ -29,6 +29,8 @@ bool SpellDescriptionView::init( CCRect area )
 {
 	CCScrollView::initWithViewSize(area.size, NULL);
 
+	setDirection(CCScrollViewDirection::kCCScrollViewDirectionVertical);
+
 	setContentSize( area.size );
 	setPosition(area.origin);
 
@@ -42,9 +44,76 @@ bool SpellDescriptionView::init( CCRect area )
 	return true;
 }
 
+/***********
+{
+ "diagramLevel":1,
+ "diagramName":"novice circle",
+ "mods":[null, "glyph of something" ,null],
+ "effects":["effect of derp", null]
+}
+************/
 void SpellDescriptionView::evaluateSpell( Json::Value& json )
 {
-	m_text->setString( json.toStyledString().c_str() );
+	int level = json.get("diagramLevel", 1).asInt();
+	std::string dName = json.get("diagramName", "").asString();
+
+	CCString* cStr1 = CCString::createWithFormat("Diagram Lvl %d\n%s",  level, dName.c_str());
+
+	Json::Value spellParts = ReadFileToJson("spellParts.json");
+	Json::Value& sp_mods = spellParts["mods"];
+	Json::Value& sp_effs = spellParts["effects"];
+
+	float castTime = 1;
+	float cooldownTime = 1; 
+	float range = 1;
+
+	m_spell = Json::Value();
+
+	Json::Value effects = json.get("effects", Json::Value());
+	if( effects.isArray() ) {
+		for( int i=0; i< effects.size(); i++) {
+			//todo
+		}
+	}
+
+	Json::Value mods = json.get("mods", Json::Value());
+	if( mods.isArray() ) 
+	{
+		for( int i=0; i< mods.size(); i++) {
+			if( mods[i].isNull() ) continue;
+			std::string modName = mods[i].asString();
+			Json::Value& sp = sp_mods.get(modName, Json::Value());
+			if( sp.isNull() ) continue;
+
+			int modLevel = 1; //TODO: calculate mod level based on diagram position
+			int modLvlSq = modLevel*modLevel;
+
+			std::string type = sp.get("type", "").asString();
+			float modVal = sp.get("value", 0).asDouble();
+			if( type.compare("range") == 0 ) {
+				range += modVal * modLvlSq;
+			}
+			else if( type.compare("cooldownTime") == 0 ) {
+				cooldownTime += modVal * modLvlSq;
+				if( cooldownTime < 0 ) cooldownTime = 0;
+			}
+			else if( type.compare("castTime") == 0 ) {
+				castTime += modVal * modLvlSq;
+				if( castTime < 0 ) castTime = 0;
+			}
+
+		}
+	}
+
+	m_spell["castTime"] = castTime;
+	m_spell["cooldownTime"] = cooldownTime;
+	m_spell["range"] = range;
+
+	CCString* cStr2 = CCString::createWithFormat("castTime %.2f\ncooldown %.2f\nrange %.2f", castTime, cooldownTime, range);
+
+	CCString* cStrF = CCString::createWithFormat("%s\n%s", cStr1->getCString(), cStr2->getCString());
+
+	m_text->setString( cStrF->getCString() );
 }
 
 void SpellDescriptionView::onSpellEditorUpdate( CCObject* e )

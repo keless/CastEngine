@@ -28,7 +28,8 @@
 			"value":-1
 		},
 		"sigil of thought":{
-			"castTime": -0.2
+			"type":"castTime",
+			"value": -0.2
 		}
 	}
 }

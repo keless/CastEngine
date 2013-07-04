@@ -50,7 +50,14 @@ bool SpellDiagramNode::init()
 	return true;
 }
 
-
+/***********
+{
+ "diagramLevel":1,
+ "diagramName":"novice circle",
+ "mods":[null, "glyph of something" ,null],
+ "effects":["effect of derp", null]
+}
+************/
 Json::Value SpellDiagramNode::getSpellDiagramJson()
 {
 	Json::Value json;
@@ -228,7 +235,6 @@ void SpellDiagramNode::onMenuMod(CCObject* e )
 		if( mods.isMember(modName) ) {
 			//Json::Value& sel = mods[modName];
 			
-
 			//handle mod selection
 			CCLog("todo: apply mod %s to idx %d", modName.c_str(), modIdx);
 
