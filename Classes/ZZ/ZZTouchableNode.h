@@ -22,12 +22,14 @@ protected:
 	bool m_touchStarted;
 
 	CCNode* m_pKillOnTouch;
+	CCLabelProtocol* m_pGrabStringOnTouch;
 
 public:
 	TouchableNode( std::string evt, std::string bus);
 	virtual ~TouchableNode(void) {}
 
 	void setKill( CCNode* killThis ) { m_pKillOnTouch = killThis; }
+	void setStringGrab( CCLabelProtocol* label ) { m_pGrabStringOnTouch = label; }
 
 	void setData( Json::Value& data) { m_data = data; }
 	Json::Value& getData() { return m_data; }

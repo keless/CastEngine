@@ -44,21 +44,9 @@ bool SpellDescriptionView::init( CCRect area )
 	m_text->setAnchorPoint(ccp(0,0));
 	addChild(m_text);
 
-
-	CCLayerColor* btn = CCLayerColor::create(ccc4(50,250,50,255));
-	btn->ignoreAnchorPointForPosition(false);
-	btn->setContentSize(CCSizeMake(100, 40));
-	btn->setAnchorPoint(ccp(0,0));
-	CCLabelTTF* btnLabel = CCLabelTTF::create("Save", "Arial", 24, CCSizeMake(100,40), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
-	btnLabel->setAnchorPoint(ccp(0,0));
-	btn->addChild(btnLabel);
-
-	m_btnSave = new TouchableNode("saveSpell", "game");
-	m_btnSave->addChild(btn);
-	m_btnSave->setAnchorPoint(ccp(0,0));
+	m_btnSave = CreateSimpleButton("Save","saveSpell");
 	addChild(m_btnSave);
-
-
+	
 	return true;
 }
 

@@ -52,6 +52,43 @@ CCLayer* CreateSimplePopup( std::string msg, std::string btnLabel, std::string o
 	return pop;
 }
 
+CCLayer* CreateSimpleEditBox( std::string msg, std::string defaultTxt, std::string btnLabel, std::string okEvt, std::string bus )
+{
+	CCSize area = CCSizeMake(300,250);
+
+	CCLayerGradient* pop = CCLayerGradient::create(ccc4(200,200,200,255), ccc4(150,150,150,255), ccp(0.3,1));
+	pop->setContentSize(area);
+	pop->ignoreAnchorPointForPosition(false);
+	pop->setAnchorPoint(ccp(0.5,0.5));
+
+	area.height -= 50;
+	CCLabelTTF* label = CCLabelTTF::create(msg.c_str(), "Arial", 24, area, kCCTextAlignmentCenter, kCCVerticalTextAlignmentTop);
+	label->setAnchorPoint(ccp(0,0));
+	label->setPositionY(50);
+	pop->addChild(label);
+
+
+	CCTextFieldTTF* tf = CCTextFieldTTF::textFieldWithPlaceHolder(defaultTxt.c_str(), "Arial", 28);
+	tf->setAnchorPoint(ccp(0.5,0));
+	tf->setPosition(ccp(area.width/2, 50));
+	pop->addChild(tf);
+
+	TouchableNode* btn = CreateSimpleButton( btnLabel, okEvt, bus );
+	btn->setKill(pop);
+	btn->setStringGrab(tf);
+	btn->setAnchorPoint(ccp(0.5,0));
+	btn->setPositionX( area.width/2);
+
+	pop->addChild(btn);
+
+
+	return pop;
+
+
+
+
+}
+
 TouchableNode* CreateSimpleButton( std::string msg, std::string evt, std::string bus )
 {
 	CCSize area = CCSizeMake(100, 40);

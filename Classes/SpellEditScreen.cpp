@@ -82,7 +82,7 @@ void SpellEditScreen::onSpellPageSelected( CCObject* e )
 void SpellEditScreen::onSpellSave(CCObject* e)
 {
 	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
-	CCNode* pop = CreateSimplePopup("must enter a name", "ok", "");
+	CCNode* pop = CreateSimpleEditBox("must enter a name", "spell name", "ok", "");
 	pop->setPosition( visibleSize.width/2, visibleSize.height/2);
 	addChild(pop);
 }
