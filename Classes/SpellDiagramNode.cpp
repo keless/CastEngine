@@ -179,7 +179,7 @@ void SpellDiagramNode::createModSlotMenu( RadialLayer* slotEquipMenu, CCPoint po
 		CCLabelTTF* label = CCLabelTTF::create("cancel", "Arial",20);
 		m_slotEquipMenu->addItem(label, "slotMenuCancel");
 
-		Json::Value& mods = m_spellParts.get("mods", Json::Value());
+		Json::Value mods = m_spellParts.get("mods", Json::Value());
 		Json::Value::Members modNames = mods.getMemberNames();
 		for( int i=0; i<modNames.size(); i++)
 		{
@@ -201,7 +201,7 @@ void SpellDiagramNode::createEffSlotMenu( RadialLayer* slotEquipMenu, CCPoint po
 		m_slotEquipMenu->addItem(label, "slotMenuCancel");
 
 
-		Json::Value& mods = m_spellParts.get("effects", Json::Value());
+		Json::Value mods = m_spellParts.get("effects", Json::Value());
 		Json::Value::Members modNames = mods.getMemberNames();
 		for( int i=0; i<modNames.size(); i++)
 		{
@@ -231,7 +231,7 @@ void SpellDiagramNode::onMenuMod(CCObject* e )
 		std::string modName = evt->json.get("name", "").asString();
 		int modIdx = evt->json.get("idx", -1).asInt();
 
-		Json::Value& mods = m_spellParts.get("mods", Json::Value());
+		Json::Value mods = m_spellParts.get("mods", Json::Value());
 		if( mods.isMember(modName) ) {
 			//Json::Value& sel = mods[modName];
 			
@@ -271,7 +271,7 @@ void SpellDiagramNode::onMenuEff(CCObject* e )
 		int modIdx = evt->json.get("idx", -1).asInt();
 
 
-		Json::Value& mods = m_spellParts.get("effects", Json::Value());
+		Json::Value mods = m_spellParts.get("effects", Json::Value());
 		if( mods.isMember(modName) ) {
 			//Json::Value& sel = mods[modName];
 			

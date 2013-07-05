@@ -112,16 +112,16 @@ float BattleManagerScreen::getPartySpeed()
 void BattleManagerScreen::removeEntity( GameEntity* entity, bool isEnemy )
 {
 	
-	CCLog("begin remove entity at 0x%d", entity);
+	//CCLog("begin remove entity at 0x%d", entity);
 
 	if( isEnemy ) {
 		bool removed = false;
 		for( int i=m_enemies.size()-1; i >= 0; i--) {
 			EntityPair enemy = m_enemies[i];
-			CCLog("compare 0x%d to 0x%d", enemy.model, entity);
+			//CCLog("compare 0x%d to 0x%d", enemy.model, entity);
 			if( (enemy.model) == entity ) {
 				m_enemies.erase( m_enemies.begin() + i );
-				CCLog("removed enemy %d 0x%d", i, enemy.model);
+				//CCLog("removed enemy %d 0x%d", i, enemy.model);
 				removed = true;
 				break;
 			}
@@ -150,7 +150,7 @@ void BattleManagerScreen::removeEntity( GameEntity* entity, bool isEnemy )
 			m_allEntities.erase( m_allEntities.begin() + i );
 			
 
-			CCLog("removed entity %d 0x%d", i, enemy.model);
+			//CCLog("removed entity %d 0x%d", i, enemy.model);
 			enemy.view->detatchFromEntity();
 			CC_SAFE_RELEASE_NULL(enemy.model);
 			CC_SAFE_RELEASE_NULL(enemy.view);
@@ -159,7 +159,7 @@ void BattleManagerScreen::removeEntity( GameEntity* entity, bool isEnemy )
 		}
 	}
 
-	CCLOG("%d entities %d enemies left", m_allEntities.size(), m_enemies.size() );
+	//CCLOG("%d entities %d enemies left", m_allEntities.size(), m_enemies.size() );
 
 }
 

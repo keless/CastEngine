@@ -39,7 +39,7 @@ bool SpellDescriptionView::init( CCRect area )
 
 	EventBus::game()->addListener("spellEditorUpdate", this, callfuncO_selector(SpellDescriptionView::onSpellEditorUpdate));
 
-	m_text = CCLabelTTF::create("", "Arial", 18, area.size, CCTextAlignment::kCCTextAlignmentLeft);
+	m_text = CCLabelTTF::create("", "Arial", 18, area.size, kCCTextAlignmentLeft);
 	m_text->setPosition(ccp(0,0));
 	m_text->setAnchorPoint(ccp(0,0));
 	addChild(m_text);
@@ -82,7 +82,7 @@ void SpellDescriptionView::evaluateSpell( Json::Value& json )
 		m_spell["effectsOnCast"] = Json::Value();
 		for( int i=0; i< effects.size(); i++) {
 			std::string effName = effects[i].asString();
-			Json::Value& sp = sp_effs.get(effName, Json::Value());
+			Json::Value sp = sp_effs.get(effName, Json::Value());
 			if( sp.isNull() ) continue;
 
 			m_spell["effectsOnCast"].append( sp );
@@ -96,7 +96,7 @@ void SpellDescriptionView::evaluateSpell( Json::Value& json )
 		for( int i=0; i< mods.size(); i++) {
 			if( mods[i].isNull() ) continue;
 			std::string modName = mods[i].asString();
-			Json::Value& sp = sp_mods.get(modName, Json::Value());
+			Json::Value sp = sp_mods.get(modName, Json::Value());
 			if( sp.isNull() ) continue;
 
 			int modLevel = 1; //TODO: calculate mod level based on diagram position
