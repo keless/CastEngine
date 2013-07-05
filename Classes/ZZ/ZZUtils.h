@@ -16,6 +16,8 @@ namespace ZZ {
 
 	
 Json::Value ReadFileToJson( std::string fileName );
+CCLayer* CreateSimplePopup( std::string msg, std::string btnLabel, std::string okEvt, std::string bus = "game" );
+TouchableNode* CreateSimpleButton( std::string msg, std::string evt, std::string bus );
 
 }
 

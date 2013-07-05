@@ -21,9 +21,13 @@ protected:
 
 	bool m_touchStarted;
 
+	CCNode* m_pKillOnTouch;
+
 public:
 	TouchableNode( std::string evt, std::string bus);
 	virtual ~TouchableNode(void) {}
+
+	void setKill( CCNode* killThis ) { m_pKillOnTouch = killThis; }
 
 	void setData( Json::Value& data) { m_data = data; }
 	Json::Value& getData() { return m_data; }

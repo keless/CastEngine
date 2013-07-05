@@ -8,12 +8,14 @@ SpellEditScreen::SpellEditScreen(void)
 	m_spellDiagram = NULL;
 	
 	EventBus::get("spellEdit")->addListener("pageSelected", this, callfuncO_selector(SpellEditScreen::onSpellPageSelected));
+	EventBus::game()->addListener("saveSpell", this, callfuncO_selector(SpellEditScreen::onSpellSave));
 }
 
 
 SpellEditScreen::~SpellEditScreen(void)
 {
 	EventBus::get("spellEdit")->remListener("pageSelected", this, callfuncO_selector(SpellEditScreen::onSpellPageSelected));
+	EventBus::game()->remListener("saveSpell", this, callfuncO_selector(SpellEditScreen::onSpellSave));
 }
 
 
@@ -75,4 +77,12 @@ void SpellEditScreen::onSpellPageSelected( CCObject* e )
 
 	m_spellDiagram->setDiagram( (SpellDiagrams) (SD_01_NOVICE_CIRCLE + evt->json["idx"].asInt()) );
 
+}
+
+void SpellEditScreen::onSpellSave(CCObject* e)
+{
+	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCNode* pop = CreateSimplePopup("must enter a name", "ok", "");
+	pop->setPosition( visibleSize.width/2, visibleSize.height/2);
+	addChild(pop);
 }

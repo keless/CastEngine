@@ -9,6 +9,7 @@ TouchableNode::TouchableNode( std::string evt, std::string bus) : m_evt(evt), m_
 	ignoreAnchorPointForPosition(false);
 	setAnchorPoint(ccp(0.5,0.5));
 	m_touchStarted = false;
+	m_pKillOnTouch = NULL;
 }
 
 /*
@@ -81,6 +82,10 @@ void TouchableNode::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 			JsonEvent* evt = new JsonEvent(m_evt);
 			evt->json = m_data;
 			EventBus::get(m_bus.c_str())->dispatch(m_evt, evt );
+
+			if( m_pKillOnTouch != NULL ) {
+				m_pKillOnTouch->removeFromParentAndCleanup(true);
+			}
 
 			return;
 		}
