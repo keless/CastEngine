@@ -1,7 +1,7 @@
 #include "SpellDescriptionView.h"
 
 
-SpellDescriptionView::SpellDescriptionView() : CCScrollView()
+SpellDescriptionView::SpellDescriptionView()
 {
 	m_text = NULL;
 
@@ -27,9 +27,12 @@ SpellDescriptionView* SpellDescriptionView::create( CCRect area )
 //virtual 
 bool SpellDescriptionView::init( CCRect area )
 {
-	CCScrollView::initWithViewSize(area.size, NULL);
+	//CCScrollView::initWithViewSize(area.size, NULL);
+	ignoreAnchorPointForPosition(false);
+	setAnchorPoint(ccp(0,0));
 
-	setDirection(CCScrollViewDirection::kCCScrollViewDirectionVertical);
+	//setDirection(CCScrollViewDirection::kCCScrollViewDirectionVertical);
+	//setDirection(kCCScrollViewDirectionNone);
 
 	setContentSize( area.size );
 	setPosition(area.origin);
@@ -40,6 +43,21 @@ bool SpellDescriptionView::init( CCRect area )
 	m_text->setPosition(ccp(0,0));
 	m_text->setAnchorPoint(ccp(0,0));
 	addChild(m_text);
+
+
+	CCLayerColor* btn = CCLayerColor::create(ccc4(50,250,50,255));
+	btn->ignoreAnchorPointForPosition(false);
+	btn->setContentSize(CCSizeMake(100, 40));
+	btn->setAnchorPoint(ccp(0,0));
+	CCLabelTTF* btnLabel = CCLabelTTF::create("Save", "Arial", 24, CCSizeMake(100,40), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+	btnLabel->setAnchorPoint(ccp(0,0));
+	btn->addChild(btnLabel);
+
+	m_btnSave = new TouchableNode("saveSpell", "game");
+	m_btnSave->addChild(btn);
+	m_btnSave->setAnchorPoint(ccp(0,0));
+	addChild(m_btnSave);
+
 
 	return true;
 }
@@ -69,10 +87,18 @@ void SpellDescriptionView::evaluateSpell( Json::Value& json )
 
 	m_spell = Json::Value();
 
+	
+
 	Json::Value effects = json.get("effects", Json::Value());
 	if( effects.isArray() ) {
+		m_spell["effectsOnCast"] = Json::Value();
 		for( int i=0; i< effects.size(); i++) {
-			//todo
+			std::string effName = effects[i].asString();
+			Json::Value& sp = sp_effs.get(effName, Json::Value());
+			if( sp.isNull() ) continue;
+
+			m_spell["effectsOnCast"].append( sp );
+
 		}
 	}
 
@@ -111,7 +137,14 @@ void SpellDescriptionView::evaluateSpell( Json::Value& json )
 
 	CCString* cStr2 = CCString::createWithFormat("castTime %.2f\ncooldown %.2f\nrange %.2f", castTime, cooldownTime, range);
 
-	CCString* cStrF = CCString::createWithFormat("%s\n%s", cStr1->getCString(), cStr2->getCString());
+	std::string str3 = "";
+	for( int i=0; i< m_spell["effectsOnCast"].size(); i++)
+	{
+		str3 += m_spell["effectsOnCast"][i].toStyledString();
+	}
+
+	CCString* cStrF = CCString::createWithFormat("%s\n%s\n%s", cStr1->getCString(), cStr2->getCString(), str3.c_str());
+
 
 	m_text->setString( cStrF->getCString() );
 }

@@ -23,6 +23,8 @@ public:
 	bool init();
 
 	void onSpellPageSelected( CCObject* e );
+
+	void onSpellSave( CCObject* e );
 };
 
 #endif
