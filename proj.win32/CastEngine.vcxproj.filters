@@ -88,6 +88,9 @@
     <ClCompile Include="..\Classes\SpellDescriptionView.cpp">
       <Filter>SpellEditor</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\ZZ\ZZTextField.cpp">
+      <Filter>ZZ</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\CastEngine\CastCommandModel.h">
@@ -194,6 +197,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\SpellDescriptionView.h">
       <Filter>SpellEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ZZ\ZZTextField.h">
+      <Filter>ZZ</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
