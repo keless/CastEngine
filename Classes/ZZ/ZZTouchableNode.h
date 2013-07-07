@@ -6,6 +6,12 @@
 TouchableNode is a CCLayer that will fire off a JsonEvent to 
 	the EventBus when any of its children are touched.
 
+if 'evt' is "", no event is sent
+if 'setKill' is called, when the touch event is fired, the target node will  
+	call removeFromParentAndCleanup(true)
+if 'StringGrab' is called, when the touch event is fired, the JsonEvent will 
+	include a 'string' parameter which holds the value of the CCLabelProtocol
+
 ***************/
 
 #include "ZZEventBus.h"
@@ -25,7 +31,7 @@ protected:
 	CCLabelProtocol* m_pGrabStringOnTouch;
 
 public:
-	TouchableNode( std::string evt, std::string bus);
+	TouchableNode( std::string evt, std::string bus = "game");
 	virtual ~TouchableNode(void) {}
 
 	void setKill( CCNode* killThis ) { m_pKillOnTouch = killThis; }

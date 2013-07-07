@@ -9,6 +9,7 @@ SpellEditScreen::SpellEditScreen(void)
 	
 	EventBus::get("spellEdit")->addListener("pageSelected", this, callfuncO_selector(SpellEditScreen::onSpellPageSelected));
 	EventBus::game()->addListener("saveSpell", this, callfuncO_selector(SpellEditScreen::onSpellSave));
+	EventBus::game()->addListener("saveSpellNamed", this, callfuncO_selector(SpellEditScreen::onSpellSaveNamed));
 }
 
 
@@ -16,6 +17,7 @@ SpellEditScreen::~SpellEditScreen(void)
 {
 	EventBus::get("spellEdit")->remListener("pageSelected", this, callfuncO_selector(SpellEditScreen::onSpellPageSelected));
 	EventBus::game()->remListener("saveSpell", this, callfuncO_selector(SpellEditScreen::onSpellSave));
+	EventBus::game()->remListener("saveSpellNamed", this, callfuncO_selector(SpellEditScreen::onSpellSaveNamed));
 }
 
 
@@ -82,7 +84,24 @@ void SpellEditScreen::onSpellPageSelected( CCObject* e )
 void SpellEditScreen::onSpellSave(CCObject* e)
 {
 	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
-	CCNode* pop = CreateSimpleEditBox("must enter a name", "spell name", "ok", "");
+	CCNode* pop = CreateSimpleEditBox("must enter a name", "spell name", "Save", "saveSpellNamed");
 	pop->setPosition( visibleSize.width/2, visibleSize.height/2);
 	addChild(pop);
+}
+
+void SpellEditScreen::onSpellSaveNamed(CCObject* e)
+{
+	JsonEvent* evt = dynamic_cast<JsonEvent*>(e);
+	if( evt == NULL ) return;
+
+	std::string spellName = evt->json.get("string","").asString();
+	if( spellName.size() < 4 ) {
+		CreateSimplePopup("Spell name must be at least four characters long.", "ok", "");
+		return;
+	}
+
+	Json::Value saves = ReadFileToJson("playerSpells.json");
+	saves[spellName] = m_spellDescription->getSpellJson();
+	WriteJsonToFile(saves, "playerSpells.json");
+
 }

@@ -92,7 +92,9 @@ void TouchableNode::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 					evt->json["string"] = str;
 			}
 
-			EventBus::get(m_bus.c_str())->dispatch(m_evt, evt );
+			if( m_evt.size() > 0  ) {
+				EventBus::get(m_bus.c_str())->dispatch(m_evt, evt );
+			}
 
 			if( m_pKillOnTouch != NULL ) {
 				m_pKillOnTouch->removeFromParentAndCleanup(true);

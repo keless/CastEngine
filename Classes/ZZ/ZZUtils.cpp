@@ -1,5 +1,6 @@
 #include "ZZUtils.h"
 
+#include <fstream>
 
 namespace ZZ {
 
@@ -25,6 +26,21 @@ Json::Value ReadFileToJson( std::string fileName )
 
     return root;
 
+}
+
+bool WriteJsonToFile( Json::Value json, std::string fileName )
+{
+	std::string path = CCFileUtils::sharedFileUtils()->fullPathForFilename(fileName.c_str());
+
+	Json::FastWriter writer;
+	std::string strJson = writer.write( json );
+
+	std::ofstream file(path);
+	//file.open( path.c_str(), std::ios::out | std::ios::binary );
+	file << strJson;
+	file.close();
+
+	return true;
 }
 
 CCLayer* CreateSimplePopup( std::string msg, std::string btnLabel, std::string okEvt, std::string bus )

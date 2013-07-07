@@ -25,6 +25,7 @@ public:
 	void onSpellPageSelected( CCObject* e );
 
 	void onSpellSave( CCObject* e );
+	void onSpellSaveNamed( CCObject* e );
 };
 
 #endif
