@@ -10,6 +10,7 @@ using namespace cocos2d;
 #include "ZZEventBus.h"
 #include "ZZRadialLayer.h"
 #include "ZZTouchableNode.h"
+#include "ZZTextField.h"
 
 namespace ZZ {
 

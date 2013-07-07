@@ -68,7 +68,8 @@ CCLayer* CreateSimpleEditBox( std::string msg, std::string defaultTxt, std::stri
 	pop->addChild(label);
 
 
-	CCTextFieldTTF* tf = CCTextFieldTTF::textFieldWithPlaceHolder(defaultTxt.c_str(), "Arial", 28);
+	TextField* tf = TextField::create(defaultTxt);
+	//CCTextFieldTTF* tf = CCTextFieldTTF::textFieldWithPlaceHolder(defaultTxt.c_str(), "Arial", 28);
 	tf->setAnchorPoint(ccp(0.5,0));
 	tf->setPosition(ccp(area.width/2, 50));
 	pop->addChild(tf);
