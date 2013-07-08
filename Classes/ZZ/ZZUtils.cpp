@@ -8,7 +8,7 @@ Json::Value ReadFileToJson( std::string fileName )
 {
 	std::string path = CCFileUtils::sharedFileUtils()->fullPathForFilename(fileName.c_str());
 
-	bool bRet = false;
+	//bool bRet = false;
     unsigned long size = 0;
     char* pBuffer = (char*)CCFileUtils::sharedFileUtils()->getFileData(path.c_str(), "rt", &size);
     if (pBuffer == NULL || size <= 0)
@@ -35,8 +35,8 @@ bool WriteJsonToFile( Json::Value json, std::string fileName )
 	Json::FastWriter writer;
 	std::string strJson = writer.write( json );
 
-	std::ofstream file(path);
-	//file.open( path.c_str(), std::ios::out | std::ios::binary );
+	std::ofstream file; //(path);
+	file.open( path.c_str(), std::ios::out | std::ios::binary );
 	file << strJson;
 	file.close();
 

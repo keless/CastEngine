@@ -169,6 +169,9 @@
 		3373F65417872E0F00450473 /* ZZUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3373F65117872E0F00450473 /* ZZUtils.cpp */; };
 		3373F65717872E6A00450473 /* SpellDescriptionView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3373F65517872E6A00450473 /* SpellDescriptionView.cpp */; };
 		3373F66617872F7B00450473 /* spellParts.json in Resources */ = {isa = PBXBuildFile; fileRef = 3373F66517872F7B00450473 /* spellParts.json */; };
+		3373F669178B42AC00450473 /* spellDiagrams.json in Resources */ = {isa = PBXBuildFile; fileRef = 3373F668178B42AC00450473 /* spellDiagrams.json */; };
+		3373F66D178B43C300450473 /* ZZTextField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3373F66B178B43C300450473 /* ZZTextField.cpp */; };
+		3373F670178B43D600450473 /* PartyEditorScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3373F66E178B43D600450473 /* PartyEditorScreen.cpp */; };
 		33B97943177B752400976960 /* MainMenuScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33B97941177B752400976960 /* MainMenuScreen.cpp */; };
 		33B9794A177CCED300976960 /* abilities.json in Resources */ = {isa = PBXBuildFile; fileRef = 33B97949177CCED300976960 /* abilities.json */; };
 		33B9794E1782186000976960 /* BattleManagerScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33B9794C1782186000976960 /* BattleManagerScreen.cpp */; };
@@ -547,6 +550,11 @@
 		3373F65517872E6A00450473 /* SpellDescriptionView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SpellDescriptionView.cpp; path = ../Classes/SpellDescriptionView.cpp; sourceTree = "<group>"; };
 		3373F65617872E6A00450473 /* SpellDescriptionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpellDescriptionView.h; path = ../Classes/SpellDescriptionView.h; sourceTree = "<group>"; };
 		3373F66517872F7B00450473 /* spellParts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = spellParts.json; sourceTree = "<group>"; };
+		3373F668178B42AC00450473 /* spellDiagrams.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = spellDiagrams.json; sourceTree = "<group>"; };
+		3373F66B178B43C300450473 /* ZZTextField.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZZTextField.cpp; sourceTree = "<group>"; };
+		3373F66C178B43C300450473 /* ZZTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZTextField.h; sourceTree = "<group>"; };
+		3373F66E178B43D600450473 /* PartyEditorScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PartyEditorScreen.cpp; path = ../Classes/PartyEditorScreen.cpp; sourceTree = "<group>"; };
+		3373F66F178B43D600450473 /* PartyEditorScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PartyEditorScreen.h; path = ../Classes/PartyEditorScreen.h; sourceTree = "<group>"; };
 		33B97941177B752400976960 /* MainMenuScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MainMenuScreen.cpp; path = ../Classes/MainMenuScreen.cpp; sourceTree = "<group>"; };
 		33B97942177B752400976960 /* MainMenuScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainMenuScreen.h; path = ../Classes/MainMenuScreen.h; sourceTree = "<group>"; };
 		33B97949177CCED300976960 /* abilities.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = abilities.json; sourceTree = "<group>"; };
@@ -647,6 +655,7 @@
 		15AA9C4015B7EC450033D6C2 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				3373F66A178B438D00450473 /* PartyEditor */,
 				33B9794F1782189200976960 /* SpellEditor */,
 				33BDC06F175FC13700BE734B /* ZZ */,
 				33BDC059175FC13100BE734B /* CastEngine */,
@@ -1209,6 +1218,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		3373F66A178B438D00450473 /* PartyEditor */ = {
+			isa = PBXGroup;
+			children = (
+				3373F66E178B43D600450473 /* PartyEditorScreen.cpp */,
+				3373F66F178B43D600450473 /* PartyEditorScreen.h */,
+			);
+			name = PartyEditor;
+			sourceTree = "<group>";
+		};
 		33B9794F1782189200976960 /* SpellEditor */ = {
 			isa = PBXGroup;
 			children = (
@@ -1278,6 +1296,8 @@
 			children = (
 				3373F64F17872E0F00450473 /* ZZTouchableNode.cpp */,
 				3373F65017872E0F00450473 /* ZZTouchableNode.h */,
+				3373F66B178B43C300450473 /* ZZTextField.cpp */,
+				3373F66C178B43C300450473 /* ZZTextField.h */,
 				3373F65117872E0F00450473 /* ZZUtils.cpp */,
 				3373F65217872E0F00450473 /* ZZUtils.h */,
 				3373F64B1784C5BB00450473 /* ZZRadialLayer.cpp */,
@@ -1345,6 +1365,7 @@
 				33B9795A178218BF00976960 /* workbench2.png */,
 				33B9795B178218BF00976960 /* workbench3.png */,
 				33B97949177CCED300976960 /* abilities.json */,
+				3373F668178B42AC00450473 /* spellDiagrams.json */,
 				3373F66517872F7B00450473 /* spellParts.json */,
 				33BDC0A31767AFF500BE734B /* rat.png */,
 				1AFAF8C016D3884900DB1158 /* CloseNormal.png */,
@@ -1451,6 +1472,7 @@
 				33B9795D178218BF00976960 /* workbench2.png in Resources */,
 				33B9795E178218BF00976960 /* workbench3.png in Resources */,
 				3373F66617872F7B00450473 /* spellParts.json in Resources */,
+				3373F669178B42AC00450473 /* spellDiagrams.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1635,6 +1657,8 @@
 				3373F65317872E0F00450473 /* ZZTouchableNode.cpp in Sources */,
 				3373F65417872E0F00450473 /* ZZUtils.cpp in Sources */,
 				3373F65717872E6A00450473 /* SpellDescriptionView.cpp in Sources */,
+				3373F66D178B43C300450473 /* ZZTextField.cpp in Sources */,
+				3373F670178B43D600450473 /* PartyEditorScreen.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
