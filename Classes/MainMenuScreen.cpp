@@ -30,12 +30,20 @@ bool MainMenuScreen::init()
 	CCMenuItemFont* menuTravel = CCMenuItemFont::create("Travel", this, menu_selector(MainMenuScreen::menuStartCallback));
 	menuTravel->setPosition(ccp( menuX, menuY));
 
+
 	menuY += menuTravel->getContentSize().height;
 
-	CCMenuItemFont* menuSpellbook = CCMenuItemFont::create("Spellbook", this, menu_selector(MainMenuScreen::menuBookCallback));
+	CCMenuItemFont* menuParty = CCMenuItemFont::create("Party Editor", this, menu_selector(MainMenuScreen::menuPartyCallback));
+	menuParty->setPosition(ccp( menuX, menuY ));
+
+	menuY += menuTravel->getContentSize().height;
+
+	CCMenuItemFont* menuSpellbook = CCMenuItemFont::create("Spell Editor", this, menu_selector(MainMenuScreen::menuBookCallback));
 	menuSpellbook->setPosition(ccp( menuX, menuY ));
 
-	CCMenu* pMenu = CCMenu::create(menuTravel, menuSpellbook, NULL);
+
+
+	CCMenu* pMenu = CCMenu::create(menuTravel, menuParty, menuSpellbook, NULL);
     pMenu->setPosition(CCPointZero);
     this->addChild(pMenu, 1);
 
@@ -54,9 +62,15 @@ void MainMenuScreen::menuStartCallback(CCObject* pSender)
 	EventBus::get("state")->dispatch("switchTo", evt);
 
 }
+void MainMenuScreen::menuPartyCallback(CCObject* pSender)
+{
+	BaseEvent* evt = new BaseEvent("partyEditor");
+	EventBus::get("state")->dispatch("switchTo", evt);
+
+}
 void MainMenuScreen::menuBookCallback(CCObject* pSender)
 {
-	BaseEvent* evt = new BaseEvent("spellbook");
+	BaseEvent* evt = new BaseEvent("spellEditor");
 	EventBus::get("state")->dispatch("switchTo", evt);
 
 }

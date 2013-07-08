@@ -117,6 +117,7 @@ void BattleScene::ccTouchesCancelled(CCSet* touches, CCEvent* event)
 #include "BattleManagerScreen.h"
 #include "MainMenuScreen.h"
 #include "SpellEditScreen.h"
+#include "PartyEditorScreen.h"
 void BattleScene::doStateChange( CCObject* e )
 {
 	CCLog("start state change");
@@ -131,12 +132,16 @@ void BattleScene::doStateChange( CCObject* e )
 		//CC_SAFE_RELEASE_NULL(m_activeLayer);  //dont need to release here
 	}
 
-	if( evt->type.compare("battle") == 0 ) {
+	std::string state = evt->type;
+
+	if( state.compare("battle") == 0 ) {
 		m_activeLayer = BattleManagerScreen::create();
-	}else if( evt->type.compare("mainMenu") == 0 ) {
+	}else if( state.compare("mainMenu") == 0 ) {
 		m_activeLayer = MainMenuScreen::create();
-	}else if( evt->type.compare("spellbook") == 0 ) {
+	}else if( state.compare("spellEditor") == 0 ) {
 		m_activeLayer = SpellEditScreen::create();
+	}else if( state.compare("partyEditor") == 0 ) {
+		m_activeLayer = PartyEditorScreen::create();
 	}
 
 	if( m_activeLayer != NULL ) 

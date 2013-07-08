@@ -1,8 +1,8 @@
 #ifndef __MAINMENUSCREEN_H__
 #define __MAINMENUSCREEN_H__
 
-#include "cocos2d.h"
-using namespace cocos2d;
+#include "ZZUtils.h"
+using namespace ZZ;
 
 class MainMenuScreen : public CCLayer
 {
@@ -14,6 +14,7 @@ public:
 
     // a selector callback
     void menuStartCallback(CCObject* pSender);
+	void menuPartyCallback(CCObject* pSender);
 	void menuBookCallback(CCObject* pSender);
 
 };

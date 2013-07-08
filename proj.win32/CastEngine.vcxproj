@@ -140,6 +140,7 @@
     <ClCompile Include="..\Classes\GameEntityView.cpp" />
     <ClCompile Include="..\Classes\BattleScene.cpp" />
     <ClCompile Include="..\Classes\MainMenuScreen.cpp" />
+    <ClCompile Include="..\Classes\PartyEditorScreen.cpp" />
     <ClCompile Include="..\Classes\SpellDescriptionView.cpp" />
     <ClCompile Include="..\Classes\SpellDiagramNode.cpp" />
     <ClCompile Include="..\Classes\SpellEditScreen.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="..\Classes\GameEntityView.h" />
     <ClInclude Include="..\Classes\BattleScene.h" />
     <ClInclude Include="..\Classes\MainMenuScreen.h" />
+    <ClInclude Include="..\Classes\PartyEditorScreen.h" />
     <ClInclude Include="..\Classes\SpellDescriptionView.h" />
     <ClInclude Include="..\Classes\SpellDiagramNode.h" />
     <ClInclude Include="..\Classes\SpellEditScreen.h" />
