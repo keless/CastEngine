@@ -425,31 +425,7 @@ void SpellDiagramNode::setDiagram( int diagram )
 	/*
 	CCDrawNode* pt = NULL;
 	switch( m_type ) {
-	case SD_01_NOVICE_CIRCLE:
-		prepareDiagram(1,0);
-		addEffect(0, 0,0, 1);
-		break;
-	case SD_02_BLIND_EYE:
-		prepareDiagram(1,2);
-		addEffect(0, 0,0, 2);
-		addMod(0, -size*0.5,0, 2);
-		addMod(1,  size*0.5,0, 2);
-		break;
-	case SD_03_ADEPTS_CIRCLE:
-		prepareDiagram(2,2);
-		addEffect(0, -size*0.25,0, 2);
-		addEffect(1,  size*0.25,0, 2);
-		addMod(0, 0,-size*0.5, 3);
-		addMod(1, 0, size*0.5, 3);
-		break;
 
-	case SD_04_LESSER_PYRAMID:
-		prepareDiagram(1,3);
-		addEffect(0, 0,0, 3);
-		addMod(0, tA.x,tA.y, 2);
-		addMod(1, tB.x,tB.y, 2);
-		addMod(2, tC.x,tC.y, 2);
-		break;
 
 	case SD_05_SERPENTS_EYE:
 		prepareDiagram(2,4);
@@ -616,31 +592,6 @@ void SpellDiagramNode::draw()
 
 
 /*
-	if( m_type == SD_01_NOVICE_CIRCLE || m_type == SD_03_ADEPTS_CIRCLE || 
-		m_type == SD_07_COMPASS || m_type == SD_12_GREATER_PYRAMID || 
-		m_type == SD_13_GREATER_TRIQUETRA ) 
-	{
-		//circle shape
-		ccDrawCircle(ccp(0,0), size/2, 0, 32, false);
-
-	}
-	
-	if( m_type == SD_02_BLIND_EYE || m_type == SD_05_SERPENTS_EYE || 
-		m_type == SD_09_DRAGONS_EYE || m_type == SD_10_SEEING_EYE ) 
-	{
-		//eye shape
-		ccDrawCubicBezier(ccp(-size/2, 0), ccp(-size/3, size/2), ccp(size/3,size/2), ccp(size/2,0), 32);
-		ccDrawCubicBezier(ccp(-size/2, 0), ccp(-size/3, -size/2), ccp(size/3,-size/2), ccp(size/2,0), 32);
-		//ccDrawQuadBezier(ccp(-size/2, 0), ccp(0, size), ccp(size/2, 0), 32);
-	}
-
-	if( m_type == SD_04_LESSER_PYRAMID || m_type == SD_12_GREATER_PYRAMID ) 
-	{
-		//triangle shape
-		ccDrawLine(tA, tC); //left
-		ccDrawLine(tA, tB); //right
-		ccDrawLine(tB, tC); //base
-	}
 
 	if( m_type == SD_08_FORTRESS )  {
 		//square shape
