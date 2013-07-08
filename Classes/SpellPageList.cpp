@@ -1,13 +1,8 @@
 #include "SpellPageList.h"
 
-
+/*
 #define NUM_SPELL_SCRIPTS 13
 char* s_spellScriptNames[NUM_SPELL_SCRIPTS];
-
-
-SpellPageList::SpellPageList(void)
-{
-	//TODO: unhardcode this
 
 	s_spellScriptNames[0] = "01 Novice's Circle\n\
 	1 effect(1)";
@@ -56,6 +51,24 @@ SpellPageList::SpellPageList(void)
 	s_spellScriptNames[12] = "13 Greater Triquetra\n\
 	7 effects(3)\n\
 	6 mods(4)";
+*/
+
+SpellPageList::SpellPageList(void)
+{
+	Json::Value spells = ReadFileToJson("spellDiagrams.json");
+
+	if( spells.isMember("diagrams") ) 
+	{
+		spells = spells["diagrams"];
+	}
+
+	for( int i=0; i< spells.size(); i++)
+	{
+		char buff[256];
+		int numEffects = spells[i]["effects"].size();
+		sprintf(buff, "%02d %s\n%d effect%s", i+1, spells[i]["name"].asString().c_str(), numEffects, numEffects > 1? "s":"");
+		m_spellNames.push_back(buff);
+	}
 
 	m_cellWidth = 0;
 	m_cellHeight = 0;
@@ -115,7 +128,7 @@ CCTableViewCell* SpellPageList::tableCellAtIndex(CCTableView *table, unsigned in
 
 		cell->setAnchorPoint(ccp(0,0));
 
-		CCLabelTTF* label = CCLabelTTF::create(s_spellScriptNames[idx], "Helvetica", 16.0f);
+		CCLabelTTF* label = CCLabelTTF::create(m_spellNames[idx].c_str(), "Helvetica", 16.0f);
 		label->setContentSize(CCSizeMake(m_cellWidth, m_cellHeight));
 		label->setColor(ccBLACK);
 		label->setAnchorPoint(ccp(0,0));
@@ -128,7 +141,7 @@ CCTableViewCell* SpellPageList::tableCellAtIndex(CCTableView *table, unsigned in
 
 	}else {
 		CCLabelTTF* label = (CCLabelTTF*)cell->getChildByTag(1234);
-		label->setString(s_spellScriptNames[idx]);
+		label->setString(m_spellNames[idx].c_str());
 	}
 
 	return cell;
@@ -136,7 +149,7 @@ CCTableViewCell* SpellPageList::tableCellAtIndex(CCTableView *table, unsigned in
 //virtual 
 unsigned int SpellPageList::numberOfCellsInTableView(CCTableView *table)
 {
-	return NUM_SPELL_SCRIPTS;
+	return m_spellNames.size();
 }
 
 void SpellPageList::tableCellTouched(CCTableView* table, CCTableViewCell* cell) {
@@ -144,7 +157,7 @@ void SpellPageList::tableCellTouched(CCTableView* table, CCTableViewCell* cell) 
 
 	JsonEvent* evt = new JsonEvent("pageSelected");
 	evt->json["idx"] = cell->getIdx();
-	evt->json["name"] = s_spellScriptNames[cell->getIdx()];
+	evt->json["name"] = m_spellNames[cell->getIdx()];
 
 	EventBus::get("spellEdit")->dispatch("pageSelected", evt );
 	

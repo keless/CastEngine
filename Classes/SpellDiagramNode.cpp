@@ -29,21 +29,15 @@ bool SpellDiagramNode::init()
 
 	m_spellParts = ReadFileToJson( "spellParts.json" );
 
-	CCParticleSpiral* ps = CCParticleSpiral::createWithTotalParticles(150);
-	ps->setPosition(ccp(0,0));
-	ps->setScale(0.6);
-	ps->setStartColor(ccc4f(0.1,0.0,1.0,1.0f));
-	ps->setStartColorVar(ccc4f(0.1,0.0,0.2,0.0));
-	ps->setEndColor(ccc4f(0.2,0.0,0.9,0.5f));
-	ps->setEndColorVar(ccc4f(0.1,0.0,0.2,0.0));
-	addChild(ps);
+	m_spellDiagrams = ReadFileToJson("spellDiagrams.json");
+	if( m_spellDiagrams.isMember("diagrams") ) {
+		m_spellDiagrams = m_spellDiagrams["diagrams"];
+	}
 
 	EventBus::game()->addListener("slotMenuCancel", this, callfuncO_selector(SpellDiagramNode::onMenuCancel));
 	EventBus::game()->addListener("slotMenuMod", this, callfuncO_selector(SpellDiagramNode::onMenuMod));
 	EventBus::game()->addListener("slotMenuEff", this, callfuncO_selector(SpellDiagramNode::onMenuEff));
 
-	m_ps = ps;
-	m_ps->stopSystem();
 
 	setTouchEnabled(true);
 
@@ -62,7 +56,11 @@ Json::Value SpellDiagramNode::getSpellDiagramJson()
 {
 	Json::Value json;
 
-	//TODO: pull data from resource file
+	Json::Value& diagram = m_spellDiagrams[m_type];
+	json["diagramLevel"] = diagram["lines"].size();
+	json["diagramName"] = diagram["name"];
+
+	/*
 	switch( m_type ) {
 	case SD_01_NOVICE_CIRCLE:
 		json["diagramLevel"] = 1;
@@ -127,6 +125,7 @@ Json::Value SpellDiagramNode::getSpellDiagramJson()
 		json["diagramName"] = "Greater Triquetra";
 		break;
 	}
+	*/
 
 	json["effects"] = Json::Value();
 
@@ -395,18 +394,35 @@ CCPoint seB = ccp(0, -DSIZE*0.38);
 CCPoint leT = ccp(0, DSIZE*0.5);
 CCPoint leB = ccp(0, -DSIZE*0.15);
 
-void SpellDiagramNode::setDiagram( SpellDiagrams diagram )
+void SpellDiagramNode::setDiagram( int diagram )
 {
-	if( m_type == SD_INVALID && diagram != SD_INVALID ) 
-	{
-		//m_ps->resetSystem();
-	}else if( diagram == SD_INVALID ) {
-		m_ps->stopSystem();
-	}
-
+	if( diagram >= m_spellDiagrams.size() )
+		return; //out of bounds
 
 	m_type = diagram;
 
+	Json::Value& spellDiagram = m_spellDiagrams[m_type];
+	Json::Value& effects = spellDiagram["effects"];
+	Json::Value& mods = spellDiagram["mods"];
+
+	prepareDiagram(effects.size(), mods.size());
+	for( int i=0; i< effects.size(); i++)
+	{
+		float level = effects[i]["level"].asDouble();
+		float x = effects[i]["x"].asDouble();
+		float y = effects[i]["y"].asDouble();
+		addEffect(i, size*x,size*y, level);
+	}
+	for( int i=0; i< mods.size(); i++)
+	{
+		float level = mods[i]["level"].asDouble();
+		float x = mods[i]["x"].asDouble();
+		float y = mods[i]["y"].asDouble();
+		addMod(i, size*x,size*y, level);
+	}
+
+
+	/*
 	CCDrawNode* pt = NULL;
 	switch( m_type ) {
 	case SD_01_NOVICE_CIRCLE:
@@ -557,6 +573,7 @@ void SpellDiagramNode::setDiagram( SpellDiagrams diagram )
 	default:
 		prepareDiagram(0,0);
 	}
+	*/
 
 	JsonEvent* evt = new JsonEvent("spellEditorUpdate");
 	evt->json = getSpellDiagramJson();
@@ -578,6 +595,27 @@ void SpellDiagramNode::draw()
 	ccDrawColor4F(0.0f, 0.0f, 1.0f, 1.0f);
     //ccDrawLine(ccp(0,0), ccp(100, 100));
 
+	Json::Value& lines = m_spellDiagrams[m_type]["lines"];
+	for( int i=0; i< lines.size(); i++)
+	{
+		std::string type = lines[i].get("type", "circle").asString();
+		if( type.compare("circle") == 0 ) {
+			ccDrawCircle(ccp(0,0), size/2, 0, 32, false);
+		}else if( type.compare("bezier") == 0 ) {
+			Json::Value& pts = lines[i]["points"];
+			ccDrawCubicBezier(ccp(size*pts[0u].asDouble(), size*pts[1].asDouble()), 
+							ccp(size*pts[2].asDouble(), size*pts[3].asDouble()),
+							ccp(size*pts[4].asDouble(), size*pts[5].asDouble()),
+							ccp(size*pts[6].asDouble(), size*pts[7].asDouble()), 32);
+		}else if( type.compare("line") == 0 ) {
+			Json::Value& pts = lines[i]["points"];
+			ccDrawLine(ccp(size*pts[0u].asDouble(), size*pts[1].asDouble()), 
+							ccp(size*pts[2].asDouble(), size*pts[3].asDouble()) );
+		}
+	}
+
+
+/*
 	if( m_type == SD_01_NOVICE_CIRCLE || m_type == SD_03_ADEPTS_CIRCLE || 
 		m_type == SD_07_COMPASS || m_type == SD_12_GREATER_PYRAMID || 
 		m_type == SD_13_GREATER_TRIQUETRA ) 
@@ -585,14 +623,6 @@ void SpellDiagramNode::draw()
 		//circle shape
 		ccDrawCircle(ccp(0,0), size/2, 0, 32, false);
 
-		/* modulate circle
-		struct cc_timeval now;
-		CCTime::gettimeofdayCocos2d(&now, NULL);
-		float co = cos( now.tv_usec / 100000 );
-
-		ccDrawColor4F(0.2f, 0.0f, 1.0f, 1.0f);
-		ccDrawCircle(ccp(0,0), size/2 + 4 *co, 0, 32, false);
-		*/
 	}
 	
 	if( m_type == SD_02_BLIND_EYE || m_type == SD_05_SERPENTS_EYE || 
@@ -677,6 +707,7 @@ void SpellDiagramNode::draw()
 		//horizontal line
 		ccDrawLine(ccp(-size/2, 0), ccp(size/2, 0));
 	}
+	*/
 }
 
 void SpellDiagramNode::ccTouchesEnded(CCSet* touches, CCEvent* event)

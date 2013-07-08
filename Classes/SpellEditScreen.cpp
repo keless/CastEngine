@@ -74,10 +74,10 @@ bool SpellEditScreen::init()
 void SpellEditScreen::onSpellPageSelected( CCObject* e )
 {
 	JsonEvent* evt = dynamic_cast<JsonEvent*>(e);
-	//if(!evt) return;
+	if(evt == NULL) return;
 
-
-	m_spellDiagram->setDiagram( (SpellDiagrams) (SD_01_NOVICE_CIRCLE + evt->json["idx"].asInt()) );
+	m_spellDiagram->setDiagram( evt->json.get("idx",-1).asInt() );
+	//m_spellDiagram->setDiagram( (SpellDiagrams) (SD_01_NOVICE_CIRCLE + evt->json["idx"].asInt()) );
 
 }
 

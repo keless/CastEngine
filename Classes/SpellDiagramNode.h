@@ -32,10 +32,11 @@ enum SpellDiagrams
 
 class SpellDiagramNode : public CCLayer
 {
-	SpellDiagrams m_type;
-	CCParticleSpiral* m_ps;
+	int m_type;
 
 	RadialLayer* m_slotEquipMenu;
+
+	Json::Value m_spellDiagrams;
 
 	Json::Value m_spellParts;
 
@@ -69,7 +70,7 @@ public:
 
 	bool init();
 
-	void setDiagram( SpellDiagrams diagram );
+	void setDiagram( int diagram );
 
 	void ccTouchesEnded(CCSet* touches, CCEvent* event);
 

@@ -17,6 +17,8 @@ class SpellPageList : public CCLayer, public CCTableViewDataSource, public CCTab
 	float m_cellHeight;
 	float m_cellWidth;
 
+	std::vector<std::string> m_spellNames;
+
 public:
 	SpellPageList(void);
 	~SpellPageList(void);
