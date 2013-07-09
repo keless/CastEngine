@@ -114,8 +114,6 @@ CCSize SpellPageList::cellSizeForTable(CCTableView *table)
 	return CCSizeMake( m_cellWidth, m_cellHeight);
 }
 
-
-
 //virtual 
 CCTableViewCell* SpellPageList::tableCellAtIndex(CCTableView *table, unsigned int idx)
 {
