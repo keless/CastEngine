@@ -171,6 +171,7 @@
 		3373F676178B463900450473 /* PartyEditorScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3373F674178B463900450473 /* PartyEditorScreen.cpp */; };
 		3373F679178B464A00450473 /* ZZTextField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3373F677178B464A00450473 /* ZZTextField.cpp */; };
 		3373F67B178B465B00450473 /* spellDiagrams.json in Resources */ = {isa = PBXBuildFile; fileRef = 3373F67A178B465B00450473 /* spellDiagrams.json */; };
+		3373F67F178DEAC000450473 /* PartyList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3373F67D178DEAC000450473 /* PartyList.cpp */; };
 		33B9793F177B74E000976960 /* MainMenuScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33B9793D177B74E000976960 /* MainMenuScreen.cpp */; };
 		33B9796317821B3A00976960 /* workbench.png in Resources */ = {isa = PBXBuildFile; fileRef = 33B9796017821B3A00976960 /* workbench.png */; };
 		33B9796417821B3A00976960 /* workbench2.png in Resources */ = {isa = PBXBuildFile; fileRef = 33B9796117821B3A00976960 /* workbench2.png */; };
@@ -566,6 +567,8 @@
 		3373F677178B464A00450473 /* ZZTextField.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZZTextField.cpp; sourceTree = "<group>"; };
 		3373F678178B464A00450473 /* ZZTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZTextField.h; sourceTree = "<group>"; };
 		3373F67A178B465B00450473 /* spellDiagrams.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = spellDiagrams.json; sourceTree = "<group>"; };
+		3373F67D178DEAC000450473 /* PartyList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PartyList.cpp; path = ../Classes/PartyList.cpp; sourceTree = "<group>"; };
+		3373F67E178DEAC000450473 /* PartyList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PartyList.h; path = ../Classes/PartyList.h; sourceTree = "<group>"; };
 		33B9793D177B74E000976960 /* MainMenuScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MainMenuScreen.cpp; path = ../Classes/MainMenuScreen.cpp; sourceTree = "<group>"; };
 		33B9793E177B74E000976960 /* MainMenuScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainMenuScreen.h; path = ../Classes/MainMenuScreen.h; sourceTree = "<group>"; };
 		33B9796017821B3A00976960 /* workbench.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = workbench.png; sourceTree = "<group>"; };
@@ -1263,6 +1266,8 @@
 		3373F673178B462C00450473 /* PartyEditor */ = {
 			isa = PBXGroup;
 			children = (
+				3373F67D178DEAC000450473 /* PartyList.cpp */,
+				3373F67E178DEAC000450473 /* PartyList.h */,
 				3373F674178B463900450473 /* PartyEditorScreen.cpp */,
 				3373F675178B463900450473 /* PartyEditorScreen.h */,
 			);
@@ -1676,6 +1681,7 @@
 				3373F66117872ED200450473 /* ZZUtils.cpp in Sources */,
 				3373F676178B463900450473 /* PartyEditorScreen.cpp in Sources */,
 				3373F679178B464A00450473 /* ZZTextField.cpp in Sources */,
+				3373F67F178DEAC000450473 /* PartyList.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

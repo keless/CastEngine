@@ -19,7 +19,7 @@ bool PartyList::init()
 	m_cellWidth = 200 + 10;
 	m_cellHeight = 200 + 10;
 
-	int w = max(visibleSize.width/5, m_cellWidth);
+	int w = fmax(visibleSize.width/5, m_cellWidth);
 	int h = visibleSize.height;
 
 	setContentSize(CCSizeMake(w, h));
