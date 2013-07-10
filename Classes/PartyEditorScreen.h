@@ -4,8 +4,12 @@
 #include "ZZUtils.h"
 using namespace ZZ;
 
+#include "PartyList.h"
+
 class PartyEditorScreen : public CCLayer
 {
+	PartyList* m_partyList;
+
 public:
 	PartyEditorScreen(void);
 	~PartyEditorScreen(void);

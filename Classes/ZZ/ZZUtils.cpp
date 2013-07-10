@@ -114,7 +114,7 @@ TouchableNode* CreateSimpleButton( std::string msg, std::string evt, std::string
 	btn->ignoreAnchorPointForPosition(false);
 	btn->setContentSize(area);
 	btn->setAnchorPoint(ccp(0,0));
-	CCLabelTTF* btnLabel = CCLabelTTF::create(msg.c_str(), "Arial", 24, CCSizeMake(100,40), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+	CCLabelTTF* btnLabel = CCLabelTTF::create(msg.c_str(), "Arial", 20, CCSizeMake(120,40), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
 	btnLabel->setAnchorPoint(ccp(0,0));
 	btn->addChild(btnLabel);
 

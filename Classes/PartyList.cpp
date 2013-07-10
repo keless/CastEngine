@@ -3,18 +3,23 @@
 
 PartyList::PartyList(void)
 {
+	EventBus::game()->addListener("addPartyMember", this, callfuncO_selector(PartyList::onAddPartyMember));
 }
 
 
 PartyList::~PartyList(void)
 {
+	EventBus::game()->remListener("addPartyMember", this, callfuncO_selector(PartyList::onAddPartyMember));
 }
 
 bool PartyList::init()
 {
 	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
 
-	int w = visibleSize.width/5;
+	m_cellWidth = 200 + 10;
+	m_cellHeight = 200 + 10;
+
+	int w = max(visibleSize.width/5, m_cellWidth);
 	int h = visibleSize.height;
 
 	setContentSize(CCSizeMake(w, h));
@@ -24,13 +29,13 @@ bool PartyList::init()
 	addChild(m_bg);
 
 	//TODO: load party JSON
-		
-	m_cellWidth = w;
-	m_cellHeight = h/5;
+	m_partyJson = ReadFileToJson("party.json");
+
+
 
 	m_list = CCTableView::create(this, CCSizeMake(w, h));
 	m_list->setDirection(kCCScrollViewDirectionVertical);
-    m_list->setDelegate(this);
+    //m_list->setDelegate(this);
     m_list->setVerticalFillOrder(kCCTableViewFillTopDown);
 	addChild(m_list);
 	
@@ -40,6 +45,19 @@ bool PartyList::init()
 	return true;
 }
 
+void PartyList::loadEntitiesForPartyJson()
+{
+	//todo
+}
+
+void PartyList::onAddPartyMember(CCObject* e)
+{
+	GameEntity* ge = new GameEntity("foo");
+	m_entities.push_back(ge);
+
+	m_list->reloadData();
+
+}
 
 //virtual 
 CCSize PartyList::cellSizeForTable(CCTableView *table)
@@ -59,22 +77,27 @@ CCTableViewCell* PartyList::tableCellAtIndex(CCTableView *table, unsigned int id
 
 		cell->setAnchorPoint(ccp(0,0));
 
-		/* todo; set party view
-		CCLabelTTF* label = CCLabelTTF::create(m_spellNames[idx].c_str(), "Helvetica", 16.0f);
-		label->setContentSize(CCSizeMake(m_cellWidth, m_cellHeight));
-		label->setColor(ccBLACK);
-		label->setAnchorPoint(ccp(0,0));
-		label->setVerticalAlignment(kCCVerticalTextAlignmentCenter);
-		label->setHorizontalAlignment(kCCTextAlignmentCenter);
-		label->setTag(1234);
-		cell->addChild(label);
-		*/
-	
-
 
 	}else {
-		//CCLabelTTF* label = (CCLabelTTF*)cell->getChildByTag(1234);
-		//label->setString(m_spellNames[idx].c_str());
+		cell->removeAllChildren();
+	}
+
+	if( idx == m_entities.size() ) {
+		//create + player button
+		CCNode* btn = CreateSimpleButton("+ Party Member", "addPartyMember");
+		btn->setAnchorPoint(ccp(0.5,0.5));
+		btn->setPosition( m_cellWidth/2, m_cellHeight/2);
+		cell->addChild(btn);
+	}else {
+		//load character
+
+		GameEntityView* view = new GameEntityView( m_entities[idx] );
+		view->setAnchorPoint(ccp(0.5,0.5));
+		view->setPosition( m_cellWidth/2, m_cellHeight/2);
+		view->setHighlighted(true);
+		cell->addChild(view);
+
+		view->release();
 	}
 
 	return cell;
@@ -83,5 +106,5 @@ CCTableViewCell* PartyList::tableCellAtIndex(CCTableView *table, unsigned int id
 unsigned int PartyList::numberOfCellsInTableView(CCTableView *table)
 {
 	//return m_spellNames.size();
-	return 0; //todo: look at party list
+	return m_entities.size() + 1;
 }

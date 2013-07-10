@@ -94,6 +94,9 @@
     <ClCompile Include="..\Classes\PartyEditorScreen.cpp">
       <Filter>PartyEditor</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\PartyList.cpp">
+      <Filter>PartyEditor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\CastEngine\CastCommandModel.h">
@@ -205,6 +208,9 @@
       <Filter>ZZ</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\PartyEditorScreen.h">
+      <Filter>PartyEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\PartyList.h">
       <Filter>PartyEditor</Filter>
     </ClInclude>
   </ItemGroup>

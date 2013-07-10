@@ -7,13 +7,21 @@ using namespace ZZ;
 #include "cocos-ext.h"
 using namespace extension;
 
+#include "GameEntityView.h"
 
-class PartyList : public CCLayer, public CCTableViewDataSource, public CCTableViewDelegate
+class PartyList : public CCLayer, public CCTableViewDataSource//, public CCTableViewDelegate
 {
 	CCTableView* m_list; 
 	CCLayerColor* m_bg;
 	float m_cellHeight;
 	float m_cellWidth;
+
+	Json::Value m_partyJson;
+	std::vector<GameEntity*> m_entities;
+
+	void loadEntitiesForPartyJson();
+
+	void onAddPartyMember(CCObject* e);
 
 public:
 	PartyList(void);
