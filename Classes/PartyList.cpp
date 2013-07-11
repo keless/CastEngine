@@ -3,6 +3,7 @@
 
 PartyList::PartyList(void)
 {
+	
 	EventBus::game()->addListener("addPartyMember", this, callfuncO_selector(PartyList::onAddPartyMember));
 }
 
@@ -15,6 +16,8 @@ PartyList::~PartyList(void)
 bool PartyList::init()
 {
 	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+
+	ignoreAnchorPointForPosition(false);
 
 	m_cellWidth = 200 + 10;
 	m_cellHeight = 200 + 10;
@@ -94,8 +97,15 @@ CCTableViewCell* PartyList::tableCellAtIndex(CCTableView *table, unsigned int id
 		GameEntityView* view = new GameEntityView( m_entities[idx] );
 		view->setAnchorPoint(ccp(0.5,0.5));
 		view->setPosition( m_cellWidth/2, m_cellHeight/2);
-		view->setHighlighted(true);
-		cell->addChild(view);
+		
+		BaseRadioGroupLayer* radio = new BaseRadioGroupLayer();
+		radio->initRadioGroup("partyMemberSelect", idx);
+		radio->addChild(view);
+		radio->setAnchorPoint(ccp(0.5,0.5));
+		radio->setPosition( m_cellWidth/2, m_cellHeight/2);
+		radio->setContentSize(CCSizeMake(m_cellWidth, m_cellHeight));
+
+		cell->addChild(radio);
 
 		view->release();
 	}

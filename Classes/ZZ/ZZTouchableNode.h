@@ -40,6 +40,8 @@ public:
 	void setData( Json::Value& data) { m_data = data; }
 	Json::Value& getData() { return m_data; }
 
+	virtual void onTouched();
+
 	virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
     virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
     virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);

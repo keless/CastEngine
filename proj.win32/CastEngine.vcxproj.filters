@@ -97,6 +97,9 @@
     <ClCompile Include="..\Classes\PartyList.cpp">
       <Filter>PartyEditor</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\ZZ\ZZRadioGroup.cpp">
+      <Filter>ZZ</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\CastEngine\CastCommandModel.h">
@@ -212,6 +215,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\PartyList.h">
       <Filter>PartyEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ZZ\ZZRadioGroup.h">
+      <Filter>ZZ</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

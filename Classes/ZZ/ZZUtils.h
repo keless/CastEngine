@@ -11,6 +11,7 @@ using namespace cocos2d;
 #include "ZZRadialLayer.h"
 #include "ZZTouchableNode.h"
 #include "ZZTextField.h"
+#include "ZZRadioGroup.h"
 
 namespace ZZ {
 

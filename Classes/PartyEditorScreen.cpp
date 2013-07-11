@@ -4,11 +4,14 @@
 PartyEditorScreen::PartyEditorScreen(void)
 {
 	m_partyList = NULL;
+
+	EventBus::get("partyMemberSelect")->addListener("trigger", this, callfuncO_selector(PartyEditorScreen::onPartyMemberSelected));
 }
 
 
 PartyEditorScreen::~PartyEditorScreen(void)
 {
+	EventBus::get("partyMemberSelect")->remListener("trigger", this, callfuncO_selector(PartyEditorScreen::onPartyMemberSelected));
 }
 
 bool PartyEditorScreen::init()
@@ -34,3 +37,11 @@ bool PartyEditorScreen::init()
 }
 
 
+void PartyEditorScreen::onPartyMemberSelected(CCObject* e)
+{
+	JsonEvent* evt = dynamic_cast<JsonEvent*>(e);
+	if(evt == NULL) return;
+
+	int partyMemberIdx = evt->json.get("index", -1).asInt();
+	CCLog("party member %d selected", partyMemberIdx);
+}

@@ -10,6 +10,8 @@ class PartyEditorScreen : public CCLayer
 {
 	PartyList* m_partyList;
 
+	void onPartyMemberSelected(CCObject* e);
+
 public:
 	PartyEditorScreen(void);
 	~PartyEditorScreen(void);
