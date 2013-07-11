@@ -22,7 +22,7 @@ bool PartyList::init()
 	m_cellWidth = 200 + 10;
 	m_cellHeight = 200 + 10;
 
-	int w = fmax(visibleSize.width/5, m_cellWidth);
+	int w = MAX(visibleSize.width/5, m_cellWidth + 30); //windows wants to use 'max' and mac wants to use 'maxf'
 	int h = visibleSize.height;
 
 	setContentSize(CCSizeMake(w, h));
