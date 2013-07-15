@@ -142,6 +142,7 @@
     <ClCompile Include="..\Classes\MainMenuScreen.cpp" />
     <ClCompile Include="..\Classes\PartyEditorScreen.cpp" />
     <ClCompile Include="..\Classes\PartyList.cpp" />
+    <ClCompile Include="..\Classes\PartyMemberEditor.cpp" />
     <ClCompile Include="..\Classes\SpellDescriptionView.cpp" />
     <ClCompile Include="..\Classes\SpellDiagramNode.cpp" />
     <ClCompile Include="..\Classes\SpellEditScreen.cpp" />
@@ -183,6 +184,7 @@
     <ClInclude Include="..\Classes\MainMenuScreen.h" />
     <ClInclude Include="..\Classes\PartyEditorScreen.h" />
     <ClInclude Include="..\Classes\PartyList.h" />
+    <ClInclude Include="..\Classes\PartyMemberEditor.h" />
     <ClInclude Include="..\Classes\SpellDescriptionView.h" />
     <ClInclude Include="..\Classes\SpellDiagramNode.h" />
     <ClInclude Include="..\Classes\SpellEditScreen.h" />

@@ -100,6 +100,9 @@
     <ClCompile Include="..\Classes\ZZ\ZZRadioGroup.cpp">
       <Filter>ZZ</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\PartyMemberEditor.cpp">
+      <Filter>PartyEditor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\CastEngine\CastCommandModel.h">
@@ -218,6 +221,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\ZZ\ZZRadioGroup.h">
       <Filter>ZZ</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\PartyMemberEditor.h">
+      <Filter>PartyEditor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

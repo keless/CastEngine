@@ -5,10 +5,13 @@
 using namespace ZZ;
 
 #include "PartyList.h"
+#include "PartyMemberEditor.h"
 
 class PartyEditorScreen : public CCLayer
 {
 	PartyList* m_partyList;
+
+	PartyMemberEditor* m_partyMemberEditor;
 
 	void onPartyMemberSelected(CCObject* e);
 

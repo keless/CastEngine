@@ -4,6 +4,16 @@
 #include <cocos2d.h>
 using namespace cocos2d;
 
+#include "ZZEventBus.h"
+
+/*************
+wraps the CCTextFieldTTF class in a more easy to use ZZ-friendly class
+
+if you setEventBus, it will send signals "zztfStart" and "zztfEnd" to it on IME begin and end
+ the JsonEvent will have a field "pTextField" which has a pointer to the TextField stored as an unsigned int
+
+**************/
+
 namespace ZZ {
 
 	class TextField : public CCLayer, public CCLabelProtocol
@@ -14,6 +24,8 @@ protected:
 	std::string m_defaultText;
 	bool m_touchStarted;
 
+	std::string m_evtBus;
+
 public:
 	TextField(void);
 	virtual ~TextField(void);
@@ -22,6 +34,7 @@ public:
 
 	virtual bool init( std::string defaultText, std::string fontName, int size, const CCSize& dimensions, CCTextAlignment alignment  = kCCTextAlignmentLeft );
 
+	virtual void setEventBus( std::string bus );
 
 	virtual void setString(const char *label);
     virtual const char* getString(void);

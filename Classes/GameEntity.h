@@ -54,6 +54,8 @@ public:
 	~GameEntity(void);
 	
 	std::string getName() { return m_name; }
+	void setName(std::string name) { m_name = name; }
+
 	std::string getLevelStr();
 
 	virtual void addAbility( CastCommandModel* ability );

@@ -48,6 +48,13 @@ bool PartyList::init()
 	return true;
 }
 
+GameEntity* PartyList::getEntity( int idx )
+{
+	if( idx < 0 || idx >= m_entities.size() ) return NULL; //oob
+
+	return m_entities[idx];
+}
+
 void PartyList::loadEntitiesForPartyJson()
 {
 	//todo

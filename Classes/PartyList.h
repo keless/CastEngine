@@ -30,6 +30,8 @@ public:
 	CREATE_FUNC(PartyList);
 	bool init();
 
+	GameEntity* getEntity( int idx );
+
 	virtual CCSize cellSizeForTable(CCTableView *table);
     virtual CCTableViewCell* tableCellAtIndex(CCTableView *table, unsigned int idx);
     virtual unsigned int numberOfCellsInTableView(CCTableView *table);

@@ -21,7 +21,7 @@ public:
 
 	virtual bool init(  const CCRect &area );
 
-	static ProgressBar * create( const CCRect &area );
+	static ProgressBar* create( const CCRect &area );
 
 	void setProgress( float pct );
 	void setMargin( float margin );

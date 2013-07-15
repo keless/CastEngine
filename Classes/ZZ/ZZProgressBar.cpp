@@ -34,7 +34,11 @@ bool ProgressBar::init( const CCRect &area )
 ProgressBar * ProgressBar::create( const CCRect &area )
 {
 	ProgressBar* bar = new ProgressBar();
-	bar->init(area);
+	if(!bar->init(area))
+	{
+		delete bar;
+		return NULL;
+	}
 	bar->autorelease();
 	return bar;
 }

@@ -41,6 +41,12 @@ bool TextField::init( std::string defaultText, std::string fontName, int size, c
 	return true;
 }
 
+//virtual 
+void TextField::setEventBus( std::string bus )
+{
+	m_evtBus = bus;
+}
+
 //virtual
 void TextField::setString(const char *label)
 {
@@ -121,9 +127,22 @@ void TextField::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 		}
 		
 		m_tf->attachWithIME();
+
+		if( m_evtBus.size() > 0 ) {
+			JsonEvent* evt = new JsonEvent("zztfStart");
+			evt->json["pTextField"] = (unsigned int)(this);
+			EventBus::get(m_evtBus.c_str())->dispatch(evt->type, evt);
+		}
+
 	}else {
 		CCLog("quit text entry");
 		m_tf->detachWithIME();
+
+		if( m_evtBus.size() > 0 ) {
+			JsonEvent* evt = new JsonEvent("zztfEnd");
+			evt->json["pTextField"] = (unsigned int)(this);
+			EventBus::get(m_evtBus.c_str())->dispatch(evt->type, evt);
+		}
 	}
 	m_touchStarted = false;
 }
