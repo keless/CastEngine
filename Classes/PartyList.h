@@ -32,6 +32,8 @@ public:
 
 	GameEntity* getEntity( int idx );
 
+	void refreshList(); //call this when game entities have changed and list needs to be updated
+
 	virtual CCSize cellSizeForTable(CCTableView *table);
     virtual CCTableViewCell* tableCellAtIndex(CCTableView *table, unsigned int idx);
     virtual unsigned int numberOfCellsInTableView(CCTableView *table);

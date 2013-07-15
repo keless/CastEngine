@@ -85,5 +85,10 @@ void EventBus::dispatch(std::string evtName, CCObject* evtObject )
 	//CCLog("dispatch %s complete", evtName.c_str());
 }
 
+void EventBus::dispatch( BaseEvent* evt )
+{
+	dispatch(evt->type, evt);
+}
+
 }
 

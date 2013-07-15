@@ -7,12 +7,14 @@ PartyEditorScreen::PartyEditorScreen(void)
 	m_partyMemberEditor = NULL;
 
 	EventBus::get("partyMemberSelect")->addListener("zzrgrTrigger", this, callfuncO_selector(PartyEditorScreen::onPartyMemberSelected));
+	EventBus::game()->addListener("partyMemberEdited", this, callfuncO_selector(PartyEditorScreen::onPartyMemberEdited));
 }
 
 
 PartyEditorScreen::~PartyEditorScreen(void)
 {
 	EventBus::get("partyMemberSelect")->remListener("zzrgrTrigger", this, callfuncO_selector(PartyEditorScreen::onPartyMemberSelected));
+	EventBus::game()->remListener("partyMemberEdited", this, callfuncO_selector(PartyEditorScreen::onPartyMemberEdited));
 }
 
 bool PartyEditorScreen::init()
@@ -44,7 +46,7 @@ void PartyEditorScreen::onPartyMemberSelected(CCObject* e)
 
 	if( m_partyMemberEditor != NULL ) 
 	{
-		m_partyMemberEditor->removeAllChildrenWithCleanup(true);
+		m_partyMemberEditor->removeFromParentAndCleanup(true);
 	}
 
 	int pListW = m_partyList->getContentSize().width;
@@ -58,4 +60,9 @@ void PartyEditorScreen::onPartyMemberSelected(CCObject* e)
 	m_partyMemberEditor->setAnchorPoint(ccp(0,0));
 	m_partyMemberEditor->setPositionX(pListW);
 	addChild(m_partyMemberEditor);
+}
+
+void PartyEditorScreen::onPartyMemberEdited(CCObject* e)
+{
+	m_partyList->refreshList();
 }

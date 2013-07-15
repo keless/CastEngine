@@ -51,7 +51,7 @@ bool PartyMemberEditor::init( GameEntity* entity, const CCSize& size )
 	addChild(tabCharacter);
 
 	BaseRadioGroupLayer* tabItems = new BaseRadioGroupLayer();
-	tabItems->initRadioGroup("pme", 0);
+	tabItems->initRadioGroup("pme", 1);
 	tabItems->setAnchorPoint(ccp(0,1));
 	tabItems->setPositionX(tabCharacter->getContentSize().width);
 	tabItems->setPositionY(size.height);
@@ -61,15 +61,26 @@ bool PartyMemberEditor::init( GameEntity* entity, const CCSize& size )
 	lblItems->setPosition( ccp( tabSize.width/2, tabSize.height/2 ));
 	addChild(tabItems);
 
-
-	tabCharacter->triggerGroup();
+	CCSize editSize = CCSizeMake( size.width, size.height - tabSize.height);
+	m_editChar = CCLayerColor::create(ccc4(50,50,75,175), editSize.width, editSize.height);
+	m_editChar->ignoreAnchorPointForPosition(false);
+	m_editChar->setAnchorPoint(ccp(0,0));
+	addChild(m_editChar);
 
 	TextField* tf = TextField::create(entity->getName());
 	//CCTextFieldTTF* tf = CCTextFieldTTF::textFieldWithPlaceHolder(defaultTxt.c_str(), "Arial", 28);
 	tf->setAnchorPoint(ccp(0.5,1));
-	tf->setPosition(ccp(size.width/2, size.height - 50));
+	tf->setPosition(ccp(editSize.width/2, editSize.height - 50));
 	tf->setEventBus("pme");
-	addChild(tf);
+	m_editChar->addChild(tf);
+
+	m_editItems = CCLayerColor::create(ccc4(50,75,50,175), editSize.width, editSize.height);
+	m_editItems->ignoreAnchorPointForPosition(false);
+	m_editItems->setAnchorPoint(ccp(0,0));
+	addChild(m_editItems);
+
+
+	tabCharacter->triggerGroup();
 
 	/*
 	CCLabelTTF* title = CCLabelTTF::create("more people will come if we tell them we have punch and pie", "Arial", 24, CCSizeMake(400,100), kCCTextAlignmentCenter);
@@ -89,7 +100,18 @@ void PartyMemberEditor::onTabSelect( CCObject* e )
 
 	int tabIdx = evt->json["index"].asInt();
 
-	CCLog("todo: show tab select %d", tabIdx);
+	CCLog("todo: member tab select %d", tabIdx);
+
+	switch(tabIdx) {
+	case 0:
+		m_editChar->setVisible(true);
+		m_editItems->setVisible(false);
+		break;
+	case 1:
+		m_editChar->setVisible(false);
+		m_editItems->setVisible(true);
+		break;
+	}
 
 }
 
@@ -102,6 +124,11 @@ void PartyMemberEditor::onPMNameChange( CCObject* e )
 
 	std::string name = tf->getString();
 
-	if( name.size() > 2 )
+	if( name.size() > 2 ) {
 		m_pEntity->setName( name );
+
+		JsonEvent* jsonEvent = new JsonEvent("partyMemberEdited");
+		jsonEvent->json["pGameEntity"] = m_pEntity;
+		EventBus::game()->dispatch(jsonEvent);
+	}
 }

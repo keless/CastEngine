@@ -55,6 +55,11 @@ GameEntity* PartyList::getEntity( int idx )
 	return m_entities[idx];
 }
 
+void PartyList::refreshList()
+{
+	m_list->reloadData();
+}
+
 void PartyList::loadEntitiesForPartyJson()
 {
 	//todo
@@ -66,6 +71,8 @@ void PartyList::onAddPartyMember(CCObject* e)
 	m_entities.push_back(ge);
 
 	m_list->reloadData();
+	
+	//todo: highlight new cell
 
 }
 

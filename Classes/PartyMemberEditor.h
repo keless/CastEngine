@@ -11,6 +11,9 @@ class PartyMemberEditor : public CCLayer
 
 	GameEntity* m_pEntity;
 
+	CCNode* m_editChar;
+	CCNode* m_editItems;
+
 	void onTabSelect( CCObject* e );
 	void onPMNameChange( CCObject* e );
 

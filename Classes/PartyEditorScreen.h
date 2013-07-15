@@ -15,6 +15,8 @@ class PartyEditorScreen : public CCLayer
 
 	void onPartyMemberSelected(CCObject* e);
 
+	void onPartyMemberEdited( CCObject* e );
+
 public:
 	PartyEditorScreen(void);
 	~PartyEditorScreen(void);

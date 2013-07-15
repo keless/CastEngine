@@ -23,6 +23,7 @@ protected:
 
 	std::string m_defaultText;
 	bool m_touchStarted;
+	bool m_inEditMode;
 
 	std::string m_evtBus;
 

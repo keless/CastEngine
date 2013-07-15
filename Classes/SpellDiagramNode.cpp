@@ -257,7 +257,7 @@ void SpellDiagramNode::onMenuMod(CCObject* e )
 		//send update event
 		JsonEvent* updateEvt = new JsonEvent("spellEditorUpdate");
 		updateEvt->json = getSpellDiagramJson();
-		EventBus::game()->dispatch("spellEditorUpdate", updateEvt);
+		EventBus::game()->dispatch(updateEvt);
 	}
 }
 void SpellDiagramNode::onMenuEff(CCObject* e )
@@ -301,7 +301,7 @@ void SpellDiagramNode::onMenuEff(CCObject* e )
 		//send update event
 		JsonEvent* updateEvt = new JsonEvent("spellEditorUpdate");
 		updateEvt->json = getSpellDiagramJson();
-		EventBus::game()->dispatch("spellEditorUpdate", updateEvt);
+		EventBus::game()->dispatch(updateEvt);
 	}
 }
 

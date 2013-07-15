@@ -6,6 +6,7 @@ namespace ZZ {
 TextField::TextField(void)
 {
 	m_tf = NULL;
+	m_inEditMode = false;
 }
 
 
@@ -33,6 +34,8 @@ bool TextField::init( std::string defaultText, std::string fontName, int size, c
 	m_defaultText = defaultText; 
 	m_tf = CCTextFieldTTF::textFieldWithPlaceHolder(defaultText.c_str(), dimensions, alignment, fontName.c_str(), size);
 	addChild(m_tf);
+
+	m_inEditMode = false;
 
 	ignoreAnchorPointForPosition(false);
 	setTouchEnabled(true);
@@ -75,7 +78,7 @@ bool TextField::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
 		}
 	}
 
-	return false;
+	return m_inEditMode; //always return true for TF if in edit mode-- we want to consume ALL touches (inside and out)
 }
 //virtual 
 void TextField::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent)
@@ -126,6 +129,7 @@ void TextField::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 			m_tf->setString(""); //clear default string on entry
 		}
 		
+		m_inEditMode = true;
 		m_tf->attachWithIME();
 
 		if( m_evtBus.size() > 0 ) {
@@ -136,6 +140,8 @@ void TextField::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 
 	}else {
 		CCLog("quit text entry");
+
+		m_inEditMode = false;
 		m_tf->detachWithIME();
 
 		if( m_evtBus.size() > 0 ) {

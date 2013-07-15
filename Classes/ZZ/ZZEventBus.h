@@ -57,7 +57,7 @@ public:
 	void remListener(std::string evtName, CCObject* listener, SEL_CallFuncO callback  );
 
 	void dispatch(std::string evtName, CCObject* evtObject );
-
+	void dispatch( BaseEvent* evt );
 };
 
 }
