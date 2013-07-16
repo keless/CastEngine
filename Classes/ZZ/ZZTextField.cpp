@@ -134,7 +134,7 @@ void TextField::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 
 		if( m_evtBus.size() > 0 ) {
 			JsonEvent* evt = new JsonEvent("zztfStart");
-			evt->json["pTextField"] = (unsigned int)(this);
+			evt->setUserData(this);
 			EventBus::get(m_evtBus.c_str())->dispatch(evt->type, evt);
 		}
 
@@ -146,7 +146,7 @@ void TextField::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 
 		if( m_evtBus.size() > 0 ) {
 			JsonEvent* evt = new JsonEvent("zztfEnd");
-			evt->json["pTextField"] = (unsigned int)(this);
+			evt->setUserData(this);
 			EventBus::get(m_evtBus.c_str())->dispatch(evt->type, evt);
 		}
 	}

@@ -163,6 +163,7 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
+		3346F7201795DEF40065F0AA /* PartyMemberEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3346F71E1795DEF40065F0AA /* PartyMemberEditor.cpp */; };
 		3373F6491784C55C00450473 /* ZZRadialLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3373F6471784C55C00450473 /* ZZRadialLayer.cpp */; };
 		3373F65B17872EC500450473 /* SpellDescriptionView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3373F65917872EC500450473 /* SpellDescriptionView.cpp */; };
 		3373F66017872ED200450473 /* ZZTouchableNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3373F65C17872ED200450473 /* ZZTouchableNode.cpp */; };
@@ -553,6 +554,8 @@
 		1D6058910D05DD3D006BFB54 /* Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Test.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		3346F71E1795DEF40065F0AA /* PartyMemberEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PartyMemberEditor.cpp; path = ../Classes/PartyMemberEditor.cpp; sourceTree = "<group>"; };
+		3346F71F1795DEF40065F0AA /* PartyMemberEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PartyMemberEditor.h; path = ../Classes/PartyMemberEditor.h; sourceTree = "<group>"; };
 		3373F6471784C55C00450473 /* ZZRadialLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZZRadialLayer.cpp; sourceTree = "<group>"; };
 		3373F6481784C55C00450473 /* ZZRadialLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZRadialLayer.h; sourceTree = "<group>"; };
 		3373F65917872EC500450473 /* SpellDescriptionView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SpellDescriptionView.cpp; path = ../Classes/SpellDescriptionView.cpp; sourceTree = "<group>"; };
@@ -1266,6 +1269,8 @@
 		3373F673178B462C00450473 /* PartyEditor */ = {
 			isa = PBXGroup;
 			children = (
+				3346F71E1795DEF40065F0AA /* PartyMemberEditor.cpp */,
+				3346F71F1795DEF40065F0AA /* PartyMemberEditor.h */,
 				3373F67D178DEAC000450473 /* PartyList.cpp */,
 				3373F67E178DEAC000450473 /* PartyList.h */,
 				3373F674178B463900450473 /* PartyEditorScreen.cpp */,
@@ -1682,6 +1687,7 @@
 				3373F676178B463900450473 /* PartyEditorScreen.cpp in Sources */,
 				3373F679178B464A00450473 /* ZZTextField.cpp in Sources */,
 				3373F67F178DEAC000450473 /* PartyList.cpp in Sources */,
+				3346F7201795DEF40065F0AA /* PartyMemberEditor.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

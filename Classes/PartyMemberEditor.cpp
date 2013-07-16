@@ -120,7 +120,7 @@ void PartyMemberEditor::onPMNameChange( CCObject* e )
 	JsonEvent* evt = dynamic_cast<JsonEvent*>(e);
 	if(!evt) return;
 
-	TextField* tf = (TextField*) evt->json["pTextField"].asUInt();
+	TextField* tf = (TextField*) evt->pUserData;
 
 	std::string name = tf->getString();
 

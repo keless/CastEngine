@@ -10,13 +10,13 @@ using namespace cocos2d;
 wraps the CCTextFieldTTF class in a more easy to use ZZ-friendly class
 
 if you setEventBus, it will send signals "zztfStart" and "zztfEnd" to it on IME begin and end
- the JsonEvent will have a field "pTextField" which has a pointer to the TextField stored as an unsigned int
+ the JsonEvent will have a pUserData pointing at the TextField instance that spawned the event
 
 **************/
 
 namespace ZZ {
 
-	class TextField : public CCLayer, public CCLabelProtocol
+class TextField : public CCLayer, public CCLabelProtocol
 {
 protected:
 	CCTextFieldTTF* m_tf;

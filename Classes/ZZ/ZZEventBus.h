@@ -12,9 +12,14 @@ class BaseEvent : public CCObject
 {
 public:
 	std::string type;
+	CCObject* pUserData;
 
-	BaseEvent( std::string evtType ) : type(evtType) { this->autorelease(); }
-	virtual ~BaseEvent() {}
+	BaseEvent( std::string evtType ) : type(evtType), pUserData(NULL) { this->autorelease(); }
+	virtual ~BaseEvent() {
+		CC_SAFE_RELEASE(pUserData);
+	}
+	
+	void setUserData( CCObject* data ) { CC_SAFE_RELEASE(pUserData); pUserData = data; CC_SAFE_RETAIN(pUserData); }
 };
 
 
@@ -22,9 +27,11 @@ class JsonEvent : public BaseEvent
 {
 public:
 	Json::Value json;
+	
 
 	JsonEvent( std::string evtType ) : BaseEvent(evtType) { }
 	virtual ~JsonEvent() {}
+
 };
 
 class EventBus

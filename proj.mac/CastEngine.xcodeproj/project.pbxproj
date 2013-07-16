@@ -173,6 +173,7 @@
 		3373F66D178B43C300450473 /* ZZTextField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3373F66B178B43C300450473 /* ZZTextField.cpp */; };
 		3373F670178B43D600450473 /* PartyEditorScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3373F66E178B43D600450473 /* PartyEditorScreen.cpp */; };
 		3373F683178DEAF400450473 /* PartyList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3373F681178DEAF400450473 /* PartyList.cpp */; };
+		339857C41795DBA000A7C9C3 /* PartyMemberEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 339857C21795DBA000A7C9C3 /* PartyMemberEditor.cpp */; };
 		33B97943177B752400976960 /* MainMenuScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33B97941177B752400976960 /* MainMenuScreen.cpp */; };
 		33B9794A177CCED300976960 /* abilities.json in Resources */ = {isa = PBXBuildFile; fileRef = 33B97949177CCED300976960 /* abilities.json */; };
 		33B9794E1782186000976960 /* BattleManagerScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33B9794C1782186000976960 /* BattleManagerScreen.cpp */; };
@@ -558,6 +559,8 @@
 		3373F66F178B43D600450473 /* PartyEditorScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PartyEditorScreen.h; path = ../Classes/PartyEditorScreen.h; sourceTree = "<group>"; };
 		3373F681178DEAF400450473 /* PartyList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PartyList.cpp; path = ../Classes/PartyList.cpp; sourceTree = "<group>"; };
 		3373F682178DEAF400450473 /* PartyList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PartyList.h; path = ../Classes/PartyList.h; sourceTree = "<group>"; };
+		339857C21795DBA000A7C9C3 /* PartyMemberEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PartyMemberEditor.cpp; path = ../Classes/PartyMemberEditor.cpp; sourceTree = "<group>"; };
+		339857C31795DBA000A7C9C3 /* PartyMemberEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PartyMemberEditor.h; path = ../Classes/PartyMemberEditor.h; sourceTree = "<group>"; };
 		33B97941177B752400976960 /* MainMenuScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MainMenuScreen.cpp; path = ../Classes/MainMenuScreen.cpp; sourceTree = "<group>"; };
 		33B97942177B752400976960 /* MainMenuScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainMenuScreen.h; path = ../Classes/MainMenuScreen.h; sourceTree = "<group>"; };
 		33B97949177CCED300976960 /* abilities.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = abilities.json; sourceTree = "<group>"; };
@@ -1224,6 +1227,8 @@
 		3373F66A178B438D00450473 /* PartyEditor */ = {
 			isa = PBXGroup;
 			children = (
+				339857C21795DBA000A7C9C3 /* PartyMemberEditor.cpp */,
+				339857C31795DBA000A7C9C3 /* PartyMemberEditor.h */,
 				3373F681178DEAF400450473 /* PartyList.cpp */,
 				3373F682178DEAF400450473 /* PartyList.h */,
 				3373F66E178B43D600450473 /* PartyEditorScreen.cpp */,
@@ -1665,6 +1670,7 @@
 				3373F66D178B43C300450473 /* ZZTextField.cpp in Sources */,
 				3373F670178B43D600450473 /* PartyEditorScreen.cpp in Sources */,
 				3373F683178DEAF400450473 /* PartyList.cpp in Sources */,
+				339857C41795DBA000A7C9C3 /* PartyMemberEditor.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
