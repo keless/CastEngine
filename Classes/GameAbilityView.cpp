@@ -82,7 +82,7 @@ void GameAbilityView::update( float delta )
 
 inline CCPoint locationInGLFromTouch(CCTouch& touch)
 {
-   auto director = CCDirector::sharedDirector();
+   CCDirector* director = CCDirector::sharedDirector();
    return director->convertToGL(touch.getLocationInView());
 }
 

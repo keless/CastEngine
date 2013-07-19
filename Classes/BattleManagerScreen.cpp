@@ -860,7 +860,7 @@ bool BattleManagerScreen::GetEntitiesInRadius( kmVec2 p, float r, std::vector<IC
 
 	bool found = false;
 
-	auto upscale = VIEW_UNIT_CONVERSION;
+	float upscale = VIEW_UNIT_CONVERSION;
 	kmVec2Scale( &p, &p, upscale );
 	r *= VIEW_UNIT_CONVERSION; //convert to pixels
 

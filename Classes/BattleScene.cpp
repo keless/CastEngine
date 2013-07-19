@@ -70,16 +70,16 @@ void BattleScene::update( float dt )
 
 inline CCPoint locationInGLFromTouch(CCTouch& touch)
 {
-   auto director = CCDirector::sharedDirector();
+   CCDirector* director = CCDirector::sharedDirector();
    return director->convertToGL(touch.getLocationInView());
 }
 
 
 void BattleScene::ccTouchesBegan(CCSet* touches, CCEvent* event)
 {
-	for(auto it = touches->begin(); it != touches->end(); it++) 
+	for(CCSetIterator it = touches->begin(); it != touches->end(); it++) 
 	{
-		auto touch = dynamic_cast<CCTouch*>(*it);
+		CCTouch* touch = dynamic_cast<CCTouch*>(*it);
 		if(touch == NULL)
 			break;
 	}
@@ -87,9 +87,9 @@ void BattleScene::ccTouchesBegan(CCSet* touches, CCEvent* event)
 
 void BattleScene::ccTouchesMoved(CCSet* touches, CCEvent* event)
 {
-	for(auto it = touches->begin(); it != touches->end(); it++) 
+	for(CCSetIterator it = touches->begin(); it != touches->end(); it++) 
 	{
-		auto touch = dynamic_cast<CCTouch*>(*it);
+		CCTouch* touch = dynamic_cast<CCTouch*>(*it);
 		if(touch == NULL)
 			break;
 	}
@@ -97,18 +97,18 @@ void BattleScene::ccTouchesMoved(CCSet* touches, CCEvent* event)
 
 void BattleScene::ccTouchesEnded(CCSet* touches, CCEvent* event)
 {
-	for(auto it = touches->begin(); it != touches->end(); it++) 
+	for(CCSetIterator it = touches->begin(); it != touches->end(); it++) 
 	{
-		auto touch = dynamic_cast<CCTouch*>(*it);
+		CCTouch* touch = dynamic_cast<CCTouch*>(*it);
 		if(touch == NULL)
 			break;
 	}
 }
 void BattleScene::ccTouchesCancelled(CCSet* touches, CCEvent* event)
 {
-	for(auto it = touches->begin(); it != touches->end(); it++) 
+	for(CCSetIterator it = touches->begin(); it != touches->end(); it++) 
 	{
-		auto touch = dynamic_cast<CCTouch*>(*it);
+		CCTouch* touch = dynamic_cast<CCTouch*>(*it);
 		if(touch == NULL)
 			break;
 	}

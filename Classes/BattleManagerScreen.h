@@ -11,7 +11,6 @@ using namespace ZZ;
 
 #include "GameEntity.h"
 #include "GameEntityView.h"
-#include "PlayerView.h"
 
 #include "CastCommandState.h"
 #include "CastCommandModel.h"

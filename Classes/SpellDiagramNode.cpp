@@ -665,9 +665,9 @@ void SpellDiagramNode::ccTouchesEnded(CCSet* touches, CCEvent* event)
 {
 	float slotRadius = 25.0f;
 
-	for(auto it = touches->begin(); it != touches->end(); it++) 
+	for(CCSetIterator it = touches->begin(); it != touches->end(); it++) 
 	{
-		auto touch = dynamic_cast<CCTouch*>(*it);
+		CCTouch* touch = dynamic_cast<CCTouch*>(*it);
 		if(touch == NULL)
 			break;
 
