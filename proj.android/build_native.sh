@@ -1,4 +1,4 @@
-APPNAME="Test"
+APPNAME="CastQuest"
 
 # options
 
