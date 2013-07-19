@@ -30,22 +30,21 @@ import android.os.Bundle;
 import android.util.Log;
 import android.content.Context;
 import android.app.Activity;
+import android.app.AlarmManager;
 
 public class CastQuest extends Cocos2dxActivity{
-	
-	private static CastQuest instance;
+
 	private static Context context;
-	private static Activity activity;
+    private static CastQuest instance;
+    private static Activity activity;
 	
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState){    	
     	
-    	instance = this;
-    	CastQuest.context = getApplicationContext();
-    	activity = (Activity)this;
+        instance = this;
+		context = getApplicationContext();
+        activity = (Activity)this;
     	
-    	Log.d("jCastQuest", "onCreate start");
 		super.onCreate(savedInstanceState);	
-		
 		
 		Log.d("jCastQuest", "onCreate end");
 	}
