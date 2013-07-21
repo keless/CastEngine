@@ -98,12 +98,7 @@ CCLayer* CreateSimpleEditBox( std::string msg, std::string defaultTxt, std::stri
 
 	pop->addChild(btn);
 
-
 	return pop;
-
-
-
-
 }
 
 TouchableNode* CreateSimpleButton( std::string msg, std::string evt, std::string bus )
@@ -126,6 +121,23 @@ TouchableNode* CreateSimpleButton( std::string msg, std::string evt, std::string
 
 
 	return sBtn;
+}
+
+CCNode* CreateSimpleNamedLabel( std::string labelName, std::string labelText )
+{
+	CCNode* area = CCNode::create();
+	area->setContentSize(CCSizeMake(240,40));
+
+	CCLabelTTF* lblName = CCLabelTTF::create(labelName.c_str(), "Arial", 20, CCSizeMake(120,40), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+
+	CCLabelTTF* lblText = CCLabelTTF::create(labelText.c_str(), "Arial", 20, CCSizeMake(120,40), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+	lblText->setPositionX(120);
+
+
+	area->addChild(lblName);
+	area->addChild(lblText);
+
+	return area;
 }
 
 

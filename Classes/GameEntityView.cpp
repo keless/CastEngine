@@ -275,6 +275,7 @@ void GameEntityView::setHighlighted( bool highlight )
 
 void GameEntityView::updateView()
 {
+	m_lblName->setString( m_pEntity->getName().c_str() );
 	m_healthBar->setProgress(  (m_pEntity->getProperty("hp_curr")) / (float) (m_pEntity->getProperty("hp_base")) );
 	m_manaBar->setProgress(  (m_pEntity->getProperty("mana_curr")) / (float) (m_pEntity->getProperty("mana_base")) );
 	if(  m_pEntity->getProperty("xp_next") > 0 ) {

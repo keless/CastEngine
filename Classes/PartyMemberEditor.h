@@ -17,6 +17,8 @@ class PartyMemberEditor : public CCLayer
 	void onTabSelect( CCObject* e );
 	void onPMNameChange( CCObject* e );
 
+	void initCharView();
+
 public:
 	PartyMemberEditor(void);
 	~PartyMemberEditor(void);

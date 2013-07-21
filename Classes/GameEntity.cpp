@@ -47,6 +47,39 @@ GameEntity::~GameEntity(void)
 	}
 }
 
+Json::Value GameEntity::toJson()
+{
+	Json::Value json;
+	json["name"] = m_name;
+	
+	Json::Value stats;
+	std::map<std::string, int*>::iterator itr;
+	for( itr = m_statsMap.begin(); itr != m_statsMap.end(); itr++)
+	{
+		stats[ itr->first ] = *(itr->second);
+	}
+	json["stats"] = stats;
+
+	return json;
+}
+
+void GameEntity::initFromJson( const Json::Value& json )
+{
+	m_name = json.get("name", "foo").asString();
+
+	if( json.isMember("stats") ) {
+		const Json::Value& stats = json["stats"];
+		Json::Value::Members statNames = stats.getMemberNames();
+		for( int i=0; i< statNames.size(); i++)
+		{
+			if( m_statsMap.count( statNames[i] ) > 0 ) 
+			{
+				*(m_statsMap[ statNames[i] ]) = stats[statNames[i]].asInt();
+			}
+		}
+	}
+}
+
 std::string GameEntity::getLevelStr()
 {
 	char buff[128];

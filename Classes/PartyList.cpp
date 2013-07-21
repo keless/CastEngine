@@ -4,13 +4,13 @@
 PartyList::PartyList(void)
 {
 	
-	EventBus::game()->addListener("addPartyMember", this, callfuncO_selector(PartyList::onAddPartyMember));
+	EventBus::game()->addListener("addPartyMemberBtn", this, callfuncO_selector(PartyList::onAddPartyMemberBtn));
 }
 
 
 PartyList::~PartyList(void)
 {
-	EventBus::game()->remListener("addPartyMember", this, callfuncO_selector(PartyList::onAddPartyMember));
+	EventBus::game()->remListener("addPartyMemberBtn", this, callfuncO_selector(PartyList::onAddPartyMemberBtn));
 }
 
 bool PartyList::init()
@@ -38,7 +38,7 @@ bool PartyList::init()
 		radio->initRadioGroup("partyMemberSelect", i);
 		//radio->addChild(view);
 		radio->setAnchorPoint(ccp(0.5,0.5));
-		radio->setPosition( m_cellWidth/2, m_cellHeight/2 + i*m_cellHeight);
+		radio->setPosition( m_cellWidth/2, h - (m_cellHeight/2 + i*m_cellHeight));
 		radio->setContentSize(CCSizeMake(m_cellWidth, m_cellHeight));
 
 		addChild(radio);
@@ -50,9 +50,9 @@ bool PartyList::init()
 
 	for( int i=0; i< MAX_PARTY_MEMBERS; i++) {
 
-		TouchableNode* btn = CreateSimpleButton("+ Party Member", "addPartyMember");
+		TouchableNode* btn = CreateSimpleButton("+ Party Member", "addPartyMemberBtn");
 		btn->setAnchorPoint(ccp(0.5,0.5));
-		btn->setPosition( m_cellWidth/2, m_cellHeight/2 + i*m_cellHeight);
+		btn->setPosition( m_cellWidth/2, h -( m_cellHeight/2 + i*m_cellHeight));
 
 		addChild(btn);
 		m_partyAddButtons[i] = btn;
@@ -79,83 +79,72 @@ void PartyList::refreshList()
 {
 
 	//TODO: update game entity views
+	for(int i=0; i< m_entities.size(); i++)
+	{
+		//intentionally using entities size to access party buttons
+		GameEntityView* view = dynamic_cast<GameEntityView*>(m_partyButtons[i]->getChildByTag(1234));
+		if(!view) continue;
+
+		view->updateView();
+	}
+
+	saveEntitiesToPartyJson();
 
 }
 
 void PartyList::loadEntitiesForPartyJson()
 {
 	//TODO: load party JSON
-	m_partyJson = ReadFileToJson("party.json");
+	Json::Value partyJson = ReadFileToJson("party.json");
+
+	Json::Value::Members partyMembers = partyJson.getMemberNames();
+	for( int i=0; i< partyMembers.size() && i < MAX_PARTY_MEMBERS; i++)
+	{
+		GameEntity* ge = new GameEntity("bar");
+		ge->initFromJson( partyJson[partyMembers[i]] );
+
+		addPartyMember(ge);
+	}
 }
 
-void PartyList::onAddPartyMember(CCObject* e)
+void PartyList::saveEntitiesToPartyJson()
 {
-	if( m_entities.size() >= MAX_PARTY_MEMBERS ) return;
-	int numEntitiesStart = m_entities.size();
+	Json::Value json;
 
-	GameEntity* ge = new GameEntity("foo");
-	m_entities.push_back(ge);
+	for( int i=0; i< m_entities.size(); i++)
+	{
+		std::string name = m_entities[i]->getName();
+		json[name] = m_entities[i]->toJson();
+	}
+
+	WriteJsonToFile( json, "party.json" );
+}
+
+void PartyList::addPartyMember( GameEntity* entity )
+{
+	int numEntitiesStart = m_entities.size();
+	m_entities.push_back(entity);
 
 	GameEntityView* view = new GameEntityView( m_entities[m_entities.size()-1] );
 	view->setAnchorPoint(ccp(0.5,0.5));
 	view->setPosition( m_cellWidth/2, m_cellHeight/2);
+	view->setTag(1234);
 
 	m_partyButtons[ numEntitiesStart ]->addChild(view);
 	m_partyButtons[ numEntitiesStart ]->setVisible(true);
 	
 	m_partyAddButtons[ numEntitiesStart ]->setVisible(false);
-	
-	
-	//todo: highlight new cell
-
 }
 
 
-/*
-
-//virtual 
-CCTableViewCell* PartyList::tableCellAtIndex(CCTableView *table, unsigned int idx)
+void PartyList::onAddPartyMemberBtn(CCObject* e)
 {
-	CCTableViewCell *cell = table->dequeueCell();  
+	if( m_entities.size() >= MAX_PARTY_MEMBERS ) return;
+	
+	GameEntity* ge = new GameEntity("foo");
+	addPartyMember(ge);
 
-	if(cell == NULL ) {
+	//todo: save changes to party
 
-		cell = new CCTableViewCell();
-		//cell->autorelease();
-
-		cell->setAnchorPoint(ccp(0,0));
-
-
-	}else {
-		cell->removeAllChildren();
-	}
-
-	if( idx == m_entities.size() ) {
-		//create + player button
-		CCNode* btn = CreateSimpleButton("+ Party Member", "addPartyMember");
-		btn->setAnchorPoint(ccp(0.5,0.5));
-		btn->setPosition( m_cellWidth/2, m_cellHeight/2);
-		cell->addChild(btn);
-	}else {
-		//load character
-
-		GameEntityView* view = new GameEntityView( m_entities[idx] );
-		view->setAnchorPoint(ccp(0.5,0.5));
-		view->setPosition( m_cellWidth/2, m_cellHeight/2);
-		
-		BaseRadioGroupLayer* radio = new BaseRadioGroupLayer();
-		radio->initRadioGroup("partyMemberSelect", idx);
-		radio->addChild(view);
-		radio->setAnchorPoint(ccp(0.5,0.5));
-		radio->setPosition( m_cellWidth/2, m_cellHeight/2);
-		radio->setContentSize(CCSizeMake(m_cellWidth, m_cellHeight));
-
-		cell->addChild(radio);
-
-		view->release();
-	}
-
-	return cell;
+	saveEntitiesToPartyJson();
 }
-
-*/

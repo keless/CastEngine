@@ -17,7 +17,6 @@ class PartyList : public CCLayer
 	float m_cellHeight;
 	float m_cellWidth;
 
-	Json::Value m_partyJson;
 	std::vector<GameEntity*> m_entities;
 
 	BaseRadioGroupLayer* m_partyButtons[MAX_PARTY_MEMBERS];
@@ -25,7 +24,11 @@ class PartyList : public CCLayer
 
 	void loadEntitiesForPartyJson();
 
-	void onAddPartyMember(CCObject* e);
+	void onAddPartyMemberBtn(CCObject* e);
+
+	void addPartyMember( GameEntity* entity );
+
+	void saveEntitiesToPartyJson();
 
 public:
 	PartyList(void);

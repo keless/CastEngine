@@ -52,6 +52,9 @@ class GameEntity :
 public:
 	GameEntity( std::string name );
 	~GameEntity(void);
+
+	Json::Value toJson();
+	void initFromJson( const Json::Value& json );
 	
 	std::string getName() { return m_name; }
 	void setName(std::string name) { m_name = name; }

@@ -67,12 +67,7 @@ bool PartyMemberEditor::init( GameEntity* entity, const CCSize& size )
 	m_editChar->setAnchorPoint(ccp(0,0));
 	addChild(m_editChar);
 
-	TextField* tf = TextField::create(entity->getName());
-	//CCTextFieldTTF* tf = CCTextFieldTTF::textFieldWithPlaceHolder(defaultTxt.c_str(), "Arial", 28);
-	tf->setAnchorPoint(ccp(0.5,1));
-	tf->setPosition(ccp(editSize.width/2, editSize.height - 50));
-	tf->setEventBus("pme");
-	m_editChar->addChild(tf);
+	initCharView();
 
 	m_editItems = CCLayerColor::create(ccc4(50,75,50,175), editSize.width, editSize.height);
 	m_editItems->ignoreAnchorPointForPosition(false);
@@ -91,6 +86,31 @@ bool PartyMemberEditor::init( GameEntity* entity, const CCSize& size )
 
 
 	return true;
+}
+
+void PartyMemberEditor::initCharView()
+{
+	const CCSize& editSize = m_editChar->getContentSize();
+
+	TextField* tf = TextField::create(m_pEntity->getName());
+	//CCTextFieldTTF* tf = CCTextFieldTTF::textFieldWithPlaceHolder(defaultTxt.c_str(), "Arial", 28);
+	tf->setAnchorPoint(ccp(0.5,1));
+	tf->setPosition(ccp(editSize.width/2, editSize.height - 50));
+	tf->setEventBus("pme");
+	m_editChar->addChild(tf);
+
+	CCNode* lblStr = CreateSimpleNamedLabel("str", "10");
+	lblStr->setPosition(50, editSize.height - 100 );
+	m_editChar->addChild(lblStr);
+
+	CCNode* lblInt = CreateSimpleNamedLabel("int", "10");
+	lblInt->setPosition(50, editSize.height - 150 );
+	m_editChar->addChild(lblInt);
+
+	CCNode* lblAgi = CreateSimpleNamedLabel("dex", "10");
+	lblAgi->setPosition(50, editSize.height - 200 );
+	m_editChar->addChild(lblAgi);
+
 }
 
 void PartyMemberEditor::onTabSelect( CCObject* e )

@@ -22,6 +22,7 @@ bool WriteJsonToFile( Json::Value json, std::string fileName );
 CCLayer* CreateSimplePopup( std::string msg, std::string btnLabel, std::string okEvt, std::string bus = "game" );
 CCLayer* CreateSimpleEditBox( std::string msg, std::string defaultTxt, std::string btnLabel, std::string okEvt, std::string bus = "game" );
 TouchableNode* CreateSimpleButton( std::string msg, std::string evt, std::string bus = "game" );
+CCNode* CreateSimpleNamedLabel( std::string labelName, std::string labelText );
 
 
 }
