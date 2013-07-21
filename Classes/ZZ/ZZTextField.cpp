@@ -36,12 +36,14 @@ bool TextField::init( std::string defaultText, std::string fontName, int size, c
 	addChild(m_tf);
 
 	m_outline = CCDrawNode::create();
+	
 	m_outline->drawSegment(ccp(0,0), ccp(dimensions.width,0), 2, ccc4f(1,1,1,1));
 	m_outline->drawSegment(ccp(0,0), ccp(0,dimensions.height), 2, ccc4f(1,1,1,1));
 	m_outline->drawSegment(ccp(dimensions.width,0), ccp(dimensions.width,dimensions.height), 2, ccc4f(1,1,1,1));
 	m_outline->drawSegment(ccp(0,dimensions.height), ccp(dimensions.width,dimensions.height), 2, ccc4f(1,1,1,1));
 	m_outline->setAnchorPoint(ccp(0,0));
-	m_outline->setPosition(0,0);
+	m_outline->setPosition(-dimensions.width/2, -dimensions.height/2);
+	
 	addChild(m_outline);
 	m_outline->setVisible(false);
 
