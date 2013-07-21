@@ -35,6 +35,16 @@ bool TextField::init( std::string defaultText, std::string fontName, int size, c
 	m_tf = CCTextFieldTTF::textFieldWithPlaceHolder(defaultText.c_str(), dimensions, alignment, fontName.c_str(), size);
 	addChild(m_tf);
 
+	m_outline = CCDrawNode::create();
+	m_outline->drawSegment(ccp(0,0), ccp(dimensions.width,0), 2, ccc4f(1,1,1,1));
+	m_outline->drawSegment(ccp(0,0), ccp(0,dimensions.height), 2, ccc4f(1,1,1,1));
+	m_outline->drawSegment(ccp(dimensions.width,0), ccp(dimensions.width,dimensions.height), 2, ccc4f(1,1,1,1));
+	m_outline->drawSegment(ccp(0,dimensions.height), ccp(dimensions.width,dimensions.height), 2, ccc4f(1,1,1,1));
+	m_outline->setAnchorPoint(ccp(0,0));
+	m_outline->setPosition(0,0);
+	addChild(m_outline);
+	m_outline->setVisible(false);
+
 	m_inEditMode = false;
 
 	ignoreAnchorPointForPosition(false);
@@ -133,6 +143,7 @@ void TextField::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 		m_tf->attachWithIME();
 
 		if( m_evtBus.size() > 0 ) {
+			m_outline->setVisible(true);
 			JsonEvent* evt = new JsonEvent("zztfStart");
 			evt->setUserData(this);
 			EventBus::get(m_evtBus.c_str())->dispatch(evt->type, evt);
@@ -145,6 +156,7 @@ void TextField::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 		m_tf->detachWithIME();
 
 		if( m_evtBus.size() > 0 ) {
+			m_outline->setVisible(false);
 			JsonEvent* evt = new JsonEvent("zztfEnd");
 			evt->setUserData(this);
 			EventBus::get(m_evtBus.c_str())->dispatch(evt->type, evt);

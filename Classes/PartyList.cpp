@@ -22,7 +22,7 @@ bool PartyList::init()
 	m_cellWidth = 200 + 10;
 	m_cellHeight = 200 + 10;
 
-	int w = MAX(visibleSize.width/5, m_cellWidth + 30); //windows wants to use 'max' and mac wants to use 'maxf'
+	int w = MAX(visibleSize.width/5, m_cellWidth ); //windows wants to use 'max' and mac wants to use 'maxf'
 	int h = visibleSize.height;
 
 	setContentSize(CCSizeMake(w, h));
@@ -31,18 +31,38 @@ bool PartyList::init()
 	m_bg = CCLayerColor::create(ccc4(240,227,132,125), w, h);
 	addChild(m_bg);
 
-	//TODO: load party JSON
-	m_partyJson = ReadFileToJson("party.json");
 
+	for( int i=0; i< MAX_PARTY_MEMBERS; i++) {
 
+		BaseRadioGroupLayer* radio = new BaseRadioGroupLayer();
+		radio->initRadioGroup("partyMemberSelect", i);
+		//radio->addChild(view);
+		radio->setAnchorPoint(ccp(0.5,0.5));
+		radio->setPosition( m_cellWidth/2, m_cellHeight/2 + i*m_cellHeight);
+		radio->setContentSize(CCSizeMake(m_cellWidth, m_cellHeight));
 
-	m_list = CCTableView::create(this, CCSizeMake(w, h));
-	m_list->setDirection(kCCScrollViewDirectionVertical);
-    //m_list->setDelegate(this);
-    m_list->setVerticalFillOrder(kCCTableViewFillTopDown);
-	addChild(m_list);
-	
-	m_list->reloadData();
+		addChild(radio);
+		m_partyButtons[i] = radio;
+
+		radio->setVisible(false); //all off until filled
+
+	}
+
+	for( int i=0; i< MAX_PARTY_MEMBERS; i++) {
+
+		TouchableNode* btn = CreateSimpleButton("+ Party Member", "addPartyMember");
+		btn->setAnchorPoint(ccp(0.5,0.5));
+		btn->setPosition( m_cellWidth/2, m_cellHeight/2 + i*m_cellHeight);
+
+		addChild(btn);
+		m_partyAddButtons[i] = btn;
+
+		btn->setVisible(true);
+		btn->setTouchEnabled(true);
+
+	}
+
+	loadEntitiesForPartyJson();
 
 	
 	return true;
@@ -57,30 +77,41 @@ GameEntity* PartyList::getEntity( int idx )
 
 void PartyList::refreshList()
 {
-	m_list->reloadData();
+
+	//TODO: update game entity views
+
 }
 
 void PartyList::loadEntitiesForPartyJson()
 {
-	//todo
+	//TODO: load party JSON
+	m_partyJson = ReadFileToJson("party.json");
 }
 
 void PartyList::onAddPartyMember(CCObject* e)
 {
+	if( m_entities.size() >= MAX_PARTY_MEMBERS ) return;
+	int numEntitiesStart = m_entities.size();
+
 	GameEntity* ge = new GameEntity("foo");
 	m_entities.push_back(ge);
 
-	m_list->reloadData();
+	GameEntityView* view = new GameEntityView( m_entities[m_entities.size()-1] );
+	view->setAnchorPoint(ccp(0.5,0.5));
+	view->setPosition( m_cellWidth/2, m_cellHeight/2);
+
+	m_partyButtons[ numEntitiesStart ]->addChild(view);
+	m_partyButtons[ numEntitiesStart ]->setVisible(true);
+	
+	m_partyAddButtons[ numEntitiesStart ]->setVisible(false);
+	
 	
 	//todo: highlight new cell
 
 }
 
-//virtual 
-CCSize PartyList::cellSizeForTable(CCTableView *table)
-{
-	return CCSizeMake( m_cellWidth, m_cellHeight);
-}
+
+/*
 
 //virtual 
 CCTableViewCell* PartyList::tableCellAtIndex(CCTableView *table, unsigned int idx)
@@ -126,9 +157,5 @@ CCTableViewCell* PartyList::tableCellAtIndex(CCTableView *table, unsigned int id
 
 	return cell;
 }
-//virtual 
-unsigned int PartyList::numberOfCellsInTableView(CCTableView *table)
-{
-	//return m_spellNames.size();
-	return m_entities.size() + 1;
-}
+
+*/

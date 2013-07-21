@@ -21,6 +21,8 @@ class TextField : public CCLayer, public CCLabelProtocol
 protected:
 	CCTextFieldTTF* m_tf;
 
+	CCDrawNode* m_outline;
+
 	std::string m_defaultText;
 	bool m_touchStarted;
 	bool m_inEditMode;

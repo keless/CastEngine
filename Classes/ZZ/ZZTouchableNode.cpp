@@ -29,6 +29,8 @@ void TouchableNode::addChild(CCNode *child, int zOrder, int tag)
 //virtual 
 bool TouchableNode::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
 {
+	if(!isVisible()) return false;
+
 	CCPoint p = pTouch->getLocation();
 	//todo: convert to local coords
 
@@ -92,6 +94,8 @@ void TouchableNode::onTouched()
 //virtual 
 void TouchableNode::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 {
+	if(!isVisible()) return;
+
 	CCPoint p = pTouch->getLocation();
 	//todo: convert to local coords
 

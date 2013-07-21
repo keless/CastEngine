@@ -9,15 +9,19 @@ using namespace extension;
 
 #include "GameEntityView.h"
 
-class PartyList : public CCLayer, public CCTableViewDataSource//, public CCTableViewDelegate
+#define MAX_PARTY_MEMBERS 3
+
+class PartyList : public CCLayer
 {
-	CCTableView* m_list; 
 	CCLayerColor* m_bg;
 	float m_cellHeight;
 	float m_cellWidth;
 
 	Json::Value m_partyJson;
 	std::vector<GameEntity*> m_entities;
+
+	BaseRadioGroupLayer* m_partyButtons[MAX_PARTY_MEMBERS];
+	CCNode* m_partyAddButtons[MAX_PARTY_MEMBERS];
 
 	void loadEntitiesForPartyJson();
 
@@ -34,9 +38,6 @@ public:
 
 	void refreshList(); //call this when game entities have changed and list needs to be updated
 
-	virtual CCSize cellSizeForTable(CCTableView *table);
-    virtual CCTableViewCell* tableCellAtIndex(CCTableView *table, unsigned int idx);
-    virtual unsigned int numberOfCellsInTableView(CCTableView *table);
 };
 
 #endif

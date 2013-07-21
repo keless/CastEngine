@@ -46,6 +46,7 @@ bool BattleScene::init()
 
     CCSprite* pSprite = CCSprite::create("workbench2.png");
     pSprite->setPosition(ccp(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+	pSprite->setContentSize(visibleSize);
     this->addChild(pSprite, 0);
 
 	//todo: remove listener when this state goes out of scope (doesnt happen?)

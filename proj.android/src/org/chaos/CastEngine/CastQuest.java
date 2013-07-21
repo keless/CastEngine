@@ -31,6 +31,8 @@ import android.util.Log;
 import android.content.Context;
 import android.app.Activity;
 import android.app.AlarmManager;
+import tv.ouya.console.*;
+import tv.ouya.console.api.*;
 
 public class CastQuest extends Cocos2dxActivity{
 
@@ -40,9 +42,12 @@ public class CastQuest extends Cocos2dxActivity{
 	
     protected void onCreate(Bundle savedInstanceState){    	
     	
+    	
         instance = this;
 		context = getApplicationContext();
         activity = (Activity)this;
+        
+        OuyaController.init(context);
     	
 		super.onCreate(savedInstanceState);	
 		
