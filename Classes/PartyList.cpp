@@ -97,11 +97,12 @@ void PartyList::loadEntitiesForPartyJson()
 	//TODO: load party JSON
 	Json::Value partyJson = ReadFileToJson("party.json");
 
-	Json::Value::Members partyMembers = partyJson.getMemberNames();
-	for( int i=0; i< partyMembers.size() && i < MAX_PARTY_MEMBERS; i++)
+	if( !partyJson.isArray() ) return;
+
+	for( int i=0; i< partyJson.size() && i < MAX_PARTY_MEMBERS; i++)
 	{
 		GameEntity* ge = new GameEntity("bar");
-		ge->initFromJson( partyJson[partyMembers[i]] );
+		ge->initFromJson( partyJson[i] );
 
 		addPartyMember(ge);
 	}
@@ -113,8 +114,7 @@ void PartyList::saveEntitiesToPartyJson()
 
 	for( int i=0; i< m_entities.size(); i++)
 	{
-		std::string name = m_entities[i]->getName();
-		json[name] = m_entities[i]->toJson();
+		json.append( m_entities[i]->toJson() );
 	}
 
 	WriteJsonToFile( json, "party.json" );

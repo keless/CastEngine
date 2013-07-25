@@ -236,6 +236,21 @@
     <None Include="..\Classes\ext\json\json_valueiterator.inl">
       <Filter>ext\jsoncpp</Filter>
     </None>
+    <None Include="..\Resources\abilities.json">
+      <Filter>Jsons</Filter>
+    </None>
+    <None Include="..\Resources\party.json">
+      <Filter>Jsons</Filter>
+    </None>
+    <None Include="..\Resources\playerSpells.json">
+      <Filter>Jsons</Filter>
+    </None>
+    <None Include="..\Resources\spellDiagrams.json">
+      <Filter>Jsons</Filter>
+    </None>
+    <None Include="..\Resources\spellParts.json">
+      <Filter>Jsons</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CastEngine">
@@ -261,6 +276,9 @@
     </Filter>
     <Filter Include="PartyEditor">
       <UniqueIdentifier>{98c2e209-6e0a-41ab-8c88-226df9126489}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Jsons">
+      <UniqueIdentifier>{a4be4741-bc86-4045-9ef8-c27cac0baa26}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

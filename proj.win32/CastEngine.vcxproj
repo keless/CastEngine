@@ -224,6 +224,11 @@
     <None Include="..\Classes\ext\json\json_internalarray.inl" />
     <None Include="..\Classes\ext\json\json_internalmap.inl" />
     <None Include="..\Classes\ext\json\json_valueiterator.inl" />
+    <None Include="..\Resources\abilities.json" />
+    <None Include="..\Resources\party.json" />
+    <None Include="..\Resources\playerSpells.json" />
+    <None Include="..\Resources\spellDiagrams.json" />
+    <None Include="..\Resources\spellParts.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
