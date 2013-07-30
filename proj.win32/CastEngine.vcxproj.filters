@@ -279,6 +279,8 @@
     </Filter>
     <Filter Include="Jsons">
       <UniqueIdentifier>{a4be4741-bc86-4045-9ef8-c27cac0baa26}</UniqueIdentifier>
+      <ParseFiles>false</ParseFiles>
+      <SourceControlFiles>False</SourceControlFiles>
     </Filter>
   </ItemGroup>
 </Project>
