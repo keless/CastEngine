@@ -139,6 +139,8 @@
     <ClCompile Include="..\Classes\GameEntity.cpp" />
     <ClCompile Include="..\Classes\GameEntityView.cpp" />
     <ClCompile Include="..\Classes\BattleScene.cpp" />
+    <ClCompile Include="..\Classes\GameItem.cpp" />
+    <ClCompile Include="..\Classes\GameItemView.cpp" />
     <ClCompile Include="..\Classes\MainMenuScreen.cpp" />
     <ClCompile Include="..\Classes\PartyEditorScreen.cpp" />
     <ClCompile Include="..\Classes\PartyList.cpp" />
@@ -181,6 +183,8 @@
     <ClInclude Include="..\Classes\GameEntity.h" />
     <ClInclude Include="..\Classes\GameEntityView.h" />
     <ClInclude Include="..\Classes\BattleScene.h" />
+    <ClInclude Include="..\Classes\GameItem.h" />
+    <ClInclude Include="..\Classes\GameItemView.h" />
     <ClInclude Include="..\Classes\MainMenuScreen.h" />
     <ClInclude Include="..\Classes\PartyEditorScreen.h" />
     <ClInclude Include="..\Classes\PartyList.h" />

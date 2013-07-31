@@ -6,9 +6,11 @@ using namespace ZZ;
 
 enum GameItemType
 {
-	GIT_ARMOR,
+	GIT_ARMOR = 0,
 	GIT_EQUIPMENT,
-	GIT_WEAPON
+	GIT_WEAPON,
+
+	GIT_COUNT
 };
 
 class GameItem : public CCObject
@@ -27,6 +29,8 @@ public:
 	
 	std::string getName() { return m_name; }
 	void setName(std::string name) { m_name = name; }
+
+	GameItemType getType() { return m_type; }
 
 	static std::string itemTypeToString( GameItemType type );
 	static GameItemType itemStringToType( const std::string& type );

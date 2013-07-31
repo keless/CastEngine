@@ -103,6 +103,12 @@
     <ClCompile Include="..\Classes\PartyMemberEditor.cpp">
       <Filter>PartyEditor</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\GameItem.cpp">
+      <Filter>Items</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameItemView.cpp">
+      <Filter>Items</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\CastEngine\CastCommandModel.h">
@@ -225,6 +231,12 @@
     <ClInclude Include="..\Classes\PartyMemberEditor.h">
       <Filter>PartyEditor</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\GameItem.h">
+      <Filter>Items</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameItemView.h">
+      <Filter>Items</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Classes\ext\json\json_internalarray.inl">
@@ -281,6 +293,9 @@
       <UniqueIdentifier>{a4be4741-bc86-4045-9ef8-c27cac0baa26}</UniqueIdentifier>
       <ParseFiles>false</ParseFiles>
       <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Items">
+      <UniqueIdentifier>{3798e00c-16a0-44dc-9d46-f53ae4c8415c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

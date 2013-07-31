@@ -12,6 +12,12 @@ using namespace cocos2d;
 #include "ZZEventBus.h"
 using namespace ZZ;
 
+#include "GameItem.h"
+
+#define INVENTORY_SIZE GIT_COUNT  //assumes one slot for each type
+#define INV_SLOT_WEAPON GIT_WEAPON
+#define INV_SLOT_EQUIP GIT_EQUIPMENT
+#define INV_SLOT_ARMOR GIT_ARMOR
 
 class GameEntity :
 	public CCObject, public ICastEntity, public EventBus
@@ -49,6 +55,8 @@ class GameEntity :
 	std::map< std::string , CastEffect*> m_buffs;
 	std::map< std::string , CastEffect*> m_debuffs;
 
+	GameItem* m_items[INVENTORY_SIZE];
+
 public:
 	GameEntity( std::string name );
 	~GameEntity(void);
@@ -67,6 +75,9 @@ public:
 	float getDebuffTimeLeft( std::string debufName );
 	int numDebuffs() { return m_debuffs.size(); }
 	int numBuffs() { return m_buffs.size(); }
+
+	void setItemAtSlot( int slotIdx, GameItem* item);
+	GameItem* getItemAtSlot(int slotIdx );
 
 	//true if not casting any abilities and has valid target
 	bool canCast();

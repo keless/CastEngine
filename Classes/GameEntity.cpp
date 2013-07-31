@@ -18,6 +18,9 @@ GameEntity::GameEntity(std::string name)
 	str_base = str_curr = 10;
 	agi_base = agi_curr = 10;
 
+	for( int i=0; i< INVENTORY_SIZE; i++)
+		m_items[i] = NULL;
+
 	m_statsMap["hp_base"] = &hp_base;
 	m_statsMap["hp_curr"] = &hp_curr;
 	m_statsMap["mana_base"] = &mana_base;
@@ -47,6 +50,25 @@ GameEntity::~GameEntity(void)
 	}
 }
 
+
+void GameEntity::setItemAtSlot( int slotIdx, GameItem* item)
+{
+	if( slotIdx < 0 || slotIdx >= INVENTORY_SIZE ) return; //oob
+
+	if( m_items[slotIdx] != NULL ) {
+		CC_SAFE_RELEASE_NULL(m_items[slotIdx]);
+	}
+	m_items[slotIdx] = item;
+	item->retain();
+}
+
+GameItem* GameEntity::getItemAtSlot(int slotIdx )
+{
+	if( slotIdx < 0 || slotIdx >= INVENTORY_SIZE ) return NULL; //oob
+
+	return m_items[slotIdx];
+}
+
 Json::Value GameEntity::toJson()
 {
 	Json::Value json;
@@ -60,8 +82,22 @@ Json::Value GameEntity::toJson()
 	}
 	json["stats"] = stats;
 
+	Json::Value inventory;
+	for( int i=0; i< INVENTORY_SIZE; i++)
+	{
+		if( m_items[i] == NULL ) 
+		{
+			inventory.append( Json::Value(Json::nullValue));
+		}else {
+			inventory.append( m_items[i]->toJson() );
+		}
+	}
+	json["inventory"] = inventory;
+
+
 	return json;
 }
+
 
 void GameEntity::initFromJson( const Json::Value& json )
 {
@@ -78,6 +114,26 @@ void GameEntity::initFromJson( const Json::Value& json )
 			}
 		}
 	}
+
+	if( json.isMember("inventory") ) {
+		const Json::Value& inventory = json["inventory"];
+		for( int i=0; i< INVENTORY_SIZE; i++) {
+			if( i >= inventory.size() ) 
+			{
+				setItemAtSlot(i, NULL);
+			}else {
+				GameItem* item = new GameItem("");
+				item->initFromJson( inventory[i] );
+				setItemAtSlot(i, item);
+			}
+		}
+	}else {
+		for(int i=0;i< INVENTORY_SIZE; i++) {
+			setItemAtSlot(i, NULL);
+		}
+	}
+
+
 }
 
 std::string GameEntity::getLevelStr()

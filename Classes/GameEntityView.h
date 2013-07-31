@@ -1,16 +1,11 @@
 #ifndef _CCGAMEENTITYVIEW_H_
 #define _CCGAMEENTITYVIEW_H_
 
-
-#include "cocos2d.h"
-using namespace cocos2d;
-
-#include "GameEntity.h"
-#include "ZZProgressBar.h"
+#include "ZZUtils.h"
 using namespace ZZ;
 
 #include "json.h"
-
+#include "GameEntity.h"
 #include "GameAbilityView.h"
 
 class GameEntityView :

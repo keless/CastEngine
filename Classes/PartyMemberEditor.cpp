@@ -6,6 +6,10 @@ PartyMemberEditor::PartyMemberEditor(void)
 
 	EventBus::get("pme")->addListener("zzrgrTrigger", this, callfuncO_selector(PartyMemberEditor::onTabSelect));
 	EventBus::get("pme")->addListener("zztfEnd", this, callfuncO_selector(PartyMemberEditor::onPMNameChange));
+
+	EventBus::game()->addListener("itmViewArmor", this, callfuncO_selector(PartyMemberEditor::onItemViewArmor));
+	EventBus::game()->addListener("itmViewEquip", this, callfuncO_selector(PartyMemberEditor::onItemViewEquip));
+	EventBus::game()->addListener("itmViewWeapon", this, callfuncO_selector(PartyMemberEditor::onItemViewWeap));
 }
 
 
@@ -13,6 +17,10 @@ PartyMemberEditor::~PartyMemberEditor(void)
 {
 	EventBus::get("pme")->remListener("zzrgrTrigger", this, callfuncO_selector(PartyMemberEditor::onTabSelect));
 	EventBus::get("pme")->remListener("zztfEnd", this, callfuncO_selector(PartyMemberEditor::onPMNameChange));
+
+	EventBus::game()->remListener("itmViewArmor", this, callfuncO_selector(PartyMemberEditor::onItemViewArmor));
+	EventBus::game()->remListener("itmViewEquip", this, callfuncO_selector(PartyMemberEditor::onItemViewEquip));
+	EventBus::game()->remListener("itmViewWeapon", this, callfuncO_selector(PartyMemberEditor::onItemViewWeap));
 
 	m_pEntity->release();
 }
@@ -75,6 +83,8 @@ bool PartyMemberEditor::init( GameEntity* entity, const CCSize& size )
 	addChild(m_editItems);
 
 
+	initItemsView();
+
 	tabCharacter->triggerGroup();
 
 	/*
@@ -111,6 +121,70 @@ void PartyMemberEditor::initCharView()
 	lblAgi->setPosition(50, editSize.height - 200 );
 	m_editChar->addChild(lblAgi);
 
+}
+
+void PartyMemberEditor::initItemsView()
+{
+	const CCSize& editSize = m_editChar->getContentSize();
+
+	CCLabelTTF* lbl = CCLabelTTF::create("Armor", "Arial", 24.0f);
+	lbl->setAnchorPoint(ccp(0.5,0.5));
+	lbl->setPositionX( editSize.width/2 );
+	lbl->setPositionY( editSize.height * 0.75f);
+
+	m_editItems->addChild(lbl);
+
+	m_itmView[0] = new GameItemView();
+	
+	TouchableNode* tn = new TouchableNode("itmViewArmor");
+	tn->setPosition( ccp( editSize.width/2, editSize.height * 0.75f ) );
+	tn->addChild(m_itmView[0]);
+
+	m_editItems->addChild(tn);
+
+
+	lbl = CCLabelTTF::create("Equipment", "Arial", 24.0f);
+	lbl->setAnchorPoint(ccp(0.5,0.5));
+	lbl->setPositionX( editSize.width * 0.33f );
+	lbl->setPositionY( editSize.height * 0.33f);
+	m_editItems->addChild(lbl);
+
+	m_itmView[1] = new GameItemView();
+
+	tn = new TouchableNode("itmViewEquip");
+	tn->setPosition( ccp( editSize.width * 0.33f, editSize.height * 0.33f ) );
+	tn->addChild(m_itmView[1]);
+
+	m_editItems->addChild(tn);
+
+
+	lbl = CCLabelTTF::create("Weapon", "Arial", 24.0f);
+	lbl->setAnchorPoint(ccp(0.5,0.5));
+	lbl->setPositionX( editSize.width * 0.66f );
+	lbl->setPositionY( editSize.height * 0.33f);
+	m_editItems->addChild(lbl);
+
+	m_itmView[2] = new GameItemView();
+
+	tn = new TouchableNode("itmViewWeapon");
+	tn->setPosition( ccp( editSize.width * 0.66f, editSize.height * 0.33f ) );
+	tn->addChild(m_itmView[2]);
+
+	m_editItems->addChild(tn);
+
+}
+
+void PartyMemberEditor::onItemViewArmor(CCObject* e)
+{
+	CCLog("todo: pop up armor select menu");
+}
+void PartyMemberEditor::onItemViewEquip(CCObject* e)
+{
+	CCLog("todo: pop up equip select menu");
+}
+void PartyMemberEditor::onItemViewWeap(CCObject* e)
+{
+	CCLog("todo: pop up weapon select menu");
 }
 
 void PartyMemberEditor::onTabSelect( CCObject* e )
