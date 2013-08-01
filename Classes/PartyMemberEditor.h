@@ -11,7 +11,6 @@ class PartyMemberEditor : public CCLayer
 {
 
 	GameEntity* m_pEntity;
-	GameItem* m_itm[3];
 
 	CCNode* m_editChar;
 	CCNode* m_editItems;
@@ -27,6 +26,11 @@ class PartyMemberEditor : public CCLayer
 	void onItemViewArmor(CCObject* e);
 	void onItemViewEquip(CCObject* e);
 	void onItemViewWeap(CCObject* e);
+
+	RadialLayer* m_itemMenu;
+	void onMenuCancel( CCObject* e );
+
+	void resetItemMenu();
 
 public:
 	PartyMemberEditor(void);

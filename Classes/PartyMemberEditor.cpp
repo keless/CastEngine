@@ -3,6 +3,7 @@
 
 PartyMemberEditor::PartyMemberEditor(void)
 {
+	m_itemMenu = NULL;
 
 	EventBus::get("pme")->addListener("zzrgrTrigger", this, callfuncO_selector(PartyMemberEditor::onTabSelect));
 	EventBus::get("pme")->addListener("zztfEnd", this, callfuncO_selector(PartyMemberEditor::onPMNameChange));
@@ -10,6 +11,8 @@ PartyMemberEditor::PartyMemberEditor(void)
 	EventBus::game()->addListener("itmViewArmor", this, callfuncO_selector(PartyMemberEditor::onItemViewArmor));
 	EventBus::game()->addListener("itmViewEquip", this, callfuncO_selector(PartyMemberEditor::onItemViewEquip));
 	EventBus::game()->addListener("itmViewWeapon", this, callfuncO_selector(PartyMemberEditor::onItemViewWeap));
+
+	EventBus::game()->addListener("itemMenuCancel", this, callfuncO_selector(PartyMemberEditor::onMenuCancel));
 }
 
 
@@ -21,6 +24,8 @@ PartyMemberEditor::~PartyMemberEditor(void)
 	EventBus::game()->remListener("itmViewArmor", this, callfuncO_selector(PartyMemberEditor::onItemViewArmor));
 	EventBus::game()->remListener("itmViewEquip", this, callfuncO_selector(PartyMemberEditor::onItemViewEquip));
 	EventBus::game()->remListener("itmViewWeapon", this, callfuncO_selector(PartyMemberEditor::onItemViewWeap));
+
+	EventBus::game()->remListener("itemMenuCancel", this, callfuncO_selector(PartyMemberEditor::onMenuCancel));
 
 	m_pEntity->release();
 }
@@ -134,11 +139,11 @@ void PartyMemberEditor::initItemsView()
 
 	m_editItems->addChild(lbl);
 
-	m_itmView[0] = new GameItemView();
+	m_itmView[GIT_ARMOR] = new GameItemView();
 	
 	TouchableNode* tn = new TouchableNode("itmViewArmor");
 	tn->setPosition( ccp( editSize.width/2, editSize.height * 0.75f ) );
-	tn->addChild(m_itmView[0]);
+	tn->addChild(m_itmView[GIT_ARMOR]);
 
 	m_editItems->addChild(tn);
 
@@ -149,11 +154,11 @@ void PartyMemberEditor::initItemsView()
 	lbl->setPositionY( editSize.height * 0.33f);
 	m_editItems->addChild(lbl);
 
-	m_itmView[1] = new GameItemView();
+	m_itmView[GIT_EQUIPMENT] = new GameItemView();
 
 	tn = new TouchableNode("itmViewEquip");
 	tn->setPosition( ccp( editSize.width * 0.33f, editSize.height * 0.33f ) );
-	tn->addChild(m_itmView[1]);
+	tn->addChild(m_itmView[GIT_EQUIPMENT]);
 
 	m_editItems->addChild(tn);
 
@@ -164,27 +169,60 @@ void PartyMemberEditor::initItemsView()
 	lbl->setPositionY( editSize.height * 0.33f);
 	m_editItems->addChild(lbl);
 
-	m_itmView[2] = new GameItemView();
+	m_itmView[GIT_WEAPON] = new GameItemView();
 
 	tn = new TouchableNode("itmViewWeapon");
 	tn->setPosition( ccp( editSize.width * 0.66f, editSize.height * 0.33f ) );
-	tn->addChild(m_itmView[2]);
+	tn->addChild(m_itmView[GIT_WEAPON]);
 
 	m_editItems->addChild(tn);
 
 }
 
+void PartyMemberEditor::resetItemMenu()
+{
+	if( m_itemMenu != NULL ) 
+	{
+		m_itemMenu->removeFromParentAndCleanup(true);
+	}
+
+	m_itemMenu = RadialLayer::create();
+	m_itemMenu->retain();
+	//menu->setCenterNode();
+	addChild(m_itemMenu);
+
+	CCLabelTTF* label = CCLabelTTF::create("cancel", "Arial",20);
+	m_itemMenu->addItem(label, "itemMenuCancel");
+}
+
 void PartyMemberEditor::onItemViewArmor(CCObject* e)
 {
 	CCLog("todo: pop up armor select menu");
+
+	resetItemMenu();
+	m_itemMenu->setPosition( m_itmView[ GIT_ARMOR ]->getParent()->getPosition() );
+
 }
 void PartyMemberEditor::onItemViewEquip(CCObject* e)
 {
 	CCLog("todo: pop up equip select menu");
+
+	resetItemMenu();
+	m_itemMenu->setPosition( m_itmView[ GIT_EQUIPMENT ]->getParent()->getPosition() );
 }
 void PartyMemberEditor::onItemViewWeap(CCObject* e)
 {
 	CCLog("todo: pop up weapon select menu");
+	m_itemMenu->setPosition( m_itmView[ GIT_WEAPON ]->getParent()->getPosition() );
+}
+
+void PartyMemberEditor::onMenuCancel( CCObject* e )
+{
+	if( m_itemMenu != NULL ) 
+	{
+		m_itemMenu->removeFromParentAndCleanup(true);
+		CC_SAFE_RELEASE_NULL(m_itemMenu);
+	}
 }
 
 void PartyMemberEditor::onTabSelect( CCObject* e )

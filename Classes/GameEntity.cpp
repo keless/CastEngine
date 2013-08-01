@@ -48,6 +48,11 @@ GameEntity::~GameEntity(void)
 	{
 		m_abilities[i]->release();
 	}
+
+	for( int i=0; i< INVENTORY_SIZE; i++)
+	{
+		CC_SAFE_RELEASE(m_items[i]);
+	}
 }
 
 
@@ -59,7 +64,8 @@ void GameEntity::setItemAtSlot( int slotIdx, GameItem* item)
 		CC_SAFE_RELEASE_NULL(m_items[slotIdx]);
 	}
 	m_items[slotIdx] = item;
-	item->retain();
+
+	if( item != NULL ) item->retain();
 }
 
 GameItem* GameEntity::getItemAtSlot(int slotIdx )
