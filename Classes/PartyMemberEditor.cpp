@@ -213,6 +213,8 @@ void PartyMemberEditor::onItemViewEquip(CCObject* e)
 void PartyMemberEditor::onItemViewWeap(CCObject* e)
 {
 	CCLog("todo: pop up weapon select menu");
+
+	resetItemMenu();
 	m_itemMenu->setPosition( m_itmView[ GIT_WEAPON ]->getParent()->getPosition() );
 }
 
