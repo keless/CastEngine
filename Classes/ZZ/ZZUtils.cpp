@@ -4,6 +4,11 @@
 
 namespace ZZ {
 
+bool IsFile( std::string filename ) 
+{
+	return CCFileUtils::sharedFileUtils()->isFileExist(filename.c_str());
+}
+
 Json::Value ReadFileToJson( std::string fileName )
 {
 	std::string path = CCFileUtils::sharedFileUtils()->fullPathForFilename(fileName.c_str());
@@ -121,6 +126,13 @@ TouchableNode* CreateSimpleButton( std::string msg, std::string evt, std::string
 
 
 	return sBtn;
+}
+
+CCLabelTTF* CreateSimpleLabel( std::string label )
+{
+
+	CCLabelTTF* lblName = CCLabelTTF::create(label.c_str(), "Arial", 20, CCSizeMake(120,40), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+	return lblName;
 }
 
 CCNode* CreateSimpleNamedLabel( std::string labelName, std::string labelText )

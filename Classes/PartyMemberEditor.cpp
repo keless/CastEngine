@@ -13,6 +13,9 @@ PartyMemberEditor::PartyMemberEditor(void)
 	EventBus::game()->addListener("itmViewWeapon", this, callfuncO_selector(PartyMemberEditor::onItemViewWeap));
 
 	EventBus::game()->addListener("itemMenuCancel", this, callfuncO_selector(PartyMemberEditor::onMenuCancel));
+	EventBus::game()->addListener("itemMenuArmor", this, callfuncO_selector(PartyMemberEditor::onMenuArmor));
+	EventBus::game()->addListener("itemMenuEquip", this, callfuncO_selector(PartyMemberEditor::onMenuEquip));
+	EventBus::game()->addListener("itemMenuWeap", this, callfuncO_selector(PartyMemberEditor::onMenuWeap));
 }
 
 
@@ -26,8 +29,16 @@ PartyMemberEditor::~PartyMemberEditor(void)
 	EventBus::game()->remListener("itmViewWeapon", this, callfuncO_selector(PartyMemberEditor::onItemViewWeap));
 
 	EventBus::game()->remListener("itemMenuCancel", this, callfuncO_selector(PartyMemberEditor::onMenuCancel));
+	EventBus::game()->remListener("itemMenuArmor", this, callfuncO_selector(PartyMemberEditor::onMenuArmor));
+	EventBus::game()->remListener("itemMenuEquip", this, callfuncO_selector(PartyMemberEditor::onMenuEquip));
+	EventBus::game()->remListener("itemMenuWeap", this, callfuncO_selector(PartyMemberEditor::onMenuWeap));
 
 	m_pEntity->release();
+
+	for( int i=0; i< m_partyInv.size(); i++)
+	{
+		CC_SAFE_RELEASE( m_partyInv[i] );
+	}
 }
 
 //static 
@@ -90,6 +101,8 @@ bool PartyMemberEditor::init( GameEntity* entity, const CCSize& size )
 
 	initItemsView();
 
+	initPartyInventory();
+
 	tabCharacter->triggerGroup();
 
 	/*
@@ -101,6 +114,26 @@ bool PartyMemberEditor::init( GameEntity* entity, const CCSize& size )
 
 
 	return true;
+}
+
+void PartyMemberEditor::initPartyInventory()
+{
+	if( !IsFile( FILE_PARTY_INVENTORY_JSON ) ) {
+		CCLog("load default party inventory");
+		m_partyInventory = ReadFileToJson(FILE_DEFAULT_PARTY_INVENTORY_JSON);
+	}else {
+		CCLog("load party inventory from file");
+		m_partyInventory = ReadFileToJson(FILE_PARTY_INVENTORY_JSON);
+	}
+
+	for( int i=0; i<  m_partyInventory.size(); i++)
+	{
+		const Json::Value& item = m_partyInventory[i];
+		GameItem* gi = new GameItem("");
+		gi->initFromJson(item);
+
+		m_partyInv.push_back(gi);
+	}
 }
 
 void PartyMemberEditor::initCharView()
@@ -179,12 +212,18 @@ void PartyMemberEditor::initItemsView()
 
 }
 
-void PartyMemberEditor::resetItemMenu()
+void PartyMemberEditor::clearItemMenu()
 {
 	if( m_itemMenu != NULL ) 
 	{
 		m_itemMenu->removeFromParentAndCleanup(true);
+		CC_SAFE_RELEASE_NULL(m_itemMenu);
 	}
+}
+
+void PartyMemberEditor::resetItemMenu()
+{
+	clearItemMenu();
 
 	m_itemMenu = RadialLayer::create();
 	m_itemMenu->retain();
@@ -197,34 +236,86 @@ void PartyMemberEditor::resetItemMenu()
 
 void PartyMemberEditor::onItemViewArmor(CCObject* e)
 {
-	CCLog("todo: pop up armor select menu");
-
 	resetItemMenu();
 	m_itemMenu->setPosition( m_itmView[ GIT_ARMOR ]->getParent()->getPosition() );
+
+	for( int i=0; i< m_partyInv.size(); i++){
+		if( m_partyInv[i]->getType() == GIT_ARMOR ) 
+		{
+			std::string name = m_partyInv[i]->getName();
+			Json::Value data;
+			data["name"] = name;
+			m_itemMenu->addItemWithJson( CreateSimpleLabel( name ), "itemMenuArmor",  data);
+		}
+	}
 
 }
 void PartyMemberEditor::onItemViewEquip(CCObject* e)
 {
-	CCLog("todo: pop up equip select menu");
-
 	resetItemMenu();
 	m_itemMenu->setPosition( m_itmView[ GIT_EQUIPMENT ]->getParent()->getPosition() );
+
+
+	for( int i=0; i< m_partyInv.size(); i++){
+		if( m_partyInv[i]->getType() == GIT_EQUIPMENT ) 
+		{
+			std::string name = m_partyInv[i]->getName();
+			Json::Value data;
+			data["name"] = name;
+			m_itemMenu->addItemWithJson( CreateSimpleLabel( name ), "itemMenuEquip",  data);
+		}
+	}
 }
 void PartyMemberEditor::onItemViewWeap(CCObject* e)
 {
-	CCLog("todo: pop up weapon select menu");
-
 	resetItemMenu();
 	m_itemMenu->setPosition( m_itmView[ GIT_WEAPON ]->getParent()->getPosition() );
+
+	for( int i=0; i< m_partyInv.size(); i++){
+		if( m_partyInv[i]->getType() == GIT_WEAPON ) 
+		{
+			std::string name = m_partyInv[i]->getName();
+			Json::Value data;
+			data["name"] = name;
+			m_itemMenu->addItemWithJson( CreateSimpleLabel( name ), "itemMenuWeap",  data);
+		}
+	}
 }
 
 void PartyMemberEditor::onMenuCancel( CCObject* e )
 {
-	if( m_itemMenu != NULL ) 
-	{
-		m_itemMenu->removeFromParentAndCleanup(true);
-		CC_SAFE_RELEASE_NULL(m_itemMenu);
-	}
+	clearItemMenu();
+}
+
+void PartyMemberEditor::onMenuArmor( CCObject* e )
+{
+	JsonEvent* evt = dynamic_cast<JsonEvent*>(e);
+	if(!evt) return;
+
+	std::string name = evt->json["name"].asString();
+	CCLog( name.c_str() );
+
+	clearItemMenu();
+}
+void PartyMemberEditor::onMenuWeap( CCObject* e )
+{
+	JsonEvent* evt = dynamic_cast<JsonEvent*>(e);
+	if(!evt) return;
+
+	std::string name = evt->json["name"].asString();
+	CCLog( name.c_str() );
+
+	clearItemMenu();
+}
+void PartyMemberEditor::onMenuEquip( CCObject* e )
+{
+	JsonEvent* evt = dynamic_cast<JsonEvent*>(e);
+	if(!evt) return;
+
+	std::string name = evt->json["name"].asString();
+	CCLog( name.c_str() );
+
+	clearItemMenu();
 }
 
 void PartyMemberEditor::onTabSelect( CCObject* e )

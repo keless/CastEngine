@@ -263,6 +263,9 @@
     <None Include="..\Resources\spellParts.json">
       <Filter>Jsons</Filter>
     </None>
+    <None Include="..\Resources\defaultPartyInventory.json">
+      <Filter>Jsons</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CastEngine">

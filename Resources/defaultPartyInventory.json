@@ -1,0 +1,38 @@
+[
+	{
+	"name":"Wooden Sword",
+	"type":"weapon"
+	},
+	{
+	"name":"Yew Wand",
+	"type":"weapon"
+	},
+	{
+	"name":"Short Bow",
+	"type":"weapon"
+	},
+	{
+	"name":"Wooden Shield",
+	"type":"equipment"
+	},
+	{
+	"name":"Novice Spellbook",
+	"type":"equipment"
+	},
+	{
+	"name":"Basic Quiver",
+	"type":"equipment"
+	},
+	{
+	"name":"Scale Mail",
+	"type":"armor"
+	},
+	{
+	"name":"Novice Robes",
+	"type":"armor"
+	},
+	{
+	"name":"Leather Tunic",
+	"type":"armor"
+	}
+]
