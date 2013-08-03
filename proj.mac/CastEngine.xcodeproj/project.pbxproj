@@ -174,6 +174,10 @@
 		3373F670178B43D600450473 /* PartyEditorScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3373F66E178B43D600450473 /* PartyEditorScreen.cpp */; };
 		3373F683178DEAF400450473 /* PartyList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3373F681178DEAF400450473 /* PartyList.cpp */; };
 		339857C41795DBA000A7C9C3 /* PartyMemberEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 339857C21795DBA000A7C9C3 /* PartyMemberEditor.cpp */; };
+		33A536C117AC8A6C00181242 /* defaultPartyInventory.json in Resources */ = {isa = PBXBuildFile; fileRef = 33A536C017AC8A6C00181242 /* defaultPartyInventory.json */; };
+		33A536C617AC8A8400181242 /* GameItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33A536C217AC8A8400181242 /* GameItem.cpp */; };
+		33A536C717AC8A8400181242 /* GameItemView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33A536C417AC8A8400181242 /* GameItemView.cpp */; };
+		33A536CA17AC8A9A00181242 /* ZZRadioGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33A536C817AC8A9A00181242 /* ZZRadioGroup.cpp */; };
 		33B97943177B752400976960 /* MainMenuScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33B97941177B752400976960 /* MainMenuScreen.cpp */; };
 		33B9794A177CCED300976960 /* abilities.json in Resources */ = {isa = PBXBuildFile; fileRef = 33B97949177CCED300976960 /* abilities.json */; };
 		33B9794E1782186000976960 /* BattleManagerScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33B9794C1782186000976960 /* BattleManagerScreen.cpp */; };
@@ -561,6 +565,13 @@
 		3373F682178DEAF400450473 /* PartyList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PartyList.h; path = ../Classes/PartyList.h; sourceTree = "<group>"; };
 		339857C21795DBA000A7C9C3 /* PartyMemberEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PartyMemberEditor.cpp; path = ../Classes/PartyMemberEditor.cpp; sourceTree = "<group>"; };
 		339857C31795DBA000A7C9C3 /* PartyMemberEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PartyMemberEditor.h; path = ../Classes/PartyMemberEditor.h; sourceTree = "<group>"; };
+		33A536C017AC8A6C00181242 /* defaultPartyInventory.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = defaultPartyInventory.json; sourceTree = "<group>"; };
+		33A536C217AC8A8400181242 /* GameItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameItem.cpp; path = ../Classes/GameItem.cpp; sourceTree = "<group>"; };
+		33A536C317AC8A8400181242 /* GameItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameItem.h; path = ../Classes/GameItem.h; sourceTree = "<group>"; };
+		33A536C417AC8A8400181242 /* GameItemView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameItemView.cpp; path = ../Classes/GameItemView.cpp; sourceTree = "<group>"; };
+		33A536C517AC8A8400181242 /* GameItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameItemView.h; path = ../Classes/GameItemView.h; sourceTree = "<group>"; };
+		33A536C817AC8A9A00181242 /* ZZRadioGroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZZRadioGroup.cpp; sourceTree = "<group>"; };
+		33A536C917AC8A9A00181242 /* ZZRadioGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZRadioGroup.h; sourceTree = "<group>"; };
 		33B97941177B752400976960 /* MainMenuScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MainMenuScreen.cpp; path = ../Classes/MainMenuScreen.cpp; sourceTree = "<group>"; };
 		33B97942177B752400976960 /* MainMenuScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainMenuScreen.h; path = ../Classes/MainMenuScreen.h; sourceTree = "<group>"; };
 		33B97949177CCED300976960 /* abilities.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = abilities.json; sourceTree = "<group>"; };
@@ -1263,6 +1274,10 @@
 		33BDC058175FC12200BE734B /* Game */ = {
 			isa = PBXGroup;
 			children = (
+				33A536C217AC8A8400181242 /* GameItem.cpp */,
+				33A536C317AC8A8400181242 /* GameItem.h */,
+				33A536C417AC8A8400181242 /* GameItemView.cpp */,
+				33A536C517AC8A8400181242 /* GameItemView.h */,
 				33BDC076175FC14800BE734B /* GameAbilityView.cpp */,
 				33BDC077175FC14800BE734B /* GameAbilityView.h */,
 				33BDC078175FC14800BE734B /* GameEntity.cpp */,
@@ -1310,6 +1325,8 @@
 				3373F66C178B43C300450473 /* ZZTextField.h */,
 				3373F65117872E0F00450473 /* ZZUtils.cpp */,
 				3373F65217872E0F00450473 /* ZZUtils.h */,
+				33A536C817AC8A9A00181242 /* ZZRadioGroup.cpp */,
+				33A536C917AC8A9A00181242 /* ZZRadioGroup.h */,
 				3373F64B1784C5BB00450473 /* ZZRadialLayer.cpp */,
 				3373F64C1784C5BB00450473 /* ZZRadialLayer.h */,
 				33BDC070175FC13700BE734B /* ZZEventBus.cpp */,
@@ -1375,6 +1392,7 @@
 				33B9795A178218BF00976960 /* workbench2.png */,
 				33B9795B178218BF00976960 /* workbench3.png */,
 				33B97949177CCED300976960 /* abilities.json */,
+				33A536C017AC8A6C00181242 /* defaultPartyInventory.json */,
 				3373F668178B42AC00450473 /* spellDiagrams.json */,
 				3373F66517872F7B00450473 /* spellParts.json */,
 				33BDC0A31767AFF500BE734B /* rat.png */,
@@ -1483,6 +1501,7 @@
 				33B9795E178218BF00976960 /* workbench3.png in Resources */,
 				3373F66617872F7B00450473 /* spellParts.json in Resources */,
 				3373F669178B42AC00450473 /* spellDiagrams.json in Resources */,
+				33A536C117AC8A6C00181242 /* defaultPartyInventory.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1671,6 +1690,9 @@
 				3373F670178B43D600450473 /* PartyEditorScreen.cpp in Sources */,
 				3373F683178DEAF400450473 /* PartyList.cpp in Sources */,
 				339857C41795DBA000A7C9C3 /* PartyMemberEditor.cpp in Sources */,
+				33A536C617AC8A8400181242 /* GameItem.cpp in Sources */,
+				33A536C717AC8A8400181242 /* GameItemView.cpp in Sources */,
+				33A536CA17AC8A9A00181242 /* ZZRadioGroup.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

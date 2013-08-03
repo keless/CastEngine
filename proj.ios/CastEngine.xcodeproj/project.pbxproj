@@ -173,6 +173,10 @@
 		3373F679178B464A00450473 /* ZZTextField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3373F677178B464A00450473 /* ZZTextField.cpp */; };
 		3373F67B178B465B00450473 /* spellDiagrams.json in Resources */ = {isa = PBXBuildFile; fileRef = 3373F67A178B465B00450473 /* spellDiagrams.json */; };
 		3373F67F178DEAC000450473 /* PartyList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3373F67D178DEAC000450473 /* PartyList.cpp */; };
+		33A536B617AC89CD00181242 /* ZZRadioGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33A536B417AC89CD00181242 /* ZZRadioGroup.cpp */; };
+		33A536BB17AC89E200181242 /* GameItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33A536B717AC89E200181242 /* GameItem.cpp */; };
+		33A536BC17AC89E200181242 /* GameItemView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33A536B917AC89E200181242 /* GameItemView.cpp */; };
+		33A536BE17AC89FD00181242 /* defaultPartyInventory.json in Resources */ = {isa = PBXBuildFile; fileRef = 33A536BD17AC89FD00181242 /* defaultPartyInventory.json */; };
 		33B9793F177B74E000976960 /* MainMenuScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33B9793D177B74E000976960 /* MainMenuScreen.cpp */; };
 		33B9796317821B3A00976960 /* workbench.png in Resources */ = {isa = PBXBuildFile; fileRef = 33B9796017821B3A00976960 /* workbench.png */; };
 		33B9796417821B3A00976960 /* workbench2.png in Resources */ = {isa = PBXBuildFile; fileRef = 33B9796117821B3A00976960 /* workbench2.png */; };
@@ -572,6 +576,13 @@
 		3373F67A178B465B00450473 /* spellDiagrams.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = spellDiagrams.json; sourceTree = "<group>"; };
 		3373F67D178DEAC000450473 /* PartyList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PartyList.cpp; path = ../Classes/PartyList.cpp; sourceTree = "<group>"; };
 		3373F67E178DEAC000450473 /* PartyList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PartyList.h; path = ../Classes/PartyList.h; sourceTree = "<group>"; };
+		33A536B417AC89CD00181242 /* ZZRadioGroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZZRadioGroup.cpp; sourceTree = "<group>"; };
+		33A536B517AC89CD00181242 /* ZZRadioGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZRadioGroup.h; sourceTree = "<group>"; };
+		33A536B717AC89E200181242 /* GameItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameItem.cpp; path = ../Classes/GameItem.cpp; sourceTree = "<group>"; };
+		33A536B817AC89E200181242 /* GameItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameItem.h; path = ../Classes/GameItem.h; sourceTree = "<group>"; };
+		33A536B917AC89E200181242 /* GameItemView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameItemView.cpp; path = ../Classes/GameItemView.cpp; sourceTree = "<group>"; };
+		33A536BA17AC89E200181242 /* GameItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameItemView.h; path = ../Classes/GameItemView.h; sourceTree = "<group>"; };
+		33A536BD17AC89FD00181242 /* defaultPartyInventory.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = defaultPartyInventory.json; sourceTree = "<group>"; };
 		33B9793D177B74E000976960 /* MainMenuScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MainMenuScreen.cpp; path = ../Classes/MainMenuScreen.cpp; sourceTree = "<group>"; };
 		33B9793E177B74E000976960 /* MainMenuScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainMenuScreen.h; path = ../Classes/MainMenuScreen.h; sourceTree = "<group>"; };
 		33B9796017821B3A00976960 /* workbench.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = workbench.png; sourceTree = "<group>"; };
@@ -1297,6 +1308,10 @@
 		33BDC001175FBC8700BE734B /* Game */ = {
 			isa = PBXGroup;
 			children = (
+				33A536B717AC89E200181242 /* GameItem.cpp */,
+				33A536B817AC89E200181242 /* GameItem.h */,
+				33A536B917AC89E200181242 /* GameItemView.cpp */,
+				33A536BA17AC89E200181242 /* GameItemView.h */,
 				33B9796617821B4900976960 /* BattleManagerScreen.cpp */,
 				33B9796717821B4900976960 /* BattleManagerScreen.h */,
 				33BDC035175FBCD500BE734B /* GameAbilityView.cpp */,
@@ -1344,6 +1359,8 @@
 				3373F65D17872ED200450473 /* ZZTouchableNode.h */,
 				3373F65E17872ED200450473 /* ZZUtils.cpp */,
 				3373F65F17872ED200450473 /* ZZUtils.h */,
+				33A536B417AC89CD00181242 /* ZZRadioGroup.cpp */,
+				33A536B517AC89CD00181242 /* ZZRadioGroup.h */,
 				3373F6471784C55C00450473 /* ZZRadialLayer.cpp */,
 				3373F6481784C55C00450473 /* ZZRadialLayer.h */,
 				33BDC02F175FBCA800BE734B /* ZZEventBus.cpp */,
@@ -1389,6 +1406,7 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				33A536BD17AC89FD00181242 /* defaultPartyInventory.json */,
 				3373F67A178B465B00450473 /* spellDiagrams.json */,
 				3373F66217872F4200450473 /* spellParts.json */,
 				33B9797317821C6200976960 /* abilities.json */,
@@ -1499,6 +1517,7 @@
 				33B9797417821C6200976960 /* abilities.json in Resources */,
 				3373F66317872F4200450473 /* spellParts.json in Resources */,
 				3373F67B178B465B00450473 /* spellDiagrams.json in Resources */,
+				33A536BE17AC89FD00181242 /* defaultPartyInventory.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1688,6 +1707,9 @@
 				3373F679178B464A00450473 /* ZZTextField.cpp in Sources */,
 				3373F67F178DEAC000450473 /* PartyList.cpp in Sources */,
 				3346F7201795DEF40065F0AA /* PartyMemberEditor.cpp in Sources */,
+				33A536B617AC89CD00181242 /* ZZRadioGroup.cpp in Sources */,
+				33A536BB17AC89E200181242 /* GameItem.cpp in Sources */,
+				33A536BC17AC89E200181242 /* GameItemView.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
