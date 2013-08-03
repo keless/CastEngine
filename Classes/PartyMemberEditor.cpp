@@ -1,6 +1,8 @@
 #include "PartyMemberEditor.h"
 
 
+int PartyMemberEditor::m_tabIdx = 0;
+
 PartyMemberEditor::PartyMemberEditor(void)
 {
 	m_itemMenu = NULL;
@@ -103,7 +105,11 @@ bool PartyMemberEditor::init( GameEntity* entity, const CCSize& size )
 
 	initPartyInventory();
 
-	tabCharacter->triggerGroup();
+	if(m_tabIdx == 0 ) {
+		tabCharacter->triggerGroup();
+	}else {
+		tabItems->triggerGroup();
+	}
 
 	/*
 	CCLabelTTF* title = CCLabelTTF::create("more people will come if we tell them we have punch and pie", "Arial", 24, CCSizeMake(400,100), kCCTextAlignmentCenter);
@@ -118,23 +124,44 @@ bool PartyMemberEditor::init( GameEntity* entity, const CCSize& size )
 
 void PartyMemberEditor::initPartyInventory()
 {
+	Json::Value partyInventory;
+
 	if( !IsFile( FILE_PARTY_INVENTORY_JSON ) ) {
 		CCLog("load default party inventory");
-		m_partyInventory = ReadFileToJson(FILE_DEFAULT_PARTY_INVENTORY_JSON);
+		partyInventory = ReadFileToJson(FILE_DEFAULT_PARTY_INVENTORY_JSON);
 	}else {
 		CCLog("load party inventory from file");
-		m_partyInventory = ReadFileToJson(FILE_PARTY_INVENTORY_JSON);
+		partyInventory = ReadFileToJson(FILE_PARTY_INVENTORY_JSON);
 	}
 
-	for( int i=0; i<  m_partyInventory.size(); i++)
+	if( !partyInventory.isArray() ) {
+		CCLog("party inventory json invalid");
+		return;
+	}
+
+	for( int i=0; i<  partyInventory.size(); i++)
 	{
-		const Json::Value& item = m_partyInventory[i];
+		const Json::Value& item = partyInventory[i];
 		GameItem* gi = new GameItem("");
 		gi->initFromJson(item);
 
 		m_partyInv.push_back(gi);
 	}
 }
+
+
+void PartyMemberEditor::savePartyInventory()
+{
+	Json::Value partyInventory;
+
+	for( int i=0; i< m_partyInv.size(); i++)
+	{
+		partyInventory.append( m_partyInv[i]->toJson() );
+	}
+
+	WriteJsonToFile(partyInventory, FILE_PARTY_INVENTORY_JSON);
+}
+
 
 void PartyMemberEditor::initCharView()
 {
@@ -173,6 +200,7 @@ void PartyMemberEditor::initItemsView()
 	m_editItems->addChild(lbl);
 
 	m_itmView[GIT_ARMOR] = new GameItemView();
+	m_itmView[GIT_ARMOR]->setItem( m_pEntity->getItemAtSlot(GIT_ARMOR) );
 	
 	TouchableNode* tn = new TouchableNode("itmViewArmor");
 	tn->setPosition( ccp( editSize.width/2, editSize.height * 0.75f ) );
@@ -188,6 +216,7 @@ void PartyMemberEditor::initItemsView()
 	m_editItems->addChild(lbl);
 
 	m_itmView[GIT_EQUIPMENT] = new GameItemView();
+	m_itmView[GIT_EQUIPMENT]->setItem( m_pEntity->getItemAtSlot(GIT_EQUIPMENT) );
 
 	tn = new TouchableNode("itmViewEquip");
 	tn->setPosition( ccp( editSize.width * 0.33f, editSize.height * 0.33f ) );
@@ -203,6 +232,7 @@ void PartyMemberEditor::initItemsView()
 	m_editItems->addChild(lbl);
 
 	m_itmView[GIT_WEAPON] = new GameItemView();
+	m_itmView[GIT_WEAPON]->setItem( m_pEntity->getItemAtSlot(GIT_WEAPON) );
 
 	tn = new TouchableNode("itmViewWeapon");
 	tn->setPosition( ccp( editSize.width * 0.66f, editSize.height * 0.33f ) );
@@ -236,6 +266,7 @@ void PartyMemberEditor::resetItemMenu()
 
 void PartyMemberEditor::onItemViewArmor(CCObject* e)
 {
+	//pop open inventory menu for armor types
 	resetItemMenu();
 	m_itemMenu->setPosition( m_itmView[ GIT_ARMOR ]->getParent()->getPosition() );
 
@@ -250,8 +281,10 @@ void PartyMemberEditor::onItemViewArmor(CCObject* e)
 	}
 
 }
+
 void PartyMemberEditor::onItemViewEquip(CCObject* e)
 {
+	//pop open inventory menu for equipment types
 	resetItemMenu();
 	m_itemMenu->setPosition( m_itmView[ GIT_EQUIPMENT ]->getParent()->getPosition() );
 
@@ -266,8 +299,10 @@ void PartyMemberEditor::onItemViewEquip(CCObject* e)
 		}
 	}
 }
+
 void PartyMemberEditor::onItemViewWeap(CCObject* e)
 {
+	//pop open inventory menu for weap types
 	resetItemMenu();
 	m_itemMenu->setPosition( m_itmView[ GIT_WEAPON ]->getParent()->getPosition() );
 
@@ -287,23 +322,62 @@ void PartyMemberEditor::onMenuCancel( CCObject* e )
 	clearItemMenu();
 }
 
+
+void PartyMemberEditor::doItemSwap( int type, const std::string& name )
+{
+
+	CCLog( name.c_str() );
+
+	//remove old item from party member and place in party inventory
+	GameItem* old = m_pEntity->getItemAtSlot( type );
+	if( old != NULL ) {
+		m_partyInv.push_back( old );
+	}
+
+	//find newly requested item
+	GameItem* newItem = NULL;
+	for( int i=0; i < m_partyInv.size(); i++) {
+		GameItem* item = m_partyInv[i];
+		if( item->getType() == type && name == item->getName() )
+		{
+			newItem = item;
+
+			m_partyInv.erase( m_partyInv.begin() + i );
+			break;
+		}
+	}
+
+	//apply new item to party member
+	m_itmView[type]->setItem( newItem );
+	m_pEntity->setItemAtSlot( type, newItem );
+
+	savePartyInventory();
+
+	//party member edited will cause the party member to save to file
+	JsonEvent* jsonEvent = new JsonEvent("partyMemberEdited");
+	jsonEvent->setUserData( m_pEntity );
+	EventBus::game()->dispatch(jsonEvent);
+}
+
 void PartyMemberEditor::onMenuArmor( CCObject* e )
 {
+	//apply armor game item to party member
 	JsonEvent* evt = dynamic_cast<JsonEvent*>(e);
 	if(!evt) return;
 
 	std::string name = evt->json["name"].asString();
-	CCLog( name.c_str() );
+	doItemSwap(GIT_ARMOR, name);
 
 	clearItemMenu();
 }
+
 void PartyMemberEditor::onMenuWeap( CCObject* e )
 {
 	JsonEvent* evt = dynamic_cast<JsonEvent*>(e);
 	if(!evt) return;
 
 	std::string name = evt->json["name"].asString();
-	CCLog( name.c_str() );
+	doItemSwap(GIT_WEAPON, name);
 
 	clearItemMenu();
 }
@@ -313,7 +387,7 @@ void PartyMemberEditor::onMenuEquip( CCObject* e )
 	if(!evt) return;
 
 	std::string name = evt->json["name"].asString();
-	CCLog( name.c_str() );
+	doItemSwap(GIT_EQUIPMENT, name);
 
 	clearItemMenu();
 }
@@ -323,12 +397,13 @@ void PartyMemberEditor::onTabSelect( CCObject* e )
 	JsonEvent* evt = dynamic_cast<JsonEvent*>(e);
 	if(!evt) return;
 
-	int tabIdx = evt->json["index"].asInt();
+	m_tabIdx = evt->json["index"].asInt();
 
-	CCLog("todo: member tab select %d", tabIdx);
+	CCLog("todo: member tab select %d", m_tabIdx);
 
-	switch(tabIdx) {
+	switch(m_tabIdx) {
 	case 0:
+
 		m_editChar->setVisible(true);
 		m_editItems->setVisible(false);
 		break;
@@ -353,7 +428,7 @@ void PartyMemberEditor::onPMNameChange( CCObject* e )
 		m_pEntity->setName( name );
 
 		JsonEvent* jsonEvent = new JsonEvent("partyMemberEdited");
-		jsonEvent->json["pGameEntity"] = m_pEntity;
+		jsonEvent->setUserData( m_pEntity );
 		EventBus::game()->dispatch(jsonEvent);
 	}
 }

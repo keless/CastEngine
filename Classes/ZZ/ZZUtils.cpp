@@ -4,12 +4,12 @@
 
 namespace ZZ {
 
-bool IsFile( std::string filename ) 
+bool IsFile(  const std::string& filename ) 
 {
 	return CCFileUtils::sharedFileUtils()->isFileExist(filename.c_str());
 }
 
-Json::Value ReadFileToJson( std::string fileName )
+Json::Value ReadFileToJson(  const std::string& fileName )
 {
 	std::string path = CCFileUtils::sharedFileUtils()->fullPathForFilename(fileName.c_str());
 
@@ -33,7 +33,7 @@ Json::Value ReadFileToJson( std::string fileName )
 
 }
 
-bool WriteJsonToFile( Json::Value json, std::string fileName )
+bool WriteJsonToFile( const Json::Value& json,  const std::string& fileName )
 {
 	std::string path = CCFileUtils::sharedFileUtils()->fullPathForFilename(fileName.c_str());
 

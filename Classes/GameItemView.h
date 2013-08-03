@@ -20,6 +20,7 @@ public:
 	~GameItemView(void);
 
 	void setItem( GameItem* item );
+	GameItem* getItem() { return m_pItem; } 
 };
 
 

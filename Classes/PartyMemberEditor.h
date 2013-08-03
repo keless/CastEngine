@@ -13,6 +13,8 @@ using namespace ZZ;
 class PartyMemberEditor : public CCLayer
 {
 
+	static int m_tabIdx;
+
 	GameEntity* m_pEntity;
 
 	CCNode* m_editChar;
@@ -20,7 +22,6 @@ class PartyMemberEditor : public CCLayer
 
 	GameItemView* m_itmView[3];
 
-	Json::Value m_partyInventory;
 	std::vector<GameItem*> m_partyInv;
 
 	void onTabSelect( CCObject* e );
@@ -42,6 +43,10 @@ class PartyMemberEditor : public CCLayer
 
 	void clearItemMenu();
 	void resetItemMenu();
+
+	void doItemSwap( int type, const std::string& name );
+
+	void savePartyInventory();
 
 public:
 	PartyMemberEditor(void);

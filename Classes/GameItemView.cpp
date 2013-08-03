@@ -49,10 +49,17 @@ void GameItemView::setItem( GameItem* item )
 	}
 
 	m_pItem = item;
-	m_pItem->retain();
 
-	m_lblName->setString( item->getName().c_str() );
+	if( m_pItem != NULL ) {
+
+		m_pItem->retain();
+
+		m_lblName->setString( item->getName().c_str() );
 	
-	m_lblType->setString( GameItem::itemTypeToString( item->getType() ).c_str() );
+		m_lblType->setString( GameItem::itemTypeToString( item->getType() ).c_str() );
+	}else {
+		m_lblName->setString("");
+		m_lblType->setString("none");
+	}
 
 }

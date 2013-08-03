@@ -46,7 +46,7 @@ GameEntity::~GameEntity(void)
 
 	for( int i=0; i< m_abilities.size(); i++)
 	{
-		m_abilities[i]->release();
+		CC_SAFE_RELEASE(m_abilities[i]);
 	}
 
 	for( int i=0; i< INVENTORY_SIZE; i++)
@@ -128,9 +128,14 @@ void GameEntity::initFromJson( const Json::Value& json )
 			{
 				setItemAtSlot(i, NULL);
 			}else {
-				GameItem* item = new GameItem("");
-				item->initFromJson( inventory[i] );
-				setItemAtSlot(i, item);
+
+				if( inventory[i].isNull() ) {
+					setItemAtSlot(i, NULL);
+				}else {
+					GameItem* item = new GameItem("");
+					item->initFromJson( inventory[i] );
+					setItemAtSlot(i, item);
+				}
 			}
 		}
 	}else {
