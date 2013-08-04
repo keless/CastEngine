@@ -1,6 +1,8 @@
 #ifndef _PARTYLIST_H_
 #define _PARTYLIST_H_
 
+#include "GameDefines.h"
+
 #include "ZZUtils.h"
 using namespace ZZ;
 
@@ -9,7 +11,6 @@ using namespace extension;
 
 #include "GameEntityView.h"
 
-#define MAX_PARTY_MEMBERS 3
 
 class PartyList : public CCLayer
 {

@@ -1,7 +1,7 @@
 #include "CastCommandModel.h"
 
 
-CastCommandModel::CastCommandModel(Json::Value castData)
+CastCommandModel::CastCommandModel(const Json::Value& castData)
 {
 	descriptor = castData;
 

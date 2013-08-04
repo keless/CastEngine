@@ -17,6 +17,7 @@ Json::Value GameItem::toJson()
 	Json::Value json;
 	json["name"] = m_name;
 	json["type"] = itemTypeToString( m_type );
+	json["abilities"] = m_abilities;
 
 	return json;
 }
@@ -26,6 +27,8 @@ void GameItem::initFromJson( const Json::Value& json )
 	m_name = json.get("name", "item").asString();
 
 	m_type = itemStringToType( json.get("type", "item").asString() );
+
+	m_abilities = json.get("abilities", Json::Value() );
 
 }
 

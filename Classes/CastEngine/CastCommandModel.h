@@ -41,7 +41,7 @@ class CastCommandModel :
 	Json::Value descriptor;
 
 public:
-	CastCommandModel( Json::Value castData );
+	CastCommandModel( const Json::Value& castData );
 	~CastCommandModel(void);
 
 	bool isChanneled() { return channelTime > 0; }

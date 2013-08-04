@@ -1,14 +1,13 @@
 #ifndef _PARTYMEMBEREDITOR_H_
 #define _PARTYMEMBEREDITOR_H_
 
+#include "GameDefines.h"
+
 #include "ZZUtils.h"
 using namespace ZZ;
 
 #include "GameEntity.h"
 #include "GameItemView.h"
-
-#define FILE_DEFAULT_PARTY_INVENTORY_JSON "defaultPartyInventory.json"
-#define FILE_PARTY_INVENTORY_JSON "partyInventory.json"
 
 class PartyMemberEditor : public CCLayer
 {

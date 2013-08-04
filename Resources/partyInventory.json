@@ -1,1 +1,1 @@
-[{"name":"Short Bow","type":"weapon"},{"name":"Basic Quiver","type":"equipment"},{"name":"Leather Tunic","type":"armor"}]
+[{"abilities":[{"castTime":0.150,"cooldownTime":1.850,"effectsOnCast":[{"damageType":"arcane","effectType":"damage","react":"shake","targetStat":"hp_curr","valueBase":2.0,"valueMultiplier":2.0,"valueStat":"agi"}],"name":"Attack","range":3.0}],"name":"Short Bow","type":"weapon"},{"abilities":null,"name":"Basic Quiver","type":"equipment"},{"abilities":null,"name":"Leather Tunic","type":"armor"}]

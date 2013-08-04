@@ -94,8 +94,7 @@ void PartyList::refreshList()
 
 void PartyList::loadEntitiesForPartyJson()
 {
-	//TODO: load party JSON
-	Json::Value partyJson = ReadFileToJson("party.json");
+	Json::Value partyJson = ReadFileToJson(FILE_PARTY_MEMBERS_JSON);
 
 	if( !partyJson.isArray() ) return;
 

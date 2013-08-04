@@ -32,6 +32,8 @@ public:
 
 	GameItemType getType() { return m_type; }
 
+	const Json::Value& getAbilitiesJson() { return m_abilities; }
+
 	static std::string itemTypeToString( GameItemType type );
 	static GameItemType itemStringToType( const std::string& type );
 };

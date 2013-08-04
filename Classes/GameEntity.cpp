@@ -135,6 +135,14 @@ void GameEntity::initFromJson( const Json::Value& json )
 					GameItem* item = new GameItem("");
 					item->initFromJson( inventory[i] );
 					setItemAtSlot(i, item);
+
+					//TODO: get abilities, apply to player ability list
+					const Json::Value& abilities = item->getAbilitiesJson();
+					for( int abil=0; abil<abilities.size(); abil++){
+						CastCommandModel* ccm = new CastCommandModel( abilities[abil] );
+						addAbility(ccm);
+					}
+
 				}
 			}
 		}

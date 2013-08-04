@@ -50,8 +50,9 @@ bool BattleManagerScreen::init()
 	
 	CastWorldModel::get()->setPhysicsInterface(this);
 
+	initPartyFromJson();
 
-
+	/*
 	EntityPair player;
 
 	player.model = new GameEntity("Leeroy");
@@ -88,6 +89,7 @@ bool BattleManagerScreen::init()
 
 	m_players.push_back(player);
 	m_allEntities.push_back(player);
+	*/
 
 	spawnEnemy();
 
@@ -286,6 +288,8 @@ void BattleManagerScreen::PerformPlayerAi( GameEntity* player )
 	//select ability
 	std::vector<CastCommandState*> abilities;
 	abilities = player->getAbilityList();
+
+	if( abilities.size() == 0 ) return; //no abilities, nothing to do
 
 	CastCommandState* cast = abilities[ rand() % abilities.size() ];
 
@@ -597,202 +601,36 @@ void BattleManagerScreen::initAbilities()
 		mod->retain();
 		m_abilities[mod->getName()] = mod;
 	}
+}
 
-	
-	/*
+void BattleManagerScreen::initPartyFromJson()
+{
+	Json::Value party = ReadFileToJson( FILE_PARTY_MEMBERS_JSON );
+
+	if( !party.isArray() ) return; //invalid json or empty party
+
+	for( int i=0; i< party.size(); i++)
 	{
-		Json::Value attack;
+		EntityPair player;
 
-		attack["name"] = "sword attack";
-		attack["castTime"] = 0.15f; //seconds
-		attack["cooldownTime"] = 1.85f; //seconds
-		attack["range"] = 1.0f; //melee range
+		const Json::Value& partyMember = party[i];
 
-		Json::Value swordEffect; //direct damage
-		swordEffect["effectType"] = "damage";
-		swordEffect["damageType"] = "piercing";
-		swordEffect["targetStat"] = "hp_curr";
-		swordEffect["valueBase"] = 2.0f;
-		swordEffect["valueStat"] = "str"; //note: intellect
-		swordEffect["valueMultiplier"] = 2.0f;
-		swordEffect["react"] = "shake";
-		attack["effectsOnCast"].append( swordEffect );
+		player.model = new GameEntity("");
+		player.model->initFromJson( partyMember );
+		//m_playerModel->incProperty("hp_curr", -90);
+		player.model->incProperty("xp_next", 100, NULL);
+		//player.model->addAbility( m_abilities["fireball"] );
+		//player.model->addAbility( m_abilities["Life Drain"] );
+		//player.model->addAbility( m_abilities["Curse of Weakness"] );
 
-		mod = new CastCommandModel( attack );
-		mod->retain();
-		m_abilities[mod->getName()] = mod;
+		player.view = new GameEntityView( player.model );
+		player.view->setPositionX(150);
+		player.view->setPositionY(150 + 200 * i);
+		addChild(player.view);
+
+		m_players.push_back(player);
+		m_allEntities.push_back(player);
 	}
-
-	{
-		Json::Value grip;
-
-		grip["name"] = "Death Grip";
-		grip["castTime"] = 0.0f; //seconds
-		grip["cooldownTime"] = 3.0f; //seconds
-		grip["range"] = 3.0f; //melee range
-
-		Json::Value effect1; //debuff
-		effect1["effectType"] = "event";
-		effect1["valueBase"] = 2.0f;
-		effect1["react"] = "debuff";
-		grip["effectsOnCast"].append( effect1 );
-
-		mod = new CastCommandModel( grip );
-		mod->retain();
-		m_abilities[mod->getName()] = mod;
-	}
-
-	{
-		Json::Value bite;
-		bite["name"] = "Bite";
-		bite["castTime"] = 0.10f; //seconds
-		bite["cooldownTime"] = 1.75f; //seconds
-		bite["range"] = 1.0f; //melee range
-
-		Json::Value effect1; //debuff
-		effect1["effectType"] = "debuff";
-		effect1["targetStat"] = "str_curr";
-		effect1["effectLifetime"] = 3.0f; //seconds
-		effect1["valueBase"] = 2.0f;
-		effect1["react"] = "debuff";
-		bite["effectsOnCast"].append( effect1 );
-
-		Json::Value swordEffect; //direct damage
-		swordEffect["effectType"] = "damage";
-		swordEffect["damageType"] = "piercing";
-		swordEffect["targetStat"] = "hp_curr";
-		swordEffect["valueBase"] = 2.0f;
-		swordEffect["react"] = "shake";
-		bite["effectsOnCast"].append( swordEffect );
-
-		mod = new CastCommandModel( bite );
-		mod->retain();
-		m_abilities[mod->getName()] = mod;
-	}
-
-	{
-		Json::Value curse;
-		curse["name"] = "Curse of Weakness";
-		curse["castTime"] = 0.0f; //seconds
-		curse["cooldownTime"] = 0.15f; //seconds
-		curse["range"] = 3.0f; //melee range
-
-		Json::Value effect1; //direct damage
-		effect1["effectType"] = "debuff";
-		effect1["targetStat"] = "str_curr";
-		effect1["effectLifetime"] = 7.0f; //seconds
-		effect1["valueBase"] = 1.0f;
-		effect1["react"] = "debuff";
-		curse["effectsOnCast"].append( effect1 );
-
-		mod = new CastCommandModel( curse );
-		mod->retain();
-		m_abilities[mod->getName()] = mod;
-	}
-
-	{
-		Json::Value spell;
-
-		spell["name"] = "fireball";
-		spell["castTime"] = 1.5f;
-		spell["travelSpeed"] = 5.0f; //five units per second
-		spell["range"] = 5;
-		spell["cooldownTime"] = 0.15f;
-		spell["effectWhileTravel"] = true;
-		spell["stopOnHit"] = true;
-		spell["costStat"] = "mana_curr";
-		spell["costVal"] = 10; //10 mana
-	
-		Json::Value spellEffect1; //direct damage
-		spellEffect1["effectType"] = "damage";
-		spellEffect1["damageType"] = "fire";
-		spellEffect1["targetStat"] = "hp_curr";
-		spellEffect1["valueBase"] = 2.0f;
-		spellEffect1["valueStat"] = "int"; //note: intellect
-		spellEffect1["valueMultiplier"] = 1.0f;
-		spellEffect1["react"] = "shake";
-		spell["effectsOnCast"].append( spellEffect1 );
-
-		Json::Value spellEffect2; //dot
-		spellEffect2["effectType"] = "damage";
-		spellEffect2["damageType"] = "fire";
-		spellEffect2["targetStat"] = "hp_curr";
-		spellEffect2["valueBase"] = 1.0f;
-		spellEffect2["valueStat"] = "int";
-		spellEffect2["valueMultiplier"] = 0.1f;
-		spellEffect2["aoeRadius"] = 1.0f;
-
-		spellEffect2["tickFreq"] = 0.5f; //every half second
-		spellEffect2["effectLifetime"] = 3.5f;  //so 7 ticks
-		spellEffect2["react"] = "burn";
-		spellEffect2["stackFlag"] = "burn";
-		spell["effectsOnCast"].append( spellEffect2 );
-
-		mod = new CastCommandModel( spell );
-		mod->retain();
-		m_abilities[mod->getName()] = mod;	
-
-	}
-
-
-
-
-	{
-		Json::Value heal;
-
-		heal["name"] = "Heal";
-		heal["castTime"] = 0.75f; //seconds
-		heal["cooldownTime"] = 0.25f; //seconds
-		heal["range"] = 2.0f; //spear range
-
-		Json::Value effect1; //direct heal
-		effect1["effectType"] = "heal";
-		effect1["targetStat"] = "hp_curr";
-		effect1["valueBase"] = 30.0f;
-		effect1["valueStat"] = "int"; //note: intellect
-		effect1["valueMultiplier"] = 2.0f;
-		effect1["react"] = "heal";
-		heal["effectsOnCast"].append( effect1 );
-
-		mod = new CastCommandModel( heal );
-		mod->retain();
-		m_abilities[mod->getName()] = mod;
-	}
-
-	{
-		Json::Value lifedrain;
-
-		lifedrain["name"] = "Life Drain";
-		lifedrain["castTime"] = 0.0f; //seconds
-		lifedrain["channelTime"] = 0.90f; //seconds
-		lifedrain["channelFreq"] = 0.90f / 4; //seconds
-		lifedrain["cooldownTime"] = 0.10f; //seconds
-		lifedrain["range"] = 1.5f; //self target range
-
-		Json::Value returnEffect;
-		returnEffect["effectType"] = "heal";
-		returnEffect["targetStat"] = "hp_curr";
-		returnEffect["react"] = "heal";
-
-		Json::Value effect1; //direct damage
-		effect1["effectType"] = "damage";
-		effect1["targetStat"] = "hp_curr";
-		effect1["valueBase"] = 2.0f;
-		effect1["valueStat"] = "int"; //note: intellect
-		effect1["valueMultiplier"] = 2.0f;
-		effect1["react"] = "lifedrain";
-		effect1["returnEffect"] = returnEffect;
-
-		effect1["travelSpeed"] = 0.0f;
-		lifedrain["effectsOnChannel"].append( effect1 );
-
-		mod = new CastCommandModel( lifedrain );
-		mod->retain();
-		m_abilities[mod->getName()] = mod;
-	}
-
-	*/
-
 }
 
 bool BattleManagerScreen::GetVecBetween( ICastEntity* from, ICastEntity* to, kmVec2& distVec )

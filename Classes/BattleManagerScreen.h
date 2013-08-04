@@ -1,8 +1,7 @@
 #ifndef _BATTLEMANAGER_H_
 #define _BATTLEMANAGER_H_
 
-#include "cocos2d.h"
-using namespace cocos2d;
+#include "GameDefines.h"
 
 #include "CastPhysics.h"
 
@@ -33,6 +32,7 @@ protected:
 
 	std::map<std::string, CastCommandModel*> m_abilities;
 
+	void initPartyFromJson();
 	void initAbilities();
 	void spawnEnemy();
 	void enemyMovementAI( int enemyIdx, float dt );

@@ -237,6 +237,7 @@
     <ClInclude Include="..\Classes\GameItemView.h">
       <Filter>Items</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\GameDefines.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Classes\ext\json\json_internalarray.inl">
