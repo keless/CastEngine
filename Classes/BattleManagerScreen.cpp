@@ -6,8 +6,8 @@
 #include "CastCommandScheduler.h"
 #include "CastWorldModel.h"
 
-#define GAME_UNIT_CONVERSION (1.0f/210.0f)
-#define VIEW_UNIT_CONVERSION (210.0f)
+#define GAME_UNIT_CONVERSION (1.0f/260.0f)
+#define VIEW_UNIT_CONVERSION (260.0f)
 
 //static 
 BattleManagerScreen* BattleManagerScreen::create()
@@ -493,7 +493,7 @@ void BattleManagerScreen::enemyMovementAI( int enemyIdx, float dt )
 	kmVec2Normalize( &u_toPlayer, &toPlayer);
 	
 	
-	if( kmVec2LengthSq( &toPlayer ) < (playerLeashSq * 0.95f) )
+	if( kmVec2LengthSq( &toPlayer ) < (playerLeashSq * 0.75f) )
 	{
 		//impulse away from player (too close)
 		kmVec2 u_fromPlayer;
