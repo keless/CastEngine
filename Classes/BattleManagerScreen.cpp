@@ -245,7 +245,7 @@ void BattleManagerScreen::update( float dt )
 			setCardDeath(player.view);
 			//removeChild(player.enemyView);
 
-			removeEntity( player.model, true );
+			removeEntity( player.model, false );
 		}else {
 			PerformPlayerAi(m_players[i].model);
 		}
