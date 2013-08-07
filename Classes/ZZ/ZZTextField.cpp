@@ -1,5 +1,5 @@
 #include "ZZTextField.h"
-
+#include "ZZUtils.h"
 
 namespace ZZ {
 
@@ -114,6 +114,9 @@ void TextField::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent)
 //virtual 
 void TextField::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 {
+	if(!isVisible() ) return;
+	if(rHasInvisibleParent(this)) return;
+
 	CCPoint p = pTouch->getLocation();
 	//todo: convert to local coords
 

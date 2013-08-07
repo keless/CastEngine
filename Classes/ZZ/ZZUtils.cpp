@@ -152,5 +152,16 @@ CCNode* CreateSimpleNamedLabel( std::string labelName, std::string labelText )
 	return area;
 }
 
+bool rHasInvisibleParent( CCNode* node )
+{
+	CCNode* parent = node->getParent();
+
+	if( parent == NULL ) return false;
+
+	if( !parent->isVisible() ) return true;
+
+	return rHasInvisibleParent(parent);
+}
+
 
 }

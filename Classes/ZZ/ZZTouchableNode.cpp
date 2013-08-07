@@ -1,4 +1,6 @@
 #include "ZZTouchableNode.h"
+#include "ZZUtils.h"
+
 
 namespace ZZ {
 
@@ -95,6 +97,8 @@ void TouchableNode::onTouched()
 void TouchableNode::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 {
 	if(!isVisible()) return;
+
+	if( rHasInvisibleParent(this) ) return; //recursive search up to root to see if any parents are invisible
 
 	CCPoint p = pTouch->getLocation();
 	//todo: convert to local coords

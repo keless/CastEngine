@@ -25,6 +25,7 @@ TouchableNode* CreateSimpleButton( std::string msg, std::string evt, std::string
 CCLabelTTF* CreateSimpleLabel( std::string label );
 CCNode* CreateSimpleNamedLabel( std::string labelName, std::string labelText );
 
+bool rHasInvisibleParent( CCNode* node );
 
 }
 
