@@ -56,16 +56,49 @@ GameEntity::~GameEntity(void)
 }
 
 
+void GameEntity::doItemEquip( GameItem* item, int idx )
+{
+	doItemUnequip( idx );
+
+	m_items[idx] = item;
+	if( item == NULL ) return;
+
+	item->retain();
+
+	//get abilities, apply to player ability list
+	//todo: what if another item provides the same ability? okay to treat as non-unique?
+	const Json::Value& abilities = item->getAbilitiesJson();
+	for( int abil=0; abil<abilities.size(); abil++){
+		CastCommandModel* ccm = new CastCommandModel( abilities[abil] );
+		addAbility(ccm);
+	}
+
+	//todo: apply non-ability effects? such as stat buffs
+
+}
+void GameEntity::doItemUnequip(  int idx )
+{
+
+	if( m_items[idx]  == NULL ) return;
+
+	//todo: remove items abilities
+	const Json::Value& abilities =  m_items[idx]->getAbilitiesJson();
+	for( int abil=0; abil<abilities.size(); abil++){
+		std::string abilName = abilities[abil].get("name", "effectName").asString();
+		remAbility(abilName);
+	}
+
+	//todo: remove non-ability effects? such as stat buffs
+
+	CC_SAFE_RELEASE_NULL(m_items[idx]);
+}
+
 void GameEntity::setItemAtSlot( int slotIdx, GameItem* item)
 {
 	if( slotIdx < 0 || slotIdx >= INVENTORY_SIZE ) return; //oob
 
-	if( m_items[slotIdx] != NULL ) {
-		CC_SAFE_RELEASE_NULL(m_items[slotIdx]);
-	}
-	m_items[slotIdx] = item;
+	doItemEquip(item, slotIdx);
 
-	if( item != NULL ) item->retain();
 }
 
 GameItem* GameEntity::getItemAtSlot(int slotIdx )
@@ -136,12 +169,7 @@ void GameEntity::initFromJson( const Json::Value& json )
 					item->initFromJson( inventory[i] );
 					setItemAtSlot(i, item);
 
-					//TODO: get abilities, apply to player ability list
-					const Json::Value& abilities = item->getAbilitiesJson();
-					for( int abil=0; abil<abilities.size(); abil++){
-						CastCommandModel* ccm = new CastCommandModel( abilities[abil] );
-						addAbility(ccm);
-					}
+
 
 				}
 			}
@@ -176,11 +204,25 @@ float GameEntity::getDebuffTimeLeft( std::string debufName )
 	return MAX(period - dt, 0.0f);
 }
 
+//virtual 
 void GameEntity::addAbility( CastCommandModel* ability )
 {
 	CastCommandState* state = new CastCommandState(ability, this);
 	state->retain();
 	m_abilities.push_back(state);
+}
+
+//virtual 
+void GameEntity::remAbility( std::string name )
+{
+	for( int i=0; i< m_abilities.size(); i++)
+	{
+		if( m_abilities[i]->getName() == name ) {
+			m_abilities[i]->release();
+			m_abilities.erase( m_abilities.begin() + i );
+			break;
+		}
+	}
 }
 
 std::vector<CastCommandState*>& GameEntity::getAbilityList()

@@ -57,6 +57,9 @@ class GameEntity :
 
 	GameItem* m_items[INVENTORY_SIZE];
 
+	void doItemEquip( GameItem* item, int idx );
+	void doItemUnequip( int idx );
+
 public:
 	GameEntity( std::string name );
 	~GameEntity(void);
@@ -70,6 +73,7 @@ public:
 	std::string getLevelStr();
 
 	virtual void addAbility( CastCommandModel* ability );
+	virtual void remAbility( std::string name );
 	std::vector<CastCommandState*>& getAbilityList();
 	
 	float getDebuffTimeLeft( std::string debufName );
