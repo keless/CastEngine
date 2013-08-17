@@ -52,44 +52,6 @@ bool BattleManagerScreen::init()
 
 	initPartyFromJson();
 
-	/*
-	EntityPair player;
-
-	player.model = new GameEntity("Leeroy");
-	//m_playerModel->incProperty("hp_curr", -90);
-	player.model->incProperty("xp_next", 100, NULL);
-	player.model->addAbility( m_abilities["fireball"] );
-	//player.model->addAbility( m_abilities["sword attack"] );
-	//player.model->addAbility( m_abilities["Heal"] );
-	player.model->addAbility( m_abilities["Life Drain"] );
-	player.model->addAbility( m_abilities["Curse of Weakness"] );
-
-	player.view = new GameEntityView( player.model );
-	player.view->setPositionX(150);
-	player.view->setPositionY(350);
-	addChild(player.view);
-
-	m_players.push_back(player);
-	m_allEntities.push_back(player);
-
-
-	player.model = new GameEntity("Derpsan");
-	//m_playerModel->incProperty("hp_curr", -90);
-	player.model->incProperty("xp_next", 100, NULL);
-	//player.model->addAbility( m_abilities["fireball"] );
-	player.model->addAbility( m_abilities["sword attack"] );
-	player.model->addAbility( m_abilities["Death Grip"] );
-	//player.model->addAbility( m_abilities["Life Drain"] );
-	//player.model->addAbility( m_abilities["Curse of Weakness"] );
-
-	player.view = new GameEntityView( player.model );
-	player.view->setPositionX(150);
-	player.view->setPositionY(150);
-	addChild(player.view);
-
-	m_players.push_back(player);
-	m_allEntities.push_back(player);
-	*/
 
 	spawnEnemy();
 
@@ -578,11 +540,8 @@ void BattleManagerScreen::initAbilities()
 	//todo: load abilities from file
 
 
-	Json::Value json = ReadFileToJson( "abilities.json" );
-	
-	if( json.isMember("abilities" ) ) {
-		json = json["abilities"];
-	}
+	Json::Value json = JsonManager::get()->getJson("EnemyAbilities");
+		//ReadFileToJson( "abilities.json" );
 
 	if( ! json.isArray() ) {
 		return;

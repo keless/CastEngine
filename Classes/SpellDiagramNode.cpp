@@ -27,7 +27,9 @@ bool SpellDiagramNode::init()
 	//setContentSize(CCSizeMake(100,100));
 	size = DSIZE;
 
-	m_spellParts = ReadFileToJson( "spellParts.json" );
+	m_spellParts_Mods = JsonManager::get()->getJson("SpellParts_Mods");
+	m_spellParts_Effects = JsonManager::get()->getJson("SpellParts_Effects");
+		//ReadFileToJson( "spellParts.json" );
 
 	m_spellDiagrams = ReadFileToJson("spellDiagrams.json");
 	if( m_spellDiagrams.isMember("diagrams") ) {
@@ -178,8 +180,7 @@ void SpellDiagramNode::createModSlotMenu( RadialLayer* slotEquipMenu, CCPoint po
 		CCLabelTTF* label = CCLabelTTF::create("cancel", "Arial",20);
 		m_slotEquipMenu->addItem(label, "slotMenuCancel");
 
-		Json::Value mods = m_spellParts.get("mods", Json::Value());
-		Json::Value::Members modNames = mods.getMemberNames();
+		Json::Value::Members modNames = m_spellParts_Mods.getMemberNames();
 		for( int i=0; i<modNames.size(); i++)
 		{
 			label = CCLabelTTF::create(modNames[i].c_str(), "Helvetica", 20.0f);
@@ -200,8 +201,8 @@ void SpellDiagramNode::createEffSlotMenu( RadialLayer* slotEquipMenu, CCPoint po
 		m_slotEquipMenu->addItem(label, "slotMenuCancel");
 
 
-		Json::Value mods = m_spellParts.get("effects", Json::Value());
-		Json::Value::Members modNames = mods.getMemberNames();
+
+		Json::Value::Members modNames = m_spellParts_Effects.getMemberNames();
 		for( int i=0; i<modNames.size(); i++)
 		{
 			label = CCLabelTTF::create(modNames[i].c_str(), "Helvetica", 20.0f);
@@ -230,7 +231,7 @@ void SpellDiagramNode::onMenuMod(CCObject* e )
 		std::string modName = evt->json.get("name", "").asString();
 		int modIdx = evt->json.get("idx", -1).asInt();
 
-		Json::Value mods = m_spellParts.get("mods", Json::Value());
+		Json::Value mods = m_spellParts_Mods;
 		if( mods.isMember(modName) ) {
 			//Json::Value& sel = mods[modName];
 			
@@ -270,7 +271,7 @@ void SpellDiagramNode::onMenuEff(CCObject* e )
 		int modIdx = evt->json.get("idx", -1).asInt();
 
 
-		Json::Value mods = m_spellParts.get("effects", Json::Value());
+		Json::Value mods = m_spellParts_Effects;
 		if( mods.isMember(modName) ) {
 			//Json::Value& sel = mods[modName];
 			
@@ -319,7 +320,7 @@ void SpellDiagramNode::addEffect( int idx, float x, float y, int level ) {
 		CCDrawNode* pt = createPentNode(EFF_COLOR, ccc4f(0,0,0,1));
 		pt->setPosition(x,y);
 		addChild(pt);
-		pt->setScale(0.01);
+		pt->setScale(0.01f);
 		pt->runAction(CCScaleTo::create(TRANSITION_TIME/2, 1,1));
 		m_effectSlots.push_back(pt);
 	}
@@ -338,7 +339,7 @@ void SpellDiagramNode::addMod( int idx, float x, float y, int level ) {
 		CCDrawNode* pt = createPentNode(MOD_COLOR, ccc4f(0,0,0,1));
 		pt->setPosition(x,y);
 		addChild(pt);
-		pt->setScale(0.01);
+		pt->setScale(0.01f);
 		pt->runAction(CCScaleTo::create(TRANSITION_TIME/2, 1,1));
 		m_modSlots.push_back(pt);
 	}

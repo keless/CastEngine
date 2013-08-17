@@ -12,6 +12,7 @@ using namespace cocos2d;
 #include "ZZTouchableNode.h"
 #include "ZZTextField.h"
 #include "ZZRadioGroup.h"
+#include "ZZJsonManager.h"
 
 namespace ZZ {
 

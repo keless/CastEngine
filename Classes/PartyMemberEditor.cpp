@@ -128,7 +128,7 @@ void PartyMemberEditor::initPartyInventory()
 
 	if( !IsFile( FILE_PARTY_INVENTORY_JSON ) ) {
 		CCLog("load default party inventory");
-		partyInventory = ReadFileToJson(FILE_DEFAULT_PARTY_INVENTORY_JSON);
+		partyInventory = JsonManager::get()->getJson("DefaultPartyInventory");
 	}else {
 		CCLog("load party inventory from file");
 		partyInventory = ReadFileToJson(FILE_PARTY_INVENTORY_JSON);

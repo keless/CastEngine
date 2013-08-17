@@ -150,6 +150,7 @@
     <ClCompile Include="..\Classes\SpellEditScreen.cpp" />
     <ClCompile Include="..\Classes\SpellPageList.cpp" />
     <ClCompile Include="..\Classes\ZZ\ZZEventBus.cpp" />
+    <ClCompile Include="..\Classes\ZZ\ZZJsonManager.cpp" />
     <ClCompile Include="..\Classes\ZZ\ZZProgressBar.cpp" />
     <ClCompile Include="..\Classes\ZZ\ZZRadialLayer.cpp" />
     <ClCompile Include="..\Classes\ZZ\ZZRadioGroup.cpp" />
@@ -195,6 +196,7 @@
     <ClInclude Include="..\Classes\SpellEditScreen.h" />
     <ClInclude Include="..\Classes\SpellPageList.h" />
     <ClInclude Include="..\Classes\ZZ\ZZEventBus.h" />
+    <ClInclude Include="..\Classes\ZZ\ZZJsonManager.h" />
     <ClInclude Include="..\Classes\ZZ\ZZProgressBar.h" />
     <ClInclude Include="..\Classes\ZZ\ZZRadialLayer.h" />
     <ClInclude Include="..\Classes\ZZ\ZZRadioGroup.h" />
@@ -229,12 +231,10 @@
     <None Include="..\Classes\ext\json\json_internalarray.inl" />
     <None Include="..\Classes\ext\json\json_internalmap.inl" />
     <None Include="..\Classes\ext\json\json_valueiterator.inl" />
-    <None Include="..\Resources\abilities.json" />
-    <None Include="..\Resources\defaultPartyInventory.json" />
+    <None Include="..\Resources\spreadsheet.json" />
     <None Include="..\Resources\party.json" />
     <None Include="..\Resources\playerSpells.json" />
     <None Include="..\Resources\spellDiagrams.json" />
-    <None Include="..\Resources\spellParts.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

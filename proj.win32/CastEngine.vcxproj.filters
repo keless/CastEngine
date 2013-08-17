@@ -109,6 +109,9 @@
     <ClCompile Include="..\Classes\GameItemView.cpp">
       <Filter>Items</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\ZZ\ZZJsonManager.cpp">
+      <Filter>ZZ</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\CastEngine\CastCommandModel.h">
@@ -238,6 +241,9 @@
       <Filter>Items</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\GameDefines.h" />
+    <ClInclude Include="..\Classes\ZZ\ZZJsonManager.h">
+      <Filter>ZZ</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Classes\ext\json\json_internalarray.inl">
@@ -249,9 +255,6 @@
     <None Include="..\Classes\ext\json\json_valueiterator.inl">
       <Filter>ext\jsoncpp</Filter>
     </None>
-    <None Include="..\Resources\abilities.json">
-      <Filter>Jsons</Filter>
-    </None>
     <None Include="..\Resources\party.json">
       <Filter>Jsons</Filter>
     </None>
@@ -261,10 +264,7 @@
     <None Include="..\Resources\spellDiagrams.json">
       <Filter>Jsons</Filter>
     </None>
-    <None Include="..\Resources\spellParts.json">
-      <Filter>Jsons</Filter>
-    </None>
-    <None Include="..\Resources\defaultPartyInventory.json">
+    <None Include="..\Resources\spreadsheet.json">
       <Filter>Jsons</Filter>
     </None>
   </ItemGroup>

@@ -65,9 +65,9 @@ void SpellDescriptionView::evaluateSpell( Json::Value& json )
 
 	CCString* cStr1 = CCString::createWithFormat("Diagram Lvl %d\n%s",  level, dName.c_str());
 
-	Json::Value spellParts = ReadFileToJson("spellParts.json");
-	Json::Value& sp_mods = spellParts["mods"];
-	Json::Value& sp_effs = spellParts["effects"];
+	//Json::Value spellParts = ReadFileToJson("spellParts.json");
+	Json::Value& sp_mods = JsonManager::get()->getJson("SpellParts_Mods");
+	Json::Value& sp_effs = JsonManager::get()->getJson("SpellParts_Effects");
 
 	float castTime = 1;
 	float cooldownTime = 1; 

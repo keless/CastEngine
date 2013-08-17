@@ -2,6 +2,8 @@
 
 USING_NS_CC;
 
+
+
 CCScene* BattleScene::scene()
 {
     // 'scene' is an autorelease object
@@ -56,6 +58,8 @@ bool BattleScene::init()
 
 	setTouchEnabled(true);
 	//registerWithTouchDispatcher();
+
+	JsonManager::get()->initFromFile("spreadsheet.json");
     
     return true;
 }

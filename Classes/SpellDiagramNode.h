@@ -38,7 +38,8 @@ class SpellDiagramNode : public CCLayer
 
 	Json::Value m_spellDiagrams;
 
-	Json::Value m_spellParts;
+	Json::Value m_spellParts_Effects;
+	Json::Value m_spellParts_Mods;
 
 	float size;
 

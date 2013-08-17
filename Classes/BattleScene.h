@@ -6,6 +6,8 @@
 
 #include "BattleManagerScreen.h"
 
+#include "ZZUtils.h"
+using namespace ZZ;
 
 class BattleScene : public cocos2d::CCLayer
 {
