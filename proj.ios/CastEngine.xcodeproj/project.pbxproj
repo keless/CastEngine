@@ -164,11 +164,12 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		3346F7201795DEF40065F0AA /* PartyMemberEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3346F71E1795DEF40065F0AA /* PartyMemberEditor.cpp */; };
+		335232A517FBBBB800E83830 /* ZZJsonManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 335232A317FBBBB800E83830 /* ZZJsonManager.cpp */; };
+		335232A717FBBC4500E83830 /* spreadsheet.json in Resources */ = {isa = PBXBuildFile; fileRef = 335232A617FBBC4500E83830 /* spreadsheet.json */; };
 		3373F6491784C55C00450473 /* ZZRadialLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3373F6471784C55C00450473 /* ZZRadialLayer.cpp */; };
 		3373F65B17872EC500450473 /* SpellDescriptionView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3373F65917872EC500450473 /* SpellDescriptionView.cpp */; };
 		3373F66017872ED200450473 /* ZZTouchableNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3373F65C17872ED200450473 /* ZZTouchableNode.cpp */; };
 		3373F66117872ED200450473 /* ZZUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3373F65E17872ED200450473 /* ZZUtils.cpp */; };
-		3373F66317872F4200450473 /* spellParts.json in Resources */ = {isa = PBXBuildFile; fileRef = 3373F66217872F4200450473 /* spellParts.json */; };
 		3373F676178B463900450473 /* PartyEditorScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3373F674178B463900450473 /* PartyEditorScreen.cpp */; };
 		3373F679178B464A00450473 /* ZZTextField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3373F677178B464A00450473 /* ZZTextField.cpp */; };
 		3373F67B178B465B00450473 /* spellDiagrams.json in Resources */ = {isa = PBXBuildFile; fileRef = 3373F67A178B465B00450473 /* spellDiagrams.json */; };
@@ -176,7 +177,6 @@
 		33A536B617AC89CD00181242 /* ZZRadioGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33A536B417AC89CD00181242 /* ZZRadioGroup.cpp */; };
 		33A536BB17AC89E200181242 /* GameItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33A536B717AC89E200181242 /* GameItem.cpp */; };
 		33A536BC17AC89E200181242 /* GameItemView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33A536B917AC89E200181242 /* GameItemView.cpp */; };
-		33A536BE17AC89FD00181242 /* defaultPartyInventory.json in Resources */ = {isa = PBXBuildFile; fileRef = 33A536BD17AC89FD00181242 /* defaultPartyInventory.json */; };
 		33B9793F177B74E000976960 /* MainMenuScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33B9793D177B74E000976960 /* MainMenuScreen.cpp */; };
 		33B9796317821B3A00976960 /* workbench.png in Resources */ = {isa = PBXBuildFile; fileRef = 33B9796017821B3A00976960 /* workbench.png */; };
 		33B9796417821B3A00976960 /* workbench2.png in Resources */ = {isa = PBXBuildFile; fileRef = 33B9796117821B3A00976960 /* workbench2.png */; };
@@ -185,7 +185,6 @@
 		33B9797017821B5C00976960 /* SpellDiagramNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33B9796A17821B5C00976960 /* SpellDiagramNode.cpp */; };
 		33B9797117821B5C00976960 /* SpellEditScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33B9796C17821B5C00976960 /* SpellEditScreen.cpp */; };
 		33B9797217821B5C00976960 /* SpellPageList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33B9796E17821B5C00976960 /* SpellPageList.cpp */; };
-		33B9797417821C6200976960 /* abilities.json in Resources */ = {isa = PBXBuildFile; fileRef = 33B9797317821C6200976960 /* abilities.json */; };
 		33BDC027175FBCA300BE734B /* CastCommandModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33BDC019175FBCA300BE734B /* CastCommandModel.cpp */; };
 		33BDC028175FBCA300BE734B /* CastCommandScheduler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33BDC01B175FBCA300BE734B /* CastCommandScheduler.cpp */; };
 		33BDC029175FBCA300BE734B /* CastCommandState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33BDC01D175FBCA300BE734B /* CastCommandState.cpp */; };
@@ -560,6 +559,9 @@
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		3346F71E1795DEF40065F0AA /* PartyMemberEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PartyMemberEditor.cpp; path = ../Classes/PartyMemberEditor.cpp; sourceTree = "<group>"; };
 		3346F71F1795DEF40065F0AA /* PartyMemberEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PartyMemberEditor.h; path = ../Classes/PartyMemberEditor.h; sourceTree = "<group>"; };
+		335232A317FBBBB800E83830 /* ZZJsonManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZZJsonManager.cpp; sourceTree = "<group>"; };
+		335232A417FBBBB800E83830 /* ZZJsonManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZJsonManager.h; sourceTree = "<group>"; };
+		335232A617FBBC4500E83830 /* spreadsheet.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = spreadsheet.json; sourceTree = "<group>"; };
 		3373F6471784C55C00450473 /* ZZRadialLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZZRadialLayer.cpp; sourceTree = "<group>"; };
 		3373F6481784C55C00450473 /* ZZRadialLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZRadialLayer.h; sourceTree = "<group>"; };
 		3373F65917872EC500450473 /* SpellDescriptionView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SpellDescriptionView.cpp; path = ../Classes/SpellDescriptionView.cpp; sourceTree = "<group>"; };
@@ -568,7 +570,6 @@
 		3373F65D17872ED200450473 /* ZZTouchableNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZTouchableNode.h; sourceTree = "<group>"; };
 		3373F65E17872ED200450473 /* ZZUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZZUtils.cpp; sourceTree = "<group>"; };
 		3373F65F17872ED200450473 /* ZZUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZUtils.h; sourceTree = "<group>"; };
-		3373F66217872F4200450473 /* spellParts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = spellParts.json; sourceTree = "<group>"; };
 		3373F674178B463900450473 /* PartyEditorScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PartyEditorScreen.cpp; path = ../Classes/PartyEditorScreen.cpp; sourceTree = "<group>"; };
 		3373F675178B463900450473 /* PartyEditorScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PartyEditorScreen.h; path = ../Classes/PartyEditorScreen.h; sourceTree = "<group>"; };
 		3373F677178B464A00450473 /* ZZTextField.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZZTextField.cpp; sourceTree = "<group>"; };
@@ -582,7 +583,6 @@
 		33A536B817AC89E200181242 /* GameItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameItem.h; path = ../Classes/GameItem.h; sourceTree = "<group>"; };
 		33A536B917AC89E200181242 /* GameItemView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameItemView.cpp; path = ../Classes/GameItemView.cpp; sourceTree = "<group>"; };
 		33A536BA17AC89E200181242 /* GameItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameItemView.h; path = ../Classes/GameItemView.h; sourceTree = "<group>"; };
-		33A536BD17AC89FD00181242 /* defaultPartyInventory.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = defaultPartyInventory.json; sourceTree = "<group>"; };
 		33B9793D177B74E000976960 /* MainMenuScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MainMenuScreen.cpp; path = ../Classes/MainMenuScreen.cpp; sourceTree = "<group>"; };
 		33B9793E177B74E000976960 /* MainMenuScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainMenuScreen.h; path = ../Classes/MainMenuScreen.h; sourceTree = "<group>"; };
 		33B9796017821B3A00976960 /* workbench.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = workbench.png; sourceTree = "<group>"; };
@@ -596,7 +596,6 @@
 		33B9796D17821B5C00976960 /* SpellEditScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpellEditScreen.h; path = ../Classes/SpellEditScreen.h; sourceTree = "<group>"; };
 		33B9796E17821B5C00976960 /* SpellPageList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SpellPageList.cpp; path = ../Classes/SpellPageList.cpp; sourceTree = "<group>"; };
 		33B9796F17821B5C00976960 /* SpellPageList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpellPageList.h; path = ../Classes/SpellPageList.h; sourceTree = "<group>"; };
-		33B9797317821C6200976960 /* abilities.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = abilities.json; sourceTree = "<group>"; };
 		33BDC019175FBCA300BE734B /* CastCommandModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CastCommandModel.cpp; sourceTree = "<group>"; };
 		33BDC01A175FBCA300BE734B /* CastCommandModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CastCommandModel.h; sourceTree = "<group>"; };
 		33BDC01B175FBCA300BE734B /* CastCommandScheduler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CastCommandScheduler.cpp; sourceTree = "<group>"; };
@@ -1353,6 +1352,8 @@
 		33BDC02E175FBCA800BE734B /* ZZ */ = {
 			isa = PBXGroup;
 			children = (
+				335232A317FBBBB800E83830 /* ZZJsonManager.cpp */,
+				335232A417FBBBB800E83830 /* ZZJsonManager.h */,
 				3373F677178B464A00450473 /* ZZTextField.cpp */,
 				3373F678178B464A00450473 /* ZZTextField.h */,
 				3373F65C17872ED200450473 /* ZZTouchableNode.cpp */,
@@ -1406,10 +1407,8 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				33A536BD17AC89FD00181242 /* defaultPartyInventory.json */,
 				3373F67A178B465B00450473 /* spellDiagrams.json */,
-				3373F66217872F4200450473 /* spellParts.json */,
-				33B9797317821C6200976960 /* abilities.json */,
+				335232A617FBBC4500E83830 /* spreadsheet.json */,
 				33B9796017821B3A00976960 /* workbench.png */,
 				33B9796117821B3A00976960 /* workbench2.png */,
 				33B9796217821B3A00976960 /* workbench3.png */,
@@ -1505,6 +1504,7 @@
 				D41A0AD1160F154A004552AE /* Default-568h@2x.png in Resources */,
 				D446FD6E16102124000ADA7B /* Default@2x.png in Resources */,
 				15A3D9961682F7F9002FB0C5 /* CMakeLists.txt in Resources */,
+				335232A717FBBC4500E83830 /* spreadsheet.json in Resources */,
 				1AFAF8BC16D35E4900DB1158 /* CloseNormal.png in Resources */,
 				1AFAF8BD16D35E4900DB1158 /* CloseSelected.png in Resources */,
 				33BDC04F175FBCF700BE734B /* json_internalarray.inl in Resources */,
@@ -1514,10 +1514,7 @@
 				33B9796317821B3A00976960 /* workbench.png in Resources */,
 				33B9796417821B3A00976960 /* workbench2.png in Resources */,
 				33B9796517821B3A00976960 /* workbench3.png in Resources */,
-				33B9797417821C6200976960 /* abilities.json in Resources */,
-				3373F66317872F4200450473 /* spellParts.json in Resources */,
 				3373F67B178B465B00450473 /* spellDiagrams.json in Resources */,
-				33A536BE17AC89FD00181242 /* defaultPartyInventory.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1632,6 +1629,7 @@
 				15A3DA4C1682F826002FB0C5 /* CCControlHuePicker.cpp in Sources */,
 				15A3DA4D1682F826002FB0C5 /* CCControlPotentiometer.cpp in Sources */,
 				15A3DA4E1682F826002FB0C5 /* CCControlSaturationBrightnessPicker.cpp in Sources */,
+				335232A517FBBBB800E83830 /* ZZJsonManager.cpp in Sources */,
 				15A3DA4F1682F826002FB0C5 /* CCControlSlider.cpp in Sources */,
 				15A3DA501682F826002FB0C5 /* CCControlStepper.cpp in Sources */,
 				15A3DA511682F826002FB0C5 /* CCControlSwitch.cpp in Sources */,
