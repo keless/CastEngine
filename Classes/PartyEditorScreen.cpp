@@ -24,7 +24,7 @@ bool PartyEditorScreen::init()
         return false;
     }
     
-    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+    //CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
 
 
 	m_partyList = PartyList::create();

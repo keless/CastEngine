@@ -77,7 +77,7 @@ class BaseRadioGroupLayer : public RadioGroupResponder
 protected:
 	CCLayerColor* m_highlight;
 
-	static BaseRadioGroupLayer* create() {} //hide inherited create 
+	static BaseRadioGroupLayer* create() { return NULL; } //hide inherited create
 
 public:
 	BaseRadioGroupLayer()

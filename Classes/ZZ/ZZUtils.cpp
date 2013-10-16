@@ -13,6 +13,13 @@ Json::Value ReadFileToJson(  const std::string& fileName )
 {
 	std::string path = CCFileUtils::sharedFileUtils()->fullPathForFilename(fileName.c_str());
 
+	if(!IsFile(fileName)) {
+		//try reading from the writable directory instead
+		
+		std::string writable = CCFileUtils::sharedFileUtils()->getWritablePath();
+		path = writable + path;
+	}
+	
 	//bool bRet = false;
     unsigned long size = 0;
     char* pBuffer = (char*)CCFileUtils::sharedFileUtils()->getFileData(path.c_str(), "rt", &size);
@@ -35,7 +42,10 @@ Json::Value ReadFileToJson(  const std::string& fileName )
 
 bool WriteJsonToFile( const Json::Value& json,  const std::string& fileName )
 {
-	std::string path = CCFileUtils::sharedFileUtils()->fullPathForFilename(fileName.c_str());
+	std::string writable = CCFileUtils::sharedFileUtils()->getWritablePath();
+	writable += fileName;
+	
+	std::string path = CCFileUtils::sharedFileUtils()->fullPathForFilename(writable.c_str());
 
 	Json::FastWriter writer;
 	std::string strJson = writer.write( json );

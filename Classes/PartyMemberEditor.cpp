@@ -326,7 +326,7 @@ void PartyMemberEditor::onMenuCancel( CCObject* e )
 void PartyMemberEditor::doItemSwap( int type, const std::string& name )
 {
 
-	CCLog( name.c_str() );
+	CCLog("%s", name.c_str() );
 
 	//remove old item from party member and place in party inventory
 	GameItem* old = m_pEntity->getItemAtSlot( type );

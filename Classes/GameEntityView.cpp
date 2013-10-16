@@ -320,8 +320,7 @@ void GameEntityView::ccTouchEnded(CCTouch* touch, CCEvent* event)
 	for( int i=0; i< m_abilityViews.size(); i++) {
 		GameAbilityView* view = m_abilityViews[i];
 
-		CCRect btn = view->boundingBox();
-		//btn.origin.x += 
+		//CCRect btn = view->boundingBox();
 		
 		if( !view->boundingBox().containsPoint( p ) ) continue;
 

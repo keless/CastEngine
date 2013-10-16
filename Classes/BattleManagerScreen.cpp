@@ -28,7 +28,7 @@ bool BattleManagerScreen::init()
 {
 
 	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
-    CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+    //CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
 
 	setContentSize( visibleSize );
 	
